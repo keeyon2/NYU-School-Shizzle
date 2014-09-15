@@ -1,0 +1,496 @@
+%me=0 student solutions, me=1 - my solutions, me=2 - assignment
+\def\me{0}
+\def\num{2}  %homework number
+\def\due{Wednesday, September 17}  %due date
+\def\course{CSCI-GA.1170-001/002 Fundamental Algorithms} %course name
+\def\name{Keeyon Ebrahimi}
+%
+
+\iffalse
+INSTRUCTIONS: replace # by the homework number.
+(if this is not ps#.tex, use the right file name)
+
+  Clip out the ********* INSERT HERE ********* bits below and insert
+appropriate TeX code.  Once you are done with your file, run
+
+  ``latex ps#.tex''
+
+from a UNIX prompt.  If your LaTeX code is clean, the latex will exit
+back to a prompt.  To see intermediate results, type
+
+  ``xdvi ps#.dvi'' (from UNIX prompt)
+  ``yap ps#.dvi'' (if using MikTex in Windows)
+
+after compilation. Once you are done, run
+
+  ``dvips ps#.dvi''
+
+which should print your file to the nearest printer.  There will be
+residual files called ps#.log, ps#.aux, and ps#.dvi.  All these can be
+deleted, but do not delete ps1.tex. To generate postscript file ps#.ps,
+run
+
+  ``dvips -o ps#.ps ps#.dvi''
+
+I assume you know how to print .ps files (``lpr -Pprinter ps#.ps'')
+\fi
+%
+\documentclass[11pt]{article}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{tikz, tikz-qtree}
+\setlength{\oddsidemargin}{.0in}
+\setlength{\evensidemargin}{.0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1, Page \arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in { {\bf \course} \hfill #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\it #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcounter{pppp}
+\newcommand{\prob}{\arabic{pppp}}  %problem number
+\newcommand{\increase}{\addtocounter{pppp}{1}}  %problem number
+
+%first argument desription, second number of points
+\newcommand{\newproblem}[2]{
+\ifnum\me=0
+\ifnum\prob>0 \newpage \fi
+\increase
+\setcounter{page}{1}
+\handout{\name, Homework \num, Problem \arabic{pppp}}{\today}{Name: \name}{Due:
+\due}{Solutions to Problem \prob\ of Homework \num\ (#2)}
+\else
+\increase
+\section*{Problem \num-\prob~(#1) \hfill {#2}}
+\fi
+}
+
+%\newcommand{\newproblem}[2]{\increase
+%\section*{Problem \num-\prob~(#1) \hfill {#2}}
+%}
+
+\def\squarebox#1{\hbox to #1{\hfill\vbox to #1{\vfill}}}
+\def\qed{\hspace*{\fill}
+        \vbox{\hrule\hbox{\vrule\squarebox{.667em}\vrule}\hrule}}
+\newenvironment{solution}{\begin{trivlist}\item[]{\bf Solution:}}
+                      {\qed \end{trivlist}}
+\newenvironment{solsketch}{\begin{trivlist}\item[]{\bf Solution Sketch:}}
+                      {\qed \end{trivlist}}
+\newenvironment{code}{\begin{tabbing}
+12345\=12345\=12345\=12345\=12345\=12345\=12345\=12345\= \kill }
+{\end{tabbing}}
+
+\newcommand{\eqref}[1]{Equation~(\ref{eq:#1})}
+
+\newcommand{\hint}[1]{({\bf Hint}: {#1})}
+%Put more macros here, as needed.
+\newcommand{\room}{\medskip\ni}
+\newcommand{\brak}[1]{\langle #1 \rangle}
+\newcommand{\bit}[1]{\{0,1\}^{#1}}
+\newcommand{\zo}{\{0,1\}}
+\newcommand{\C}{{\cal C}}
+
+\newcommand{\nin}{\not\in}
+\newcommand{\set}[1]{\{#1\}}
+\renewcommand{\ni}{\noindent}
+\renewcommand{\gets}{\leftarrow}
+\renewcommand{\to}{\rightarrow}
+\newcommand{\assign}{:=}
+
+\newcommand{\AND}{\wedge}
+\newcommand{\OR}{\vee}
+
+\newcommand{\For}{\mbox{\bf For }}
+\newcommand{\To}{\mbox{\bf to }}
+\newcommand{\Do}{\mbox{\bf Do }}
+\newcommand{\If}{\mbox{\bf If }}
+\newcommand{\Then}{\mbox{\bf Then }}
+\newcommand{\Else}{\mbox{\bf Else }}
+\newcommand{\While}{\mbox{\bf While }}
+\newcommand{\Repeat}{\mbox{\bf Repeat }}
+\newcommand{\Until}{\mbox{\bf Until }}
+\newcommand{\Return}{\mbox{\bf Return }}
+
+\begin{document}
+
+\ifnum\me=0
+%\handout{PS\num}{\today}{Name: **** INSERT YOU NAME HERE ****}{Due:
+%\due}{Solutions to Problem Set \num}
+%
+%I collaborated with *********** INSERT COLLABORATORS HERE (INDICATING
+%SPECIFIC PROBLEMS) *************.
+\fi
+\ifnum\me=1
+\handout{PS\num}{\today}{Name: Yevgeniy Dodis}{Due: \due}{Solution
+{\em Sketches} to Problem Set \num}
+\fi
+\ifnum\me=2
+\handout{PS\num}{\today}{Lecturer: Yevgeniy Dodis}{Due: \due}{Problem
+Set \num}
+\fi
+
+\newproblem{Mergesort}{10  points}
+
+\begin{itemize}
+
+\item[(a)] (6 points)
+Suppose you have some procedure {\sc FASTMERGE} that given two sorted lists of length $m$ each, merges them into one sorted list using $m^c$ steps for some constant $c >0$. Write a recursive algorithm using FASTMERGE to sort a list of
+length $n$ and also calculate the run-time of this algorithm as a function of $c$. For what values of $c$ does the algorithm perform better than $O(n \log n)$.
+
+\ifnum\me<2
+\begin{solution}
+\\
+A is the list to be merged, this is the recursive algorithm featuring FASTMERGE to create the sorted list.\\
+\begin{code}
+{\sc FASTMERGESORT}$(A)$ \\
+\>  \If $A.length < 2$ \\
+\>	 \>  \Return $A$\\ \\
+\>  $List1 = $ {\sc FASTMERGESORT}$(A[0:\frac{n}{2}])$ \\
+\>  $List2 = $ {\sc FASTMERGESORT}$(A[\frac{n}{2} + 1:n])$ \\
+\>  \Return {\sc FASTMERGE}$(List1, List2)$ \\  
+\end{code}
+\noindent\rule{15cm}{0.4pt}
+\\ \\
+{\Large \textit{Calculate the run-time of this algorithm as a function of c:} }
+\\ \\
+For this, we have a subset size of n/2 and we divide it into 2 subproblems.  So we can step through the problem like this.\\
+\begin{enumerate}
+	\item $T(n) = 2T(\frac{n}{2}) + Divide Time + Combine Time$\\
+		\begin{itemize}
+			\item The Divide Time is constant, for we just divide n by 2, so we know.\\
+		\end{itemize}				
+	\item $T(n) = 2T(\frac{n}{2}) + \Theta(1) + Combine Time$\\	
+		\begin{itemize}
+			\item The Combine Time is $m^c$\textit{, with $c > 0$} and $m=\frac{n}{2}$
+			\item Combine Time then becomes $(\frac{n}{2})^c$ which reduces to $O(n^c)$\\
+		\end{itemize}
+	\item $T(n) = 2T(\frac{n}{2}) + \Theta(1) + O(n^c)$\\	
+		\begin{itemize}
+			\item Using the master theorem, we can find the running time \\
+			\item {\Large$n^{\log_b a} = n$}, so comparing {\Large$n$} with {\Large$n ^ c$} gives us\\
+$$
+O(n) = \left\{ \begin{array}{rl}
+n\ log(n) &\mbox{ if $c = 1$} \\
+n^c &\mbox{ otherwise}
+\end{array} \right.
+$$
+		\end{itemize}
+\end{enumerate}
+		\noindent\rule{15cm}{0.4pt}
+		\\ \\
+		\textit{\Large{For what values of $c$ does 
+		the algorithm perform better than $O(n\ log\ n)$}}			
+		\\
+		\\
+		There are no values of $c$  where this algorithm performs better than 
+		$O(n\ log\ n)$ steps.
+
+ 		If $c = 0$, then the complete running time would be $O(n)$, but $c > 0$, meaning that 
+ 		{\Large \textbf{  there are no valid values of c where this algorithm performs better that 
+ 		$O(n\ log\ n)$}}
+ 		
+
+
+
+\end{solution}
+\fi
+
+\item[(b)] (4 points) Let $A[1 \ldots n]$ be an array such that the first $n - \sqrt{n}$ elements are already in sorted order. Write an algorithm that will sort $A$ in substantially better than
+$O(n \log n)$ steps.
+
+\ifnum\me<2
+\begin{solution}
+An algorithm that will run substantially better in this situation is running a Merge Sort on the Array A from $n - \sqrt{n} + 1$ to $ n $  and then combine the first $n - \sqrt{n}$ with the newly merged items\\
+\begin{code}
+{\sc SqrtMerge}$(A)$ \\
+\>  $listA = MergeSort(A[n - \sqrt{n} + 1 : n])$ \\
+\>  \For $i$ in $listA$ \\
+\>  \>  $A[n - \sqrt{n} + 1 + i] = listA[i]$ \\
+\>  \Return $A$ \\
+\end{code}
+
+Running time = {\Large $O(log(n))$}
+\\
+\\
+We are now running the Merge Sort on a size of $\sqrt{n}$.  
+\\
+\\
+On a size of $n$, Merge Sort gives us the running time of 
+$O(n\ log(n))$.  This is because the splitting gives $O(log(n))$ steps, 
+and combining in those steps takes $O(n)$ time, giving $O(n\ log(n))$ running time
+\\
+\\
+On a size of $\sqrt{n}$, like in this problem, the running time 
+is $log(n) * log_4(n)$, which reduces down to {\Large$O(log(n))$}.
+\\
+\\
+The running time is $log(n) * log_4(n)$ because the splitting of the array creates
+$log_4(n)$ steps , the combining takes $log(n)$ time in those steps. \\ \\
+$O(log(n) * log_4(n))$ reduces to {\Large$O(log(n))$}, making this running time substantially shorter
+\\
+
+\end{solution}
+\fi
+
+\end{itemize}
+
+\newproblem{Functionality vs. Running Time}{10 points}
+
+Consider the following recursive procedure.
+
+\medskip
+
+\begin{code}
+\>{\sc Bla}$(n)$:\\
+\> \> \If $n=1$ \Then \Return $1$\\
+\> \> \Else \Return $\mbox{\sc Bla}(n/2) + \mbox{\sc Bla}(n/2) +
+\mbox{\sc Bla}(n/2)$
+\end{code}
+
+\begin{itemize}
+
+\item[(a)] (3 points) What function of $n$ does {\sc Bla} compute (assume it is
+always called on $n$ which is a power of $2$)?
+
+\ifnum\me<2
+\begin{solution}
+{\Large{$\Theta(1)$}}
+\\ \\
+To find the function of $n$, we add $O(divideTime) + O(combineTime)$ \\
+In this example, the divide time is constant because we just divide $n$ by $2$ \\
+The combine time is also constant because we are doing 2 additions, which also takes constant time\\
+$O(1) + O(1) = \Theta(1)$
+\\
+
+
+\end{solution}
+\fi
+
+\item[(b)] (3 points) What is the running time $T(n)$ of {\sc Bla}?
+
+\ifnum\me<2
+\begin{solution}
+{\Large$O(n ^{\log_2(3)})$}
+\\ \\
+With each step of recursion, we divide the problem into $3$ sub problems of size $\frac{n}{2}$
+\\
+\\
+\begin{enumerate}
+\item[1.] In $T(n)$ notation, we know the running time is $T(n) = aT(\frac{n}{b}) + f(n)$
+\item[2.] This means that for our example, $T(n) = 3T(\frac{n}{2}) + \Theta(1)$
+\item[3.] Using the master theorem, we know that the running time is $n^{\log_2(3)}$
+\end{enumerate}
+\end{solution}
+\fi
+
+\item[(c)] (4 points) How do the answers to (a) and (b) change if we replace the
+last line by\\ ``\Else \Return $3\cdot \mbox{\sc Bla}(n/2)$''?
+
+\ifnum\me<2
+\begin{solution}
+The answer of (a) does not change, but (b) does. Now both (a) and (b) = {\Large$O(1)$}\\
+\\
+{\LARGE Part A = $\Theta(1)$} \\
+\\
+When we change the last line to the $3\cdot \mbox{\sc Bla}(n/2)$, the change in regards 
+of $f(n)$, we are only changing 2 addition operations into a multiplication by 3, which internally
+is the exact process, so for part a \\ \\
+{\Large $f(n) = \Theta(1)$}
+\\
+\noindent\rule{15cm}{0.4pt}
+\\ \\
+ {\LARGE Part B = $\Theta(1)$} \\
+ \\
+ Now, instead of dividing the problem into 3 sub problem of size $\frac{n}{2}$, we are now just making this divide into 1 sub problem of $\frac{n}{2}$\\
+ \\
+ This means that in our $T(n) = aT(\frac{n}{b}) + f(n)$ equation, with $a = 1$ and $b = 2$,
+ we get $T(n) = 1T(\frac{n}{2}) + f(n)$.  We then solv%e for $n^{\log_2(1)}$ which equals 0, making this run time become \\ \\ {\LARGE$\Theta(1)$}
+\\
+\end{solution}
+\fi
+
+\end{itemize}
+
+\newproblem{Different Methods for Recurrences}{14 points}
+
+Consider the recurrence $T(n) = 8T(n/4) + n$ with initial condition
+$T(1)=1$.
+
+\begin{itemize}
+
+\item[(a)] (2 points) Solve it asymptotically using the ``master theorem''.
+
+\ifnum\me<2
+\begin{solution}
+$O(n\ log (n))$\\
+\\
+In this recurrence, we have 8 subdivisions of size $\frac{n}{4}$, this means that we have to compare $n^{log_4(8)}$ with $f(n)$, which is $n$.  The power of $n^{log_4(8)}$ is greater 
+than the power of $n$, and using the master theorem, we know that our running time is 
+$n^{log_4(8)}$, which reduces down to $n^{1.5}$ which equals $n\ log(n)$
+
+
+\end{solution}
+\fi
+
+\item[(b)] (4 points) Solve it by the ``guess-then-verify method''. Namely, guess a
+function $g(n)$ --- presumably solving part (a) will give you a good
+guess --- and argue by induction that for all values of $n$ we have
+$T(n) \le g(n)$. What is the ``smallest'' $g(n)$ for which your
+inductive proof works?
+
+\ifnum\me<2
+\begin{solution}
+\\ \\
+When we use part A as our guess, we see that $T(1) = 1\ log(1) = 0$, meaning our Part A guess doesn't pass the base case.
+\\
+That being the case, we change our guess to $O(n\ log(n) + 1)$, which does pass the base case test.
+\begin{itemize}
+  \item $T(n) = 8T(n/4) + n$
+  \item $g(n) = cn\ log(n) + 1$ where $c > 0$
+\end{itemize}
+We want to prove that $T(n) \le g(n)$\\
+
+To solve, we need to substitute $g(n)$ into $T(n)$ and solve in order to inductively proof.
+\\
+\begin{enumerate}
+	\item[1. ] $T(n) = 8(c*\frac{n}{4}*\ log(\frac{n}{4}) + 1) + n$
+	\item[2. ] $T(n) = 2nc*\ log(\frac{n}{4}) + 8 + n$
+	\item[3. ] $T(n) = (2nc*\ log(n)) - (2nc*\ log(4)) + 8 + n$
+	\item[4. ] $T(n) = cn\ log(n) - cn + n$
+	\item[5. ] $T(n) \leq cn\ log(n) $
+	\item[6. ] $T(n) \leq  g(n)$
+\end{enumerate}
+
+\textit{What is the ``smallest'' $g(n)$ for which your
+inductive proof works?}
+\\
+\\ 
+The smallest $g(n)$ would be when $T(n) = g(n)$, which only happens when $c = 1$ and $n = 1$
+	
+\end{solution}
+\fi
+
+\item[(c)] (4 points) Solve it by the ``recursive tree method''. Namely, draw the
+full recursive tree for this recurrence, and sum up all the value to
+get the final time estimate. Again, try to be as precise as you can
+(i.e., asymptotic answer is OK, but would be nice if you preserve a
+``leading constant'' as well).
+
+\ifnum\me<2
+\begin{solution}
+\\
+\\
+This is what the tree will look like.  Each of the $\frac{n}{4}$ subtrees should have the tree of $\frac{n}{16}$ under it, but due to space, I had to draw it this way. 
+\\
+\\
+\Tree [.$n$ [.$\frac{n}{4}$ [ $\frac{n}{16}$ ] [ $\frac{n}{16}$ ] [ $\frac{n}{16}$ ] [ $\frac{n}{16}$ ] [ $\frac{n}{16}$ ] [ $\frac{n}{16}$ ] [ $\frac{n}{16}$ ] [ $\frac{n}{16}$ ] ] [.$\frac{n}{4}$ ] [.$\frac{n}{4}$ ] [.$\frac{n}{4}$ ] [.$\frac{n}{4}$ ] [.$\frac{n}{4}$ ] [.$\frac{n}{4}$ ] [.$\frac{n}{4}$ ] ]
+\\
+\\
+
+The first layer sums to $n$, the remaining layers excluding the last layer each sum up to $2n$,  and the last layer sums up to $n^{log_4(8)}$ which is $n\ log(n)$
+\\ \\
+We also know that we have a total of $log_b(n)$ levels as well.
+
+When we sum those all together, we get $2n\ log(n) + n\ log(n)$ which equals {\LARGE $3n\ log(n)$}
+
+%\Tree [.$n$ [.$\frac{n}{4}$ us ] [.$\frac{n}{4}$ them] ]
+%\Tree[.$n$ [.$n/4$ [.$n/16$] [.$n/16$ ] ] ]
+\end{solution}
+\fi
+
+\item[(d)] (4 points) Solve it {\em precisely} using the ``domain-range
+substitution'' technique. Namely, make several changes of variables
+until you get a basic recurrence of the form $S(k) = S(k-1) + f(k)$
+for some $f$, and then compute the answer from there. Make sure you
+carefully maintain the correct initial condition.
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob d SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(e)] This part will not be graded. However, briefly describe
+your personal comparison of the above 4 methods. Which one was the
+fastest? The easiest? The most precise?
+
+\ifnum\me<2
+\begin{solution}
+For me, the fastest and easiest method was the Master Theorem. Although you do not get the same precision with the Master Theorem as you would with the Recursive Tree Method.  I enjoy the all
+\end{solution}
+\fi
+
+\end{itemize}
+
+\newproblem{More Recurrences}{12 points}
+
+Solve the following recurrences using any method you like. If you use
+``master theorem'', use the version from the book and justify why it
+applies. Assume $T(1) = 2$, and be sure you explain every important
+step.
+
+\begin{itemize}
+
+\item[(a)] (3 points) $T(n)  = T(2n/3) + \sqrt{n}$.
+
+\ifnum\me<2
+\begin{solution}
+$O(sqrt(n))$
+\\ \\
+Using the master theorem, we compare the $n^{log_b(a)}$ with $f(n)$.  $f(n) = \sqrt{n}$
+\\
+For $n^{log_b(a)}$, we can see that $a = 1$ and $b = 3/2$.  This means $n^{log_b(a)} = n^{log_\frac{3}{2}(1)} = n^0 = \Theta(1)$\\ \\
+When comparing $\Theta(1)$ with $\sqrt{n}$, we see that the $f(n)$ power is greater than $n^{log_b(a)}$, meaning that we fall into Case 3 from the book, giving us a total running time of {\Large$O(\sqrt{n})$}
+\end{solution}
+\fi
+
+\item[(b)] (4 points) $T(n)  = T(n/2) + \log n$.
+
+\ifnum\me<2
+\begin{solution}
+$O(log(n))$
+\\ \\
+Using the master theorem, we compare the $n^{log_b(a)}$ with $f(n)$.  $f(n) = log(n)$.
+\\
+For $n^{log_b(a)}$, we can see that $a = 1$ and $b = 2$.  This means $n^{log_b(a)} = n^{log_2(1)} = n^0 = \Theta(1)$\\ \\
+When comparing $\Theta(1)$ with $log(n)$, we see that the $f(n)$ power is greater than $n^{log_b(a)}$, meaning that we fall into Case 3 from the book, giving us a total running time of {\Large$O(log(n))$}
+\end{solution}
+\fi
+
+\item[(c)] (5 points) $T(n)  = T(\sqrt{n}) + 1$.
+\hint{Substitute $\ldots$ until you are done!}
+
+\ifnum\me<2
+\begin{solution}
+$O(log(log(n)))$\\
+We look at our base case to find what our ending value is after all the recursion, and it is $2$.  With this , we know that our total steps of recursions are $2^{2^{r}}$ where $r$ is the amount of steps.\\
+\\
+
+We know that $2^{2^{r}} = n$.  So \\
+\begin{enumerate}
+\item[1.] $2^{2^{r}} = n$
+\item[2. ] $2^{r} = log_2(n)$
+\item[3. ] $r = log_2(log_2(n))$
+\end{enumerate}
+This shows us that the amount of layers in our recursion tree is $log_2(log_2(n))$.  Our $f(n) = \Theta(1)$, so when we multiple $f(n)$ by the amount of recursion steps we take, we get the total running time of {\Large$O(log(log(n)))$}
+\end{solution}
+\fi
+
+\end{itemize}
+
+\end{document}

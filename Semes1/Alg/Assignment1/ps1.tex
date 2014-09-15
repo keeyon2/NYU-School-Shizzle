@@ -1,0 +1,439 @@
+%me=0 student solutions, me=1 - my solutions, me=2 - assignment
+\def\me{0}
+\def\num{1}  %homework number
+\def\due{Tuesday, September 10}  %due date
+\def\course{CSCI-GA.1170-001/002 Fundamental Algorithms} %course name
+\def\name{Keeyon Ebrahimi}
+%
+\iffalse
+INSTRUCTIONS: replace # by the homework number.\dfrac{•}{•}
+(if this is not ps#.tex, use the right file name)
+
+  Clip out the ********* INSERT HERE ********* bits below and insert
+appropriate TeX code.  Once you are done with your file, run
+
+  ``latex ps#.tex''
+
+from a UNIX prompt.  If your LaTeX code is clean, the latex will exit
+back to a prompt.  To see intermediate results, type
+
+  ``xdvi ps#.dvi'' (from UNIX prompt)
+  ``yap ps#.dvi'' (if using MikTex in Windows)
+
+after compilation. Once you are done, run
+
+  ``dvips ps#.dvi''
+
+which should print your file to the nearest printer.  There will be
+residual files called ps#.log, ps#.aux, and ps#.dvi.  All these can be
+deleted, but do not delete ps1.tex. To generate postscript file ps#.ps,
+run
+
+  ``dvips -o ps#.ps ps#.dvi''
+
+I assume you know how to print .ps files (``lpr -Pprinter ps#.ps'')
+\fi
+%
+\documentclass[11pt]{article}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\setlength{\oddsidemargin}{.0in}
+\setlength{\evensidemargin}{.0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1, Page \arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in { {\bf \course} \hfill #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\it #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcounter{pppp}
+\newcommand{\prob}{\arabic{pppp}}  %problem number
+\newcommand{\increase}{\addtocounter{pppp}{1}}  %problem number
+
+%first argument desription, second number of points
+\newcommand{\newproblem}[2]{
+\ifnum\me=0
+\ifnum\prob>0 \newpage \fi
+\increase
+\setcounter{page}{1}
+\handout{\name, Homework \num, Problem \arabic{pppp}}{\today}{Name: \name}{Due:
+\due}{Solutions to Problem \prob\ of Homework \num\ (#2)}
+\else
+\increase
+\section*{Problem \num-\prob~(#1) \hfill {#2}}
+\fi
+}
+
+%\newcommand{\newproblem}[2]{\increase
+%\section*{Problem \num-\prob~(#1) \hfill {#2}}
+%}
+
+\def\squarebox#1{\hbox to #1{\hfill\vbox to #1{\vfill}}}
+\def\qed{\hspace*{\fill}
+        \vbox{\hrule\hbox{\vrule\squarebox{.667em}\vrule}\hrule}}
+\newenvironment{solution}{\begin{trivlist}\item[]{\bf Solution:}}
+                      {\qed \end{trivlist}}
+\newenvironment{solsketch}{\begin{trivlist}\item[]{\bf Solution Sketch:}}
+                      {\qed \end{trivlist}}
+\newenvironment{code}{\begin{tabbing}
+12345\=12345\=12345\=12345\=12345\=12345\=12345\=12345\= \kill }
+{\end{tabbing}}
+
+\newcommand{\eqref}[1]{Equation~(\ref{eq:#1})}
+
+\newcommand{\hint}[1]{({\bf Hint}: {#1})}
+%Put more macros here, as needed.
+\newcommand{\room}{\medskip\ni}
+\newcommand{\brak}[1]{\langle #1 \rangle}
+\newcommand{\bit}[1]{\{0,1\}^{#1}}
+\newcommand{\zo}{\{0,1\}}
+\newcommand{\C}{{\cal C}}
+
+\newcommand{\nin}{\not\in}
+\newcommand{\set}[1]{\{#1\}}
+\renewcommand{\ni}{\noindent}
+\renewcommand{\gets}{\leftarrow}
+\renewcommand{\to}{\rightarrow}
+\newcommand{\assign}{:=}
+
+\newcommand{\AND}{\wedge}
+\newcommand{\OR}{\vee}
+
+\newcommand{\For}{\mbox{\bf For }}
+\newcommand{\To}{\mbox{\bf to }}
+\newcommand{\Do}{\mbox{\bf Do }}
+\newcommand{\If}{\mbox{\bf If }}
+\newcommand{\Then}{\mbox{\bf Then }}
+\newcommand{\Else}{\mbox{\bf Else }}
+\newcommand{\While}{\mbox{\bf While }}
+\newcommand{\Repeat}{\mbox{\bf Repeat }}
+\newcommand{\Until}{\mbox{\bf Until }}
+\newcommand{\Return}{\mbox{\bf Return }}
+
+\begin{document}
+
+\ifnum\me=0
+%\handout{PS\num}{\today}{Name: **** INSERT YOU NAME HERE ****}{Due:
+%\due}{Solutions to Problem Set \num}
+%
+%I collaborated with *********** INSERT COLLABORATORS HERE (INDICATING
+%SPECIFIC PROBLEMS) *************.
+\fi
+\ifnum\me=1
+\handout{PS\num}{\today}{Name: Yevgeniy Dodis}{Due: \due}{Solution
+{\em Sketches} to Problem Set \num}
+\fi
+\ifnum\me=2
+\handout{PS\num}{\today}{Lecturer: Yevgeniy Dodis}{Due: \due}{Problem
+Set \num}
+\fi
+
+
+\newproblem{Polynomial Evaluation}{16 (+4) points}
+
+A degree-$n$ polynomial $P(x)$ is a function
+$$P(x) = a_0 + a_1x + \ldots + a_{n-1}x^{n-1} + a_n x^n = \sum_{i=0}^n a_i
+x^i$$
+
+\begin{itemize}
+
+\item[(a)] (2 points) Express the value $P(x)$ as
+$$P(x) = a_0 + a_1x + \ldots + a_{n-2} x^{n-2} + b_{n-1} x^{n-1} =
+\sum_{i=0}^{n-1} b_i x^i$$
+where $b_0=a_0,\ldots, b_{n-2} = a_{n-2}$. What is $b_{n-1}$ as a
+function of the $a_i$'s and $x$?
+
+\ifnum\me<2
+\begin{solution}
+
+
+For all numbers, $b_n$ equals $a_n$, so $P(x)$ in regards to b is
+
+$$P(x) = b_0 + b_1x + \ldots + b_{n-2} x^{n-2} + b_{n-1} x^{n-1} =
+\sum_{i=0}^{n-1} b_i x^i$$
+
+\noindent\rule{15cm}{0.4pt}
+
+\textit{What is $b_{n-1}$ as a function of the $a_i$'s and $x$?}
+\newline
+
+
+We now want to isolate $b_{n-1}$  in order to do this, \textit{in terms of $a_i$'s and $x$}, we do this
+ 
+
+$$\sum_{i=0}^{n-1} a_ix^i - \sum_{i=0}^{n-2} a_ix^i$$
+
+
+{\LARGE $\sum_{i=0}^{n-1} a_ix^i$ }and {\LARGE$\sum_{i=0}^{n-2} a_ix^i$} have all similar terms, except {\LARGE $\sum_{i=0}^{n-1} a_ix^i$} has $b_{n-1}$ 
+\newline
+\newline
+ where {\LARGE$\sum_{i=0}^{n-2} a_ix^i$} does not.
+\newline
+\newline
+By subtracting the two, we can isolate $b_{n-1}$
+
+%***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(b)] (5 points) Using part (a) above write a recursive procedure
+$\mathsf{Eval}(A,n,x)$ to evaluate the polynomial $P(x)$ whose
+coefficients are given in the array $A[0\ldots n]$ (i.e., $A[0]=a_0$,
+etc.). Make sure you do not forget the base case $n=0$.
+
+\begin{solution}
+
+We want to express the equation as $a_0 + x (a_1 + x)(a_2 + x) \ldots (a_n + x)$ in order to get away from the $n^2$ running time.  Now we don't have to have an exponent calculation with every pass, and instead we just have an individual multiplication operation with each pass.
+
+\begin{code}
+{\sc Eval}$(A,n, x)$ \\
+\>  \If $n == 0$ \\
+\>	 \>  \Return $A[0] + x$\\
+\>  \Return $(A[n] + x) * $ {\sc Eval}$(A,n-1,x)$\\  
+\end{code}
+\end{solution}
+
+\item[(c)] (3 points) Let $T(n)$ be the running time of your implementation
+of $\mathsf{Eval}$. Write a recurrence equation for $T(n)$ and solve
+it in the $\Theta(\cdot)$ notation.
+
+\ifnum\me<2
+\begin{solution}
+\newline
+We need to solve for $T(n) = aT(\frac{n}{b}) + D(n) + C(n)$ where $a$ is the number of subproblems, $\frac{n}{b}$ is the size of each subproblem, $D(n)$ is the running time for the dividing step and $C(n)$ is the running time for the combining step.
+\newline
+\newline
+If $ n \leq 1$, $\Theta(1)$
+
+
+Else
+\newline
+$T(n) = 1T(n) + \Theta(1) + \Theta(1)$ 
+\newline
+\newline
+\begin{itemize}
+
+
+\item $a = 1$ because we are only having one subproblem, evident by the only one call back into {\sc Eval}$(A,n, x)$\\
+\item $\frac{n}{b} = n$ because each subset only decreases by 1 no matter how large n is, which makes the subset size stay at n\\
+\item $D(n) = 1$ because to divide, we just take our subset and decrease its size by one, which can be done in constant time.\\
+\item $C(n) = 1$ because we are not doing any iteration with the combining, we are just returning the conquered results, which is done with a simple multiplication, and runs in constant time\\
+\end{itemize}
+
+This makes the running time of this algorithm $\Theta(n)$
+\end{solution}
+\fi
+
+\item[(d)] (6 points) Assuming $n$ is a power of $2$, try to express $P(x)$ as
+$P(x) = P_0(x) + x^{n/2}P_1(x)$, where $P_0(x)$ and $P_1(x)$ are both
+polynomials of degree $n/2$. Assuming the computation of $x^{n/2}$
+takes $O(n)$ times, describe (in words or pseudocode) a recursive
+procedure $\mathsf{Eval}_2$ to compute $P(x)$ using two recursive
+calls to $\mathsf{Eval}_2$. Write a recurrence relation for the
+running time of $\mathsf{Eval}_2$ and solve it. How does your solution
+compare to your solution in part (c)?
+
+\ifnum\me<2
+\begin{solution}
+
+\textit{Assuming $n$ is a power of $2$, try to express $P(x)$ as
+$P(x) = P_0(x) + x^{n/2}P_1(x)$, where $P_0(x)$ and $P_1(x)$ are both
+polynomials of degree $n/2$}\\
+{\Large $$P_0(x) = \sum_{i=0}^{\frac{n}{2}} a_ix^i$$}
+{\Large $$P_1(x) = \sum_{i=\frac{n}{2}+1}^{n} a_ix^{i-\frac{n}{2}}$$ }
+\\
+With these summations for $P_0(x)$ and $P_1(x)$, we can have $P_0(x) + x^{n/2}P_1(x) =  \sum_{i=0}^n a_ix^i$\\
+\\
+\noindent\rule{15cm}{0.4pt}
+
+\textit{Write a recursive procedure $\mathsf{Eval}_2$ to compute $P(x)$ using two recursive
+calls to $\mathsf{Eval}_2$}\\
+\\
+
+
+\begin{code}
+{\sc Eval2}$(A,x,n)$ \\
+\>  \If $n == 0$\\
+\>  \>  \Return $A[0]$\\
+\>  \If $n == 1$\\
+\>  \>  \Return {\sc Eval2}$(A[0],x,n - 1) + A[1]x$\\
+\>  \Return {\sc Eval2}$(A[0 : \frac{n}{2}], x, \frac{n}{2}) + (x^{\frac{n}{2}} * $ {\sc Eval2}$(A[\frac{n}{2} + 1 : n], x, n - (\frac{n}{2} + 1)))$\\
+\end{code}
+
+We have base cases for when n is 0 or 1.  When n is 1, we just basically add $A[1]x$ to the $n == 0 $ base case\\
+
+then we run Eval2 twice with half of the array given to us, and we multiply $x^{\frac{n}{2}}$ to the second part of the array.  \\
+\noindent\rule{15cm}{0.4pt}
+\\
+\\
+\textit{ Write a recurrence relation for the
+running time of $\mathsf{Eval}_2$ and solve it. How does your solution
+compare to your solution in part (c)? }
+
+
+If $ n \leq 1$, $\Theta(1)$
+
+
+Else
+\newline
+$T(n) = 2T(\frac{n}{2}) + \Theta(1) + \Theta(n)$\\
+
+This gives this algorithm a running time of $\Theta(n \ log \  n)$\\
+\\
+
+%***************** INSERT PROBLEM \prob d SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(e)] ({\bf Extra Credit.}) Explain how to fix the slow
+``conquer'' step of part (d) so that the resulting solution is as
+efficient as ``expected''.
+
+\ifnum\me<2
+\begin{solution}
+So right now, each conquer step takes n steps to complete because we have the $x^{n/2}$ being multiplied by $P_1(x)$, and the $x^{n/2}$ takes $O(n)$ times.  Although we are reducing size exponentially, we still have $O(n)$ operations per conquer.  Instead, we can calculate develop and add onto the $x^{n/2}$ value with each iteration, instead of recalculating at each pass.  Horners Algorithm,  which is the equation used for part c, is a method of decreasing the Conquer stop
+\end{solution}
+\fi
+
+\end{itemize}
+
+\newproblem{Asymptotic Comparisons}{10 Points}
+
+For each of the following pairs of functions $f(n)$ and $g(n)$, state
+whether $f$ is $O(g)$; whether $f$ is $o(g)$; whether $f$ is
+$\Theta(g)$; whether $f$ is $\Omega(g)$; and whether $f$ is
+$\omega(g)$.  (More than one of these can be true for a single pair!)
+
+
+
+\begin{itemize}
+\item[(a)] $f(n) = 32 n^{21} + 2$; $g(n) = \frac{n^{22}+3n+4}{111} - 52 n$.
+
+\ifnum\me<2
+\begin{solution}
+$f$ is $\Omega(g)$ and 
+$f$ is $\omega(g)$
+%***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(b)]  $f(n) = \log(n^{21}+3n)$; $g(n) = \log(n^{2}-1)$.
+
+\ifnum\me<2
+\begin{solution}
+%***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+$f$ is $O(g)$, $f$ is $\Theta(g)$, and $f$ is $\Omega(g)$
+\end{solution}
+\fi
+
+\item[(c)]  $f(n) = \log (2^{n}+n^2)$; $g(n) = \log(n^{22})$.
+
+\ifnum\me<2
+\begin{solution}
+$f$ is $O(g)$ and $f$ is $o(g)$
+%***************** INSERT PROBLEM \prob c SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(d)] $f(n) = n^{3} \cdot 2^{n}$; $g(n) = n^{2} \cdot 3^{n}$.
+
+\ifnum\me<2
+\begin{solution}
+%***************** INSERT PROBLEM \prob d SOLUTION HERE ***************
+$f$ is $O(g)$, $f$ is $\Theta(g)$, and $f$ is $\Omega(g)$
+\end{solution}
+\fi
+
+\item[(e)] $f(n) = (n^{n})^{3}$; $g(n)=n^{(n^{3})}$.
+
+\ifnum\me<2
+\begin{solution}
+%***************** INSERT PROBLEM \prob e SOLUTION HERE ***************
+$f$ is $\Omega(g)$ and $f$ is $\omega(g)$
+
+
+\end{solution}
+\fi
+
+\end{itemize}
+
+\newproblem{The Same or Not the Same?}{10 points}
+
+The following two functions both take as arguments two $n$-element
+arrays $A$ and $B$:
+
+\begin{code}
+{\sc Magic-1}$(A,B,n)$ \\
+\>  \For $i = 1$ \To $n$\\
+\>\>  \For $j = 1$ \To $n$\\
+\>\>\>  \If $A[i] \ge B[j]$ \Return FALSE\\
+\>  \Return TRUE\\
+\end{code}
+
+\begin{code}
+{\sc Magic-2}$(A,B,n)$ \\
+\>  $temp := A[1]$\\
+\> \For $i = 2$ \To $n$\\
+\>\>  \If $A[i] > temp$ \Then $temp := A[i]$\\
+\> \For $j = 1$ \To $n$\\
+\>\> \If $temp \ge B[j]$ \Return FALSE\\
+\>  \Return TRUE\\
+\end{code}
+
+
+\begin{itemize}
+
+\item[(a)] (2 points) It turns out both of these procedures return
+  TRUE if and only if the same `special condition' regarding the
+    arrays $A$ and $B$ holds. Describe this `special condition' in
+  English.
+
+\ifnum\me<2
+\begin{solution}
+The special condition is when elements 1 and on in Array B is larger than elements 1 and on in Array A.  Every of these elements in Array B has to be larger than every single one of the A array elements above index 1. 
+\end{solution}
+\fi
+
+\item[(b)] (5 points) Analyze the worst-case running time for both
+  algorithms in the $\Theta$-notation. Which algorithm would you
+  chose? Is it the one with the shortest code (number of lines)?
+
+\ifnum\me<2
+\begin{solution}
+{\sc Magic-1} has a running time of $Theta(0(n^2))$\\
+{\sc Magic-2} has a running time of $Theta(0(n))$\\
+I would choose {\sc Magic-2} as it has a shorter running time.  The one with the shortest code is not the one that runs shortest.
+\end{solution}
+\fi
+
+\item[(c)] (3 points) Does the situation change if we consider the
+  best-case running time for both algorithms?
+
+\ifnum\me<2
+\begin{solution}
+The best-case running time for both algorithms does change things.  The best case running time for {\sc Magic-1} is $\Theta(1)$, which happens when $A[1] \geq B[1]$\\
+\\
+The best case running time for {\sc Magic-1} is $\Theta(1)$, which happens when $A[1] \geq B[1]$\\
+\\
+The best case running time for {\sc Magic-2} is $\Theta(n)$ because no matter what, we will always iterate through all of Array A.
+
+\end{solution}
+\fi
+
+\end{itemize}
+
+\end{document}
