@@ -337,11 +337,11 @@ $T(1)=1$.
 
 \ifnum\me<2
 \begin{solution}
-$O(n\ log (n))$\\
+$O(n^{1.5})$\\
 \\
 In this recurrence, we have 8 subdivisions of size $\frac{n}{4}$, this means that we have to compare $n^{log_4(8)}$ with $f(n)$, which is $n$.  The power of $n^{log_4(8)}$ is greater 
 than the power of $n$, and using the master theorem, we know that our running time is 
-$n^{log_4(8)}$, which reduces down to $n^{1.5}$ which equals $n\ log(n)$
+$n^{log_4(8)}$, which reduces down to $n^{1.5}$.
 
 
 \end{solution}
@@ -356,31 +356,30 @@ inductive proof works?
 \ifnum\me<2
 \begin{solution}
 \\ \\
-When we use part A as our guess, we see that $T(1) = 1\ log(1) = 0$, meaning our Part A guess doesn't pass the base case.
-\\
-That being the case, we change our guess to $O(n\ log(n) + 1)$, which does pass the base case test.
+When we use part A as our guess, we will have our guess be $g(n) = cn^{1.5} - dn$\\ \\ 
+
 \begin{itemize}
   \item $T(n) = 8T(n/4) + n$
-  \item $g(n) = cn\ log(n) + 1$ where $c > 0$
+  \item $g(n) = cn^{1.5} - dn$ where $c > 0$ and $d > 0$
 \end{itemize}
 We want to prove that $T(n) \le g(n)$\\
 
 To solve, we need to substitute $g(n)$ into $T(n)$ and solve in order to inductively proof.
 \\
 \begin{enumerate}
-	\item[1. ] $T(n) = 8(c*\frac{n}{4}*\ log(\frac{n}{4}) + 1) + n$
-	\item[2. ] $T(n) = 2nc*\ log(\frac{n}{4}) + 8 + n$
-	\item[3. ] $T(n) = (2nc*\ log(n)) - (2nc*\ log(4)) + 8 + n$
-	\item[4. ] $T(n) = cn\ log(n) - cn + n$
-	\item[5. ] $T(n) \leq cn\ log(n) $
-	\item[6. ] $T(n) \leq  g(n)$
+	\item[1. ] $T(n) = 8(\frac{cn^{1.5} - dn}{4}) + n$
+	\item[2. ] $T(n) = 2cn^{1.5} - 2dn + n$
+	\item[3. ] $T(n) = 2cn^{1.5} - dn $
+	\item[4. ] $T(n) = cn^{1.5} - dn $ \\ \\
+	This is the exact same as what our guess was, so we know that\\ \\ 
+	\item[5. ] $T(n) \leq  g(n)$
 \end{enumerate}
 
 \textit{What is the ``smallest'' $g(n)$ for which your
 inductive proof works?}
 \\
 \\ 
-The smallest $g(n)$ would be when $T(n) = g(n)$, which only happens when $c = 1$ and $n = 1$
+The smallest $g(n)$ would be the smallest values for $c$ and $d$ that still pass the base case test, $T(1) = 1$.  The smallest values for $c$ and $d$ would be when $c = 1$ and $d = 0$ 
 	
 \end{solution}
 \fi
@@ -401,12 +400,15 @@ This is what the tree will look like.  Each of the $\frac{n}{4}$ subtrees should
 \Tree [.$n$ [.$\frac{n}{4}$ [ $\frac{n}{16}$ ] [ $\frac{n}{16}$ ] [ $\frac{n}{16}$ ] [ $\frac{n}{16}$ ] [ $\frac{n}{16}$ ] [ $\frac{n}{16}$ ] [ $\frac{n}{16}$ ] [ $\frac{n}{16}$ ] ] [.$\frac{n}{4}$ ] [.$\frac{n}{4}$ ] [.$\frac{n}{4}$ ] [.$\frac{n}{4}$ ] [.$\frac{n}{4}$ ] [.$\frac{n}{4}$ ] [.$\frac{n}{4}$ ] ]
 \\
 \\
+{\Large .... and so on and so forth}\\
+\\
 
-The first layer sums to $n$, the remaining layers excluding the last layer each sum up to $2n$,  and the last layer sums up to $n^{log_4(8)}$ which is $n\ log(n)$
+The first layer sums to $n$, the remaining layers excluding the last layer each sum up to $2n$,  and the last layer sums up to $n^{log_4(8)}$ which is $n^{1.5}$
 \\ \\
 We also know that we have a total of $log_b(n)$ levels as well.
 
-When we sum those all together, we get $2n\ log(n) + n\ log(n)$ which equals {\LARGE $3n\ log(n)$}
+When we sum those all together, we get the running time of $2n\ log(n) + n^{1.5}$.\\
+Because $n^{1.5}$ trumps $2n\ log(n)$, the $O(n)$ running time is {\LARGE $n^{1.5}$}
 
 %\Tree [.$n$ [.$\frac{n}{4}$ us ] [.$\frac{n}{4}$ them] ]
 %\Tree[.$n$ [.$n/4$ [.$n/16$] [.$n/16$ ] ] ]
@@ -421,7 +423,25 @@ carefully maintain the correct initial condition.
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob d SOLUTION HERE ***************
+\begin{enumerate}
+\item[1. ] $T(n) = 8T(n/4) + n$ \\ \\
+We now substitute $n = 4^{k}$ into this equation and get
+\item[2. ] $T(4^k)=8T(4^{k-1}) + 4^k$\\ \\
+We now substitute in $P(k) = T(4^k)$
+\item[3. ] $P(k) = 8 P ( k - 1 ) + k)$\\ \\
+We now divide divide everything by $8^k$
+\item[4. ] $ \frac{P(k)}{8^k} = \frac{P(k - 1)}{8 ^ {k - 1} } + \frac{k}{8 ^ {k - 1}}$ \\ \\
+We now substitute $S(k) = \frac{P(k)}{8^k}$
+\item[5. ] $ S(k) = S (k - 1) + \frac{k}{8 ^ {k - 1}} $\\ \\
+This reduces to 
+\item[6. ] $ S(k) = 8^{k -1} + k$\\ \\
+From right after step one, we know that $k = log_4(n)$, now we replace that back into our $S(k)$ equation and get
+\item[7. ] $ T(n) = (n - 1) ^ {log_4(8)} + log_4(k)$ \\ \\
+This reduces down to
+\item[8. ] $ T(n) = O(n^{1.5})$
+\end{enumerate}
+
+
 \end{solution}
 \fi
 
