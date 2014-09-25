@@ -6,7 +6,8 @@
 
 
 \section{Problem 2}	
-Exercise 2.3 on p. 42\\ \\
+Exercise 2.3 on p. 42\\ 
+Matlab Solution in file Problem2.m\\ \\
 \textbf{Solution: {\LARGE $ \frac{-1}{\sqrt{10} * \sqrt{14}}$ }}\\
 
 \noindent\rule{22cm}{0.4pt}
@@ -27,28 +28,89 @@ $V2 = <2, 1, 3> $\\
 {\LARGE $cos(\theta) = \frac{ V1 \cdot V2}{\sqrt{1^2 + -3^2 + 0^2} * \sqrt{2^2 + 1^2 + 3^2}} = \frac{-1}{\sqrt{10} * \sqrt{14}}$ }\\
 \\ \\
 
-MATLAB
-v1 = [1, -3, 0];
-v2 = [2, 1, 3];
-
-dotV = dot(v1, v2)
-magV1 = norm(v1)
-magV2 = norm(v2)
-
-angle = arccos(dotV / (magV1 * magV2)) 
-
-
 Last problem, Power-reduction formula
-https://proofwiki.org/wiki/Power_Reduction_Formulas/Sine_Cubed
 
-\section{Previous work}\label{previous work}
-A much longer \LaTeXe{} example was written by Gil~\cite{Gil:02}.
 
-\section{Results}\label{results}
-In this section we describe the results.
+\section{Problem 3}
+Compute the Jacobian\\ \\
+$x = u - v + w$\\
+$y = u^2 - v^2 - w^2$\\
+$z = u^3 + v$\\
+\\
+$Jacobian(u, v, w) = $\\
 
-\section{Conclusions}\label{conclusions}
-We worked hard, and achieved very little.
+\[ \left( \begin{array}{ccc}
+1 & -1 & 1 \\
+2u & -2v & -2w \\
+3u^2 & 1 & 0 \end{array} \right)\] 
+
+
+\section{Problem 4}
+Exercise 3.4 on pg. 76\\
+Matlab Solution in file Problem4.m\\ \\
+
+
+$M1 = $
+\[ \left( \begin{array}{cccc}
+2 & -1 & 1 & 0\\
+1 & 3 & 1 & -1 \\
+-2 & 1 & 0 & 1 \end{array} \right)\] 
+\\ \\
+$M2 = $
+\[ \left( \begin{array}{cc}
+1 & 2 \\
+-2 & 0 \\
+2 & -1 \\
+1 & 1 \end{array} \right)\] 
+\\ \\
+$M1 \cdot M2 = $\\
+\[ \left( \begin{array}{cc}
+(2*1) + (-1*-2) + (1 * 2) + (0 * 1) & (2*2) + (-1*0) + (1 * -1) + (0 * 1)\\
+(1*1) + (3*-2) + (1 * 2) + (-1 * 1) & (1*2) + (3*0) + (1 * -1) + (-1 * 1)\\
+(-2*1) + (1*-2) + (0 * 2) + (1 * 1) & (-2*2) + (1*0) + (0 * -1) + (1 * 1)\end{array} \right)\] 
+\\
+{\Large $=$}
+\\
+\[ \left( \begin{array}{cc}
+6 & 3\\
+-4 & 0\\
+-3 & -3\end{array} \right)\] 
+
+
+
+\section{Problem 5}	
+The textbook, Assignment 3.1 on pp. 78 - 79\\
+Matlab Solutions in files evaluate.m and evaluate2.m\\
+
+\section{Problem 6}
+Let $z = 5 + 3i$ and $w = 2 - 4i$\\ \\
+
+\begin{enumerate}
+\item[(a)] $\bar{w} =$  {\Large$2 + 4i$ }\\
+\item[(b)] $z + w = $  {\Large$7 - i$}\\  \\
+$ 5 + 2 = 7$\\
+$3i + -4i = -i $\\
+$z + w = 7 - i$\\
+\item[(c)]$z - w =$ {\Large$3 + 7i$}\\ \\
+$5 - 2 = 3$\\
+$3i - (-4i) = 7i$\\
+$z - w = 3 + 7i$\\
+\item[(d)] $zw = $ {\Large$22 - 14i$}\\ \\
+$(5 + 3i)(2 - 4i) = $\\
+$10 - 20i + 6i - 12i^2 = $\\
+$10 - 14i + 12 = $\\
+$22 - 14i$\\
+\item[(e)] $z/w = $ {\Large$\frac{-1}{10} + \frac{13i}{10}$}\\ \\
+
+{\Large $\frac{5 + 3i}{2 - 4i} = $\\ \\ \\
+$\frac{(5 + 3i)(2 + 4i)}{(2 - 4i)(2 + 4i)} = $\\ \\ \\
+$\frac{10 + 6i + 20i + 12i^2}{4 - 8i + 8i -16i^2} = $\\ \\ \\
+$\frac{10 + 26i - 12}{20} = $\\ \\ \\
+$\frac{-2 + 26i}{20} = $\\ \\ \\
+$\frac{-1}{10} + \frac{13i}{10}$\\  \\ \\}
+\end{enumerate}
+
+\section{Problem 7}
 
 \bibliographystyle{abbrv}
 \bibliography{main}
