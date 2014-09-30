@@ -1,0 +1,96 @@
+V "GNAT Lib v2013"
+P ZX
+
+RN
+RV NO_IO
+RV NO_PROTECTED_TYPES
+RV NO_RECURSION
+RV NO_DEFAULT_INITIALIZATION
+RV NO_ELABORATION_CODE
+RV SPARK
+RV MAX_ENTRY_QUEUE_LENGTH=1+
+
+U quicksortpackage%b	quicksortpackage.adb	e6eaeb46 OO PK IL
+W ada%s			ada.ads			ada.ali
+W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W system.soft_links%s	s-soflin.adb		s-soflin.ali
+W system.tasking%s	s-taskin.adb		s-taskin.ali
+W system.tasking.protected_objects%s  s-taprob.adb  s-taprob.ali
+
+U quicksortpackage%s	quicksortpackage.ads	220f1dd7 EE NE OO PK
+
+D ada.ads		20130417131023 3ffc8e18
+D a-except.ads		20130417131019 10fcae55
+D a-finali.ads		20130417131020 52ecdc1b
+D a-inteio.ads		20130417131020 f64b89a4
+D a-ioexce.ads		20130417131020 8b9de6cd
+D a-stream.ads		20130417131021 2ca4ee37
+D a-tags.ads		20130417131022 6c0509d0
+D a-textio.ads		20130417131022 386df5d4
+D a-tiinio.ads		20130417131022 aa04e5d6
+D a-unccon.ads		20130417131022 f9eb8f06
+D interfac.ads		20130417131027 cb4a8015
+D i-c.ads		20130417131026 5421119b
+D i-cstrea.ads		20130417131026 8128536b
+D quicksortpackage.ads	20140930060809 220f1dd7
+D quicksortpackage.adb	20140930202112 0ac38ae1
+D system.ads		20130417131036 f2f2d889
+D s-atacco.ads		20130417131028 4c36d12f
+D s-crtl.ads		20130417131029 dfcfca61
+D s-exctab.ads		20130417131029 66e51330
+D s-ficobl.ads		20130417131029 55a71d43
+D s-finmas.ads		20130417131029 b95bb341
+D s-finroo.ads		20130417131029 4ff27390
+D s-multip.ads		20130417131030 38ac9f73
+D s-oscons.ads		20130603160047 d2b348ca
+D s-osinte.ads		20130417131031 a671a606
+D s-parame.ads		20130417131032 b6e20cc0
+D s-pooglo.ads		20130417131032 542f33d0
+D s-soflin.ads		20130417131032 24c8153c
+D s-stache.ads		20130417131032 596fc1b4
+D s-stausa.ads		20130417131032 017a0a05
+D s-stalib.ads		20130417131032 f78bcf95
+D s-stoele.ads		20130417131032 facd7d98
+D s-stoele.adb		20130417131032 afc5dc80
+D s-stopoo.ads		20130417131032 7b8fbeee
+D s-tasinf.ads		20130417131033 e120e23a
+D s-taspri.ads		20130417131033 15f617a8
+D s-taskin.ads		20130417131033 59e95256
+D s-taprob.ads		20130417131033 502249e3
+D s-traent.ads		20130417131033 5221ee41
+D s-unstyp.ads		20130417131034 6ae15c76
+D s-wchcon.ads		20130417131034 bfeb2e3d
+X 1 ada.ads
+16K9*Ada 19e8 15|1r6 2r6 6r9 7r9
+X 4 a-inteio.ads
+18K13*Integer_Text_IO[9|45] 15|2w10 7r13
+X 8 a-textio.ads
+49K13*Text_IO 471e16 15|1w10 6r13
+166U14*New_Line 15|24s17 26s17
+263U14*Put_Line 15|23s17 30s21 43s21 45s22 68s21 80s21
+X 9 a-tiinio.ads
+65U14*Put 15|25s17[4|18]
+X 14 quicksortpackage.ads
+1K9*QuicksortPackage 4l5 4e21 15|5b14 89l5 89t21
+2A10*Int_Array(integer)<integer> 3r42 15|10r44 14r45 20r25 21r26 85r42
+3U15*Quicksort 3=25 15|85b15 88l9 88t18
+3a25 Numbers{2A10} 15|85b25 87m31
+X 15 quicksortpackage.adb
+9w15 QuicksortTask 13b20 72r25 73r25 75r25 76r25 83l9 83t22 87r9
+10U19 sorting 10=27 14b19 72s39 73s39 75s39 76s39 82l13 82t20 87s23
+10a27 Numbers{14|2A10} 14b28 25r21 27r29 29r20 31r24 31r40 32r30 34r30 40r20
+. 42r26 44r27 51r31 57r31 62r43 63m29 63r43 64m29 69r46 70r38 71r39 71r59
+. 75r47 76r47 76r56 76r77
+15i13 midpoint{integer} 27m17 44r35 69r24 70r49 71r47 75r58
+16i13 m{integer} 32m25 34m25 44m22 51r45 57r44
+17i13 i{integer} 41m21 47r29 51r39 53m29 53r33 61r28 62r51 63r37
+18i13 j{integer} 42m21 47r33 57r39 59m29 59r33 61r32 63r51 64r37
+19i13 TempNumber{integer} 62m29 64r43
+20a13 firstHalf{14|2A10} 70m25 72m47 72r47
+21a13 secondHalf{14|2A10} 71m25 73m47 73r47
+X 30 s-stausa.ads
+203U14*Initialize 204i<c,__gnat_stack_usage_initialize>22
+268U14*Output_Results 272i<c,__gnat_stack_usage_output_results>22
+

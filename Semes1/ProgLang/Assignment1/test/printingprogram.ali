@@ -1,0 +1,54 @@
+V "GNAT Lib v2013"
+P ZX
+
+RN
+RV NO_IO
+RV NO_ELABORATION_CODE
+RV SPARK
+
+U printingprogram%b	printingprogram.adb	fd38ff58 OO PK IL
+W ada%s			ada.ads			ada.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+
+U printingprogram%s	printingprogram.ads	aeae72b0 EE NE OO PK IL
+
+D ada.ads		20130417131023 3ffc8e18
+D a-except.ads		20130417131019 10fcae55
+D a-finali.ads		20130417131020 52ecdc1b
+D a-ioexce.ads		20130417131020 8b9de6cd
+D a-stream.ads		20130417131021 2ca4ee37
+D a-tags.ads		20130417131022 6c0509d0
+D a-textio.ads		20130417131022 386df5d4
+D a-unccon.ads		20130417131022 f9eb8f06
+D interfac.ads		20130417131027 cb4a8015
+D i-cstrea.ads		20130417131026 8128536b
+D printingprogram.ads	20140929224229 aeae72b0
+D printingprogram.adb	20140929224234 6bfb783c
+D system.ads		20130417131036 f2f2d889
+D s-crtl.ads		20130417131029 dfcfca61
+D s-exctab.ads		20130417131029 66e51330
+D s-ficobl.ads		20130417131029 55a71d43
+D s-finmas.ads		20130417131029 b95bb341
+D s-finroo.ads		20130417131029 4ff27390
+D s-parame.ads		20130417131032 b6e20cc0
+D s-pooglo.ads		20130417131032 542f33d0
+D s-soflin.ads		20130417131032 24c8153c
+D s-stache.ads		20130417131032 596fc1b4
+D s-stalib.ads		20130417131032 f78bcf95
+D s-stoele.ads		20130417131032 facd7d98
+D s-stoele.adb		20130417131032 afc5dc80
+D s-stopoo.ads		20130417131032 7b8fbeee
+D s-traent.ads		20130417131033 5221ee41
+D s-unstyp.ads		20130417131034 6ae15c76
+D s-wchcon.ads		20130417131034 bfeb2e3d
+X 1 ada.ads
+16K9*Ada 19e8 12|1r6 1r23
+X 7 a-textio.ads
+49K13*Text_IO 471e16 12|1w10 1r27
+263U14*Put_Line 12|7s5 12s5 17s5 21s5
+X 11 printingprogram.ads
+1K9*printingprogram 5l5 5e20 12|3b14 22l5 22t20
+2U14*Printer 12|5b14 8l8 8t15
+3U14*adder 12|10b14 13l8 13t13
+4U14*sorter 12|15b14 18l8 18t14
+

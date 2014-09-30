@@ -1,0 +1,39 @@
+V "GNAT Lib v2013"
+P ZX
+
+RN
+RV NO_EXCEPTIONS
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_ELABORATION_CODE
+RV SPARK
+
+U stack%b		stack.adb		344df7f6 NE OO PK IL
+W ada.exceptions%s	a-except.adb		a-except.ali
+
+U stack%s		stack.ads		548b1574 EE OO PK IL
+W system%s		system.ads		system.ali
+W system.exception_table%s  s-exctab.adb	s-exctab.ali
+W system.standard_library%s  s-stalib.adb	s-stalib.ali
+
+D ada.ads		20130417131023 3ffc8e18
+D a-except.ads		20130417131019 10fcae55
+D a-unccon.ads		20130417131022 f9eb8f06
+D stack.ads		20140929223012 548b1574
+D stack.adb		20140929223027 60c6e282
+D system.ads		20130417131036 f2f2d889
+D s-exctab.ads		20130417131029 66e51330
+D s-parame.ads		20130417131032 b6e20cc0
+D s-stalib.ads		20130417131032 f78bcf95
+D s-traent.ads		20130417131033 5221ee41
+X 4 stack.ads
+1K9*stack 5l5 5e10 5|1b14 24l5 24t10
+2U12*push 2>17 5|5b12 13t6
+2i17 x{integer} 5|5b17 10r27
+3V11*pop{integer} 5|15b11 23t5
+4X2*stack_overflow 5|8r13
+4X18*stack_underflow 5|18r12
+X 5 stack.adb
+2I10 stack_index{integer} 3r20
+3a2 the_stack(integer) 10m7 21r12
+4i2 index{integer} 7r9 10r17 11m7 11r16 17r8 20m5 20r14 21r22
+
