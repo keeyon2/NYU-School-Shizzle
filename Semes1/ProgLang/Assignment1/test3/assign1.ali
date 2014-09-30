@@ -14,7 +14,7 @@ RV SPARK
 RV MAX_TASK_ENTRIES=3
 RV MAX_TASKS=1+
 
-U assign1%b		assign1.adb		8622f375 NE OO SU IL
+U assign1%b		assign1.adb		66681038 NE OO SU IL
 W ada%s			ada.ads			ada.ali
 W ada.integer_text_io%s	a-inteio.ads		a-inteio.ali
 W ada.real_time%s	a-reatim.adb		a-reatim.ali
@@ -47,7 +47,7 @@ D a-tags.ads		20130417131022 6c0509d0
 D a-textio.ads		20130417131022 386df5d4
 D a-tiinio.ads		20130417131022 aa04e5d6
 D a-unccon.ads		20130417131022 f9eb8f06
-D assign1.adb		20140930060808 559a4617
+D assign1.adb		20140930214133 b5d0a55a
 D interfac.ads		20130417131027 cb4a8015
 D i-c.ads		20130417131026 5421119b
 D i-cstrea.ads		20130417131026 8128536b
@@ -97,48 +97,48 @@ X 12 a-strunb.ads
 76K21*Unbounded 489e26 17|3w18 10r21
 X 14 a-textio.ads
 49K13*Text_IO 471e16 17|1w10 8r13
-263U14*Put_Line 17|43s13 51s9 58s13 76s13 89s13 103s5
+166U14*New_Line 17|47s13 48s13 62s13 63s13
 X 15 a-tiinio.ads
-55U14*Get 17|106s9[6|18]
-65U14*Put 17|46s17[6|18] 61s17[6|18] 67s13[6|18]
+55U14*Get 17|104s9[6|18]
+65U14*Put 17|45s17[6|18] 60s17[6|18] 68s13[6|18]
 X 17 assign1.adb
-7U11*assign1 7b11 110l5 110t12
-14i5 numbersize{integer} 15r33 44r31 59r31 77r31 104r23
-15a5 InputNumbers{21|2A10} 79r30 107m9 109r21
-16i5 X{integer} 106m13 107r32
-19T15 Printer 23l9 23e16 34r17 38b15 69l9 69t16
-20Y15 Start 20>21 41b16 49l13 49t18 109s15
-20a21 Numbers{21|2A10} 46r21 48r27
-21Y15 Sorted 21>22 56b16 63l13 63t19 95s19
-21a22 Numbers{21|2A10} 61r21
-22Y15 SumAdded 22>24 66b16 68l13 68t21 82s19
-22i24 Sum{integer} 67r17
-25T15 add 27l9 27e12 35r15 71b15 83l9 83t12
-26Y15 Sorted 26>22 75b16 81l13 81t19 96s17
+7U11*assign1 7b11 108l5 108t12
+14i5 numbersize{integer} 15r33 43r31 58r31 77r31 102r23
+15a5 InputNumbers{21|2A10} 79r30 105m9 107r21
+16i5 X{integer} 104m13 105r32
+19T15 Printer 23l9 23e16 34r17 38b15 70l9 70t16
+20Y15 Start 20>21 41b16 50l13 50t18 107s15
+20a21 Numbers{21|2A10} 45r21 49r27
+21Y15 Sorted 21>22 56b16 64l13 64t19 94s19
+21a22 Numbers{21|2A10} 60r21
+22Y15 SumAdded 22>24 67b16 69l13 69t21 82s19
+22i24 Sum{integer} 68r17
+25T15 add 27l9 27e12 35r15 72b15 83l9 83t12
+26Y15 Sorted 26>22 76b16 81l13 81t19 95s17
 26a22 Numbers{21|2A10}
-29T15 sort 31l9 31e13 36r16 85b15 98l9 98t13
-30Y15 Printed 30>23 53s18 88b16 93l13 93t20
-30a23 Numbers{21|2A10} 90r26
-34t5 printTask{19T15} 82r9 95r9 109r5
-35t5 addTask{25T15} 96r9
+29T15 sort 31l9 31e13 36r16 85b15 97l9 97t13
+30Y15 Printed 30>23 53s18 88b16 92l13 92t20
+30a23 Numbers{21|2A10} 89r26
+34t5 printTask{19T15} 82r9 94r9 107r5
+35t5 addTask{25T15} 95r9
 36t5 sortTask{29T15} 53r9
-39a5 PrintArray{21|2A10} 48m13 53r26
+39a5 PrintArray{21|2A10} 49m13 53r26
 41a22 Numbers{21|2A10}
-44i17 Count{integer} 46r29
+43i17 Count{integer} 45r29
 56a23 Numbers{21|2A10}
-59i17 Count{integer} 61r29
-66i25 Sum{integer}
-72i5 Sum{integer} 74m9 79m17 79r24 82r28
-75a23 Numbers{21|2A10}
+58i17 Count{integer} 60r29
+67i25 Sum{integer}
+73i5 Sum{integer} 75m9 79m17 79r24 82r28
+76a23 Numbers{21|2A10}
 77i17 Count{integer} 79r43
-86a5 SortArray{21|2A10} 90m13 91m23 91r23 95r26 96r24
+86a5 SortArray{21|2A10} 89m13 90m23 90r23 94r26 95r24
 88a24 Numbers{21|2A10}
-104i9 Count{integer} 107r22
+102i9 Count{integer} 105r22
 X 21 quicksortpackage.ads
 1K9*QuicksortPackage 17|4w6 11r9 21|4e21
 2A10*Int_Array(integer)<integer> 17|15r20 20r31 21r32 26r32 30r33 39r18 41r32
-. 56r33 75r33 86r17 88r34
-3U15*Quicksort 17|91s13
+. 56r33 76r33 86r17 88r34
+3U15*Quicksort 17|90s13
 X 39 s-stausa.ads
 203U14*Initialize 204i<c,__gnat_stack_usage_initialize>22
 268U14*Output_Results 272i<c,__gnat_stack_usage_output_results>22

@@ -40,26 +40,27 @@ procedure assign1 is
     begin
         accept Start(Numbers : Int_Array) do
             -- Print Numbers
-            Put_Line("In Printer Start");
             for Count in 1 .. numbersize
             loop
                 put(Numbers(Count));
             end loop;
+            New_Line;
+            New_Line;
             PrintArray := Numbers;
         end Start;
         
-        Put_Line("Done Printing");
         -- Notify Sorter
         sortTask.Printed(PrintArray);
 
         -- Received Sorted Numbers
         accept Sorted(Numbers : Int_Array) do
             -- Print Numbers
-            Put_Line("Print has received sorted message");
             for Count in 1 .. numbersize
             loop
                 put(Numbers(Count));
             end loop;
+            New_Line;
+            New_Line;
         end Sorted;
 
         -- Received Sum
@@ -73,7 +74,6 @@ procedure assign1 is
     begin   
         Sum := 0;     
         accept Sorted(Numbers : Int_Array) do
-            Put_Line("Add has received sorted message");
             for Count in 1 .. numbersize
             loop
                 Sum := Sum + InputNumbers(Count);
@@ -86,7 +86,6 @@ procedure assign1 is
     SortArray : Int_Array(1..30);
     begin
         accept Printed(Numbers : Int_Array) do
-            Put_Line("Time to Sort");
             SortArray := Numbers;
             Quicksort(SortArray);
             
@@ -100,7 +99,6 @@ procedure assign1 is
 
 begin
     -- Receive Numbers
-    Put_Line("Start");
     for Count in 1 .. numbersize
     loop
         Get(X);
