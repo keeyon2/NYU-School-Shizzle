@@ -35,7 +35,7 @@ D interfac.ads		20130417131027 cb4a8015
 D i-c.ads		20130417131026 5421119b
 D i-cstrea.ads		20130417131026 8128536b
 D quicksortpackage.ads	20140930060809 220f1dd7
-D quicksortpackage.adb	20140930213929 8a545b8c
+D quicksortpackage.adb	20140930220003 8a545b8c
 D system.ads		20130417131036 f2f2d889
 D s-atacco.ads		20130417131028 4c36d12f
 D s-crtl.ads		20130417131029 dfcfca61
@@ -63,29 +63,29 @@ D s-traent.ads		20130417131033 5221ee41
 D s-unstyp.ads		20130417131034 6ae15c76
 D s-wchcon.ads		20130417131034 bfeb2e3d
 X 1 ada.ads
-16K9*Ada 19e8 15|1r6 2r6 6r9 7r9
+16K9*Ada 19e8 15|5r6 6r6 10r9 11r9
 X 4 a-inteio.ads
-18K13*Integer_Text_IO[9|45] 15|2w10 7r13
+18K13*Integer_Text_IO[9|45] 15|6w10 11r13
 X 8 a-textio.ads
-49K13*Text_IO 471e16 15|1w10 6r13
+49K13*Text_IO 471e16 15|5w10 10r13
 X 14 quicksortpackage.ads
-1K9*QuicksortPackage 4l5 4e21 15|5b14 87l5 87t21
-2A10*Int_Array(integer)<integer> 3r42 15|10r44 14r45 83r42
-3U15*Quicksort 3=25 15|83b15 86l9 86t18
-3a25 Numbers{2A10} 15|83b25 85m31 85r43
+1K9*QuicksortPackage 4l5 4e21 15|9b14 71l5 71t21
+2A10*Int_Array(integer)<integer> 3r42 15|14r44 18r45 67r42
+3U15*Quicksort 3=25 15|67b15 70l9 70t18
+3a25 Numbers{2A10} 15|67b25 69m31 69r43
 X 15 quicksortpackage.adb
-9w15 QuicksortTask 13b20 76r21 77r21 81l9 81t22 85r9
-10U19 sorting 10=27 10>55 10>79 14b19 76s35 77s35 80l13 80t20 85s23
-10a27 Numbers{14|2A10} 14b28 33r22 59r31 65r31 70r43 71m29 71r43 72m29 76m43
-. 77m43
-10i55 initialIndex{integer} 14b56 26r52 28r38 30r65 34r22 76r52
-10i79 finalIndex{integer} 14b80 26r39 35r22 77r71
-16i13 midpointIndex{integer} 28m21 30m21 33r30 76r66 77r52
-17i13 currentArrayLength{integer} 26m17 27r20 30r40 48r20
-18i13 m{integer} 33m17 59r45 65r44
-19i13 i{integer} 34m17 55r29 59r39 61m29 61r33 69r28 70r51 71r37
-20i13 j{integer} 35m17 55r33 65r39 67m29 67r33 69r32 71r51 72r37
-21i13 TempNumber{integer} 70m29 72r43
+13w15 QuicksortTask 17b20 60r21 61r21 65l9 65t22 69r9
+14U19 sorting 14=27 14>55 14>79 18b19 60s35 61s35 64l13 64t20 69s23
+14a27 Numbers{14|2A10} 18b28 34r22 43r31 49r31 54r43 55m29 55r43 56m29 60m43
+. 61m43
+14i55 initialIndex{integer} 18b56 27r52 29r38 31r65 35r22 60r52
+14i79 finalIndex{integer} 18b80 27r39 36r22 61r71
+19i13 midpointIndex{integer} 29m21 31m21 34r30 60r66 61r52
+20i13 currentArrayLength{integer} 27m17 28r20 31r40 38r20
+21i13 m{integer} 34m17 43r45 49r44
+22i13 i{integer} 35m17 39r29 43r39 45m29 45r33 53r28 54r51 55r37
+23i13 j{integer} 36m17 39r33 49r39 51m29 51r33 53r32 55r51 56r37
+24i13 TempNumber{integer} 54m29 56r43
 X 30 s-stausa.ads
 203U14*Initialize 204i<c,__gnat_stack_usage_initialize>22
 268U14*Output_Results 272i<c,__gnat_stack_usage_output_results>22
