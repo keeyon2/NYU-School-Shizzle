@@ -1,0 +1,380 @@
+%%me=0 student solutions, me=1 - my solutions, me=2 - assignment
+\def\me{0}
+\def\num{5}  %homework number
+\def\due{Wednesday, October 8}  %due date
+\def\course{CSCI-GA.1170-001/002 Fundamental Algorithms} %course name
+\def\name{Keeyon Ebrahimi}
+%
+\iffalse
+INSTRUCTIONS: replace # by the homework number.
+(if this is not ps#.tex, use the right file name)
+
+  Clip out the ********* INSERT HERE ********* bits below and insert
+appropriate TeX code.  Once you are done with your file, run
+
+  ``latex ps#.tex''
+
+from a UNIX prompt.  If your LaTeX code is clean, the latex will exit
+back to a prompt.  To see intermediate results, type
+
+  ``xdvi ps#.dvi'' (from UNIX prompt)
+  ``yap ps#.dvi'' (if using MikTex in Windows)
+
+after compilation. Once you are done, run
+
+  ``dvips ps#.dvi''
+
+which should print your file to the nearest printer.  There will be
+residual files called ps#.log, ps#.aux, and ps#.dvi.  All these can be
+deleted, but do not delete ps1.tex. To generate postscript file ps#.ps,
+run
+
+  ``dvips -o ps#.ps ps#.dvi''
+
+I assume you know how to print .ps files (``lpr -Pprinter ps#.ps'')
+\fi
+%
+\documentclass[11pt]{article}
+\usepackage{amsfonts,amsmath}
+\usepackage{latexsym}
+\setlength{\oddsidemargin}{.0in}
+\setlength{\evensidemargin}{.0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1, Page \arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in { {\bf \course} \hfill #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\it #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcounter{pppp}
+\newcommand{\prob}{\arabic{pppp}}  %problem number
+\newcommand{\increase}{\addtocounter{pppp}{1}}  %problem number
+
+%first argument desription, second number of points
+\newcommand{\newproblem}[2]{
+\ifnum\me=0
+\ifnum\prob>0 \newpage \fi
+\increase
+\setcounter{page}{1}
+\handout{\name, Homework \num, Problem \arabic{pppp}}{\today}{Name: \name}{Due:
+\due}{Solutions to Problem \prob\ of Homework \num\ (#2)}
+\else
+\increase
+\section*{Problem \num-\prob~(#1) \hfill {#2}}
+\fi
+}
+
+%\newcommand{\newproblem}[2]{\increase
+%\section*{Problem \num-\prob~(#1) \hfill {#2}}
+%}
+
+\def\squarebox#1{\hbox to #1{\hfill\vbox to #1{\vfill}}}
+\def\qed{\hspace*{\fill}
+        \vbox{\hrule\hbox{\vrule\squarebox{.667em}\vrule}\hrule}}
+\newenvironment{solution}{\begin{trivlist}\item[]{\bf Solution:}}
+                      {\qed \end{trivlist}}
+\newenvironment{solsketch}{\begin{trivlist}\item[]{\bf Solution Sketch:}}
+                      {\qed \end{trivlist}}
+\newenvironment{code}{\begin{tabbing}
+12345\=12345\=12345\=12345\=12345\=12345\=12345\=12345\= \kill }
+{\end{tabbing}}
+
+%\newcommand{\eqref}[1]{Equation~(\ref{eq:#1})}
+
+\newcommand{\hint}[1]{({\bf Hint}: {#1})}
+%Put more macros here, as needed.
+\newcommand{\room}{\medskip\ni}
+\newcommand{\brak}[1]{\langle #1 \rangle}
+\newcommand{\bit}[1]{\{0,1\}^{#1}}
+\newcommand{\zo}{\{0,1\}}
+\newcommand{\C}{{\cal C}}
+
+\newcommand{\nin}{\not\in}
+\newcommand{\set}[1]{\{#1\}}
+\renewcommand{\ni}{\noindent}
+\renewcommand{\gets}{\leftarrow}
+\renewcommand{\to}{\rightarrow}
+\newcommand{\assign}{:=}
+
+\newcommand{\AND}{\wedge}
+\newcommand{\OR}{\vee}
+
+\newcommand{\For}{\mbox{\bf For }}
+\newcommand{\To}{\mbox{\bf to }}
+\newcommand{\Do}{\mbox{\bf Do }}
+\newcommand{\If}{\mbox{\bf If }}
+\newcommand{\Then}{\mbox{\bf Then }}
+\newcommand{\Else}{\mbox{\bf Else }}
+\newcommand{\While}{\mbox{\bf While }}
+\newcommand{\Repeat}{\mbox{\bf Repeat }}
+\newcommand{\Until}{\mbox{\bf Until }}
+\newcommand{\Return}{\mbox{\bf Return }}
+
+
+\begin{document}
+
+\ifnum\me=0
+%\handout{PS\num}{\today}{Name: **** INSERT YOU NAME HERE ****}{Due:
+%\due}{Solutions to Problem Set \num}
+%
+%I collaborated with *********** INSERT COLLABORATORS HERE (INDICATING
+%SPECIFIC PROBLEMS) *************.
+\fi
+\ifnum\me=1
+\handout{PS\num}{\today}{Name: Yevgeniy Dodis}{Due: \due}{Solution
+{\em Sketches} to Problem Set \num}
+\fi
+\ifnum\me=2
+\handout{PS\num}{\today}{Lecturer: Yevgeniy Dodis}{Due: \due}{Problem
+Set \num}
+\fi
+
+\newproblem{Sorting in $O(n \log \log n)$ time}{10 points}
+
+\begin{itemize}
+\item[(a)] (4 points) Suppose we want to sort an array $A$ of $n$
+  elements from the set $\{1, 2, \ldots, (\log n)^{\log n}\}$.
+  Show how to sort this array in time $O(n \log \log n)$.
+
+\ifnum\me<2
+\begin{solution}
+Because we know that the range is small, this is the best way to do this sort.
+\\ \\
+As we learned with the Radix sort, we can first mod each value by 10, to give us the one's digit.
+We now want to sort all the numbers based soley on the one's digit.  Because this has a small range as well, we know that the counting sort is a perfect, for we will not have to worry about the space of 10 elements.  We then sort these elements based on the ones digit.  Then we mod by 100 and sort by the tens digit, sort those with the counting sort, and we continue down this path until completion.  An important thing to note on this is that this is a stacking sort, meaning that values that are equivalent are sorted based on which came earliest in their original array.  This is important to note because there the Counting sort is made possible because of this feature. 
+\end{solution}
+\fi
+
+\item[(b)] (6 points) Suppose we want to sort an array $A$ of $n$
+  integers such that the total number of distinct integers in $A$ is
+  $O(\log n)$. Show how to sort this array in time $O(n \log \log n)$.
+
+\ifnum\me<2
+\begin{solution}
+A way to solve this is to make a modified binary search tree where while we are creating the binary search tree, when we hit a duplicate, just store its count in a different array.  
+
+\begin{itemize}
+\item[1. ] Create a binary search tree.  While creating if we check if we have a repeating element and store its count in an array
+\item[2. ] Find Min of Binary Search Tree
+\item[3. ] Append this item into a new array X times, based on its count we stored from earlier.
+\item[4. ] Delete Min from Binary Search Tree
+\item[5. ] Repeat steps 2 - 4 until Binary search tree is empty.
+\end{itemize}
+\end{solution}
+\fi
+
+\end{itemize}
+
+\newproblem{$k$-Sorting an Array}{6 points}
+
+An $n$-element $A = \{a_1, a_2, \ldots, a_n\}$ array is said to be
+{\em $k$-sorted} if the first $k$ elements are each less than each of
+the next $k$ elements, which in turn are less than the next $k$
+elements, and so on.  More precisely, $$a_{(i-1)k + j} \leq a_{ik +
+  \ell} \text{ for all }1\leq i < n/k, \;\; 1 \leq j, \ell \leq k\;.$$
+
+Assume you are a given any (e.g., completely unsorted) array $A$, and
+only wish to $k$-sort $A$, meaning that you only wish to rearrange the
+element of $A$ so that they become $k$-sorted, as defined above.
+Notice, there are many possible valid answers for any given $A$, and
+the algorithm is allowed to choose any one of such answers.
+
+Assuming $n$ is a multiple of $k$, show that any valid,
+comparison-based $k$-sorting algorithm for $A$ requires $\Omega(n \log
+{(n/k)})$ comparisons. \hint{You may either do this directly using a
+  decision tree argument (this will require using Stirling's
+  approximation), or you can have a sleeker indirect argument using
+  the lower/upper bound for sorting.}
+
+\ifnum\me<2
+\begin{solution}
+What we will be doing here is a modified version of Quicksort.  We will 
+
+\begin{enumerate}
+\item[1. ] Pick a random pivot
+\item[2. ] Put all elements smaller than pivot to its left and larger to its right, just like in Quicksort.
+\item[3. ] Here is the difference.  In Quicksort we now place the pivot in its final array position,\textbf{instead}, we will be looking at the size of the two subarrays created, and if they are of size $k$ or less, then we just place them into our final array at their current position. If they are of a size larger than $k$, we repeat the process.
+\end{enumerate}
+
+\textit{ Explanation as to why this takes $\Omega(n\ \log{(n/k)})$ comparisons.}\\ 
+\\
+Of the $n!$ different ways the array can be set up, there are $\frac{n!}{k!}$ different arrays that satisfy our problem.
+
+Now lets say we have $f(n)$ steps.  Comparisons have two options, so we have a total of $2^{f(n)}$ cases.  We now know $2^{f(n)} \geq \frac{n!}{k!}!$ which means $f(n) \geq log_2(frac{n!}{k!})$.
+
+Stirling's Approximation shows that $log_2(frac{n!}{k!}) = \Omega(n\ \log{(n/k)})$ steps, giving us the lower bound of the claim. As for the upper bound.  The altered quick sort has a running time of $\Omega(n\ \log{(n/k)})$ because we stop the sort process at size $k$.
+\end{solution}
+\fi
+
+\newproblem{$k$-th Smallest Element from Two Lists}{6 points}
+
+Suppose you are given two sorted lists $A, B$ of size $n$ and $m$,
+respectively. Give an $O(\log k)$ algorithm to find the $k$-th
+smallest element in $A \cup B$, where $k \leq \min(m,n)$.
+
+\ifnum\me<2
+\begin{solution}
+Because we need to find the solution in $O(log\ k)$ time, we cannot just iterate through, and instead have to be cutting off a part of our test options with each iteration.   
+\\ \\
+Say we set variables $i$ and $j$ such that $i + j = k - 1$, meaning that $i + j + 1 = k$. 
+\\ \\
+If $B[j-1] < A[i] < B[j]$, then we know $A[i]$ is the solution.  Because we are at the $j - 1 + i$ element, which is $k$.  The same can be said for $A[i-1] < B[j] < A[i]$ as well
+\\ \\
+If neither of these cases pass, then we compare $A[i]$ and $B[j]$.  If $A[i] < B[j]$, then $A[i] < B[j-1]$.  This is because we have tested if it is between the two and it is not.  Because $A[i]$ is less than both of these values, then we that $A[0...i]$ do not contain element $k$, because this means that $i = k - j - 2$, which is less than our $k$ element.  
+\\
+We can also use the exact same logic for array $B$ and if $B[j] < A[i]$
+\\ \\
+At this point we now rid the lower half of either $A$ or $B$ based on the previous comparison, and subtract our the amount of eliminated values from $k$ and try again.%
+\end{solution}
+\fi
+
+\newproblem{Finding the most frequent element} {4 (\textbf{+4}) points}
+
+\begin{itemize}
+
+\item[(a)] (4 points) Given an array $A$ of size $n$ and the fact that
+  there is an element $x$ that occurs at least $1 + \lfloor n/2
+  \rfloor$ times in $A$, design an $O(n)$ time algorithm to find $x$.
+
+\ifnum\me<2
+\begin{solution}
+The essential part here is that the element occurs $\frac{n}{2} + 1$ times.  The $+ 1$ part is essential for this algorithm to work. \\ \\
+
+We need to iterate through the array and have a counter variable that starts at zero.  We also need a currently checking variable as well.  As we iterate through, if the counter is at zero, we make the current item the currently checking variable.  If not, then we compare the current item with the currently checking variable.  If they are the same, then we increment count.  If they are different, we decrement the count.  Because more than half of the values are always the same, this count will eventual end up with at least one with this wanted value.
+
+\begin{verbatim}
+Algorithm(Array A)
+{
+  int count = 0;
+  int CurrentlyChecking;
+  for (int i = 0; i < A.Len; i++)
+  {
+    if (count == 0)
+    {
+  	    CurrentlyChecking = A[i];
+    }
+    if (A[i] == CurrentlyChecking)
+    {
+  	    count++;
+    }
+    else
+    {
+  	    count--;
+    }
+  	}
+  return CurrentlyChecking; 
+}
+\end{verbatim}
+
+\end{solution}
+\fi
+
+\item[(b)] (4 points (\textbf{Extra credit})) The Criminal
+  Investigation Unit, while investigating a certain crime, found a set
+  of $n$ fingerprints of which they are convinced that more than half
+  (i.e. $1 + \lfloor n/2 \rfloor$) belong to the same criminal, but
+  they are not sure which ones. They hire a fingerprint expert who can
+  compare any two fingerprints manually and tell whether these two are
+  the same or not.  However, if he has to compare all $n(n-1)/2$ pairs
+  of finger-prints, it will take a lot of time and resources.  Could
+  you help the fingerprint expert find a strategy to find the subset
+  of more than half identical fingerprints, where the number of
+  comparisons is only $O(n)$?  \hint{Notice, there is no ``total
+    order'' on the set of fingerprints, so it does not make sense to
+    say that one fingerprint is ``less'' or ``greater'' than the
+    other. Hence, you probably cannot use the simple solution from
+    part (a).}
+
+\ifnum\me<2
+\begin{solution}
+We can not have any less than or greater than comparisons for this solution.  The solution listed for part (a) will also work for part (b).  Just iterate through the array and keep a counter on currently checking item.  If the count ever goes to 0, change the currently checking item the current item in the iteration.  It is explained with more detail on part A.
+\end{solution}
+\fi
+
+\end{itemize}
+
+\newproblem{Constructing Tree from Treewalks}{7 points}
+
+\begin{itemize}
+
+\item[(a)] (5 points) Design an algorithm that takes as input an {\sc
+    Inorder-Tree-Walk} and {\sc Postorder-Tree-Walk} of a binary tree
+  $T$ on $n$ nodes (both as $n$-elements arrays) and outputs the {\sc
+    Preorder-Tree-Walk} of $T$ (again, as $n$-element array). Notice,
+  $T$ is not necessarily a binary {\em search} tree.
+
+\ifnum\me<2
+\begin{solution}
+To make this work, we must know a few things. We must know that we can find the root of a tree by looking at the last item of a {\sc Postorder-Tree-Walk} of a binary tree.  We must also know that all the elements to the left of the root in the {\sc Inorder-Tree-Walk} are all in the left sub-tree of the root.  All the elements to the right of the root in the {\sc Inorder-Tree-Walk} fall into the right sub-tree of that root.
+\\ \\
+Knowing all this, we have to Recursively Append the Root, which is the last element of the {\sc Postorder-Tree-Walk}.  We then have to append the entire left tree, which is a recursive call to our original function but with inputs that are all element that are to the left of the root in the {\sc Inorder-Tree-Walk} in the same order they were in during the {\sc Postorder-Tree-Walk}. Lastly, we then have to append the entire right tree, which is a recursive call to our original function but with inputs that are all element that are to the right of the root in the {\sc Inorder-Tree-Walk} in the same order they were in during the {\sc Postorder-Tree-Walk}. 
+\\ \\
+To better explain, I will show basic pseudo code with some helper functions explained just so you can see the logic behind the solution\\
+
+
+\begin{verbatim}
+Alg(Array Post, Array InOrd)
+{
+    // Find Root by grabbing last item of Post
+    root = Post[Post.Length-1]
+    
+    // We want an array of all the elements to the left of the root within InOrd. 
+    // This should keep the order of original InOrd, but only have elements to the
+    // left of the root.
+    ArrayLeftTreeInOrd = FindAllElementsLeftTreeWithRoot(root, InOrd);    
+	
+    // We now want to modify PostOrder, keeping its order but only keeping values
+    // that are within ArrayLeftTree.  We pass ArrayLeftTreeElements and the
+    // original PostOrder array
+    PostOrderLeftTree = PostOrderOnlyWithGivenElements(PostOrder, ArrayLeftTreeInOrd);
+	
+    // Recursively call with the left Tree
+    ArrayPreOrderLeftTree = Alg(PostOrderLeftTree, ArrayLeftTreeInOrd);
+	
+    // Do the same last few steps for right tree
+    // Inorder Elements only right of the root    
+    ArrayRightTreeInOrd = FindAllElementsRightTreeWithRoot(root, InOrd);
+    
+    // Post Order elements in same Post Order order, 
+    // but only elements in ArrayRightTreeInOrd 
+    PostOrderRightTree = PostOrderOnlyWithGivenElements(PostOrder, ArrayRightTreeInOrd);
+    
+    //Recursively Call with the right tree
+    ArrayPreOrderRightTree = Alg(PostOrderRightTree, ArrayRightTreeInOrd);
+    
+    // Array with appended root, then the pre order left tree, 
+    // then the pre order right tree
+    return root + ArrayPreOrderLeftTree + ArrayPreOrderRightTree;
+	
+	
+\end{verbatim}
+\end{solution}
+\fi
+
+\item[(b)] (2 points) Now assume that the tree $T$ is a binary {\em
+    search} tree. Modify your algorithm in part (a) so that it works
+  given only the {\sc Postorder-Tree-Walk} of $T$.
+
+\ifnum\me<2
+\begin{solution}
+This is a very simple addition to our previous part answer.  So now we do not have the {\sc InOrder-Tree-Walk}, but we do know that our binary tree is now a sorted binary tree.  Well, knowing that the tree is a sorted binary tree, we know that we can calculate the {\sc InOrder-Tree-Walk} by sorting the {\sc PostOrder-Tree-Walk}.  Now just like before, we will have InOrder and the PostOrder Tree walk.  At this point we just repeat the steps from part A.  The key here is that the in an binary sorted search tree, Sorting the order of the array will also give us the InOrder Tree Walk.
+\end{solution}
+\fi
+
+\end{itemize}
+
+\end{document}

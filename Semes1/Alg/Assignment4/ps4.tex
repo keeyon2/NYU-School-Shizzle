@@ -1,0 +1,572 @@
+%%me=0 student solutions, me=1 - my solutions, me=2 - assignment
+\def\me{0}
+\def\num{4}  %homework number
+\def\due{Wednesday, October 1}  %due date
+\def\course{CSCI-GA.1170-001/002 Fundamental Algorithms} %course name
+\def\name{Keeyon Ebrahimi}
+%
+\iffalse
+INSTRUCTIONS: replace # by the homework number.
+(if this is not ps#.tex, use the right file name)
+
+  Clip out the ********* INSERT HERE ********* bits below and insert
+appropriate TeX code.  Once you are done with your file, run
+
+  ``latex ps#.tex''
+
+from a UNIX prompt.  If your LaTeX code is clean, the latex will exit
+back to a prompt.  To see intermediate results, type
+
+  ``xdvi ps#.dvi'' (from UNIX prompt)
+  ``yap ps#.dvi'' (if using MikTex in Windows)
+
+after compilation. Once you are done, run
+
+  ``dvips ps#.dvi''
+
+which should print your file to the nearest printer.  There will be
+residual files called ps#.log, ps#.aux, and ps#.dvi.  All these can be
+deleted, but do not delete ps1.tex. To generate postscript file ps#.ps,
+run
+
+  ``dvips -o ps#.ps ps#.dvi''
+
+I assume you know how to print .ps files (``lpr -Pprinter ps#.ps'')
+\fi
+%
+\documentclass[11pt]{article}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\setlength{\oddsidemargin}{.0in}
+\setlength{\evensidemargin}{.0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1, Page \arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in { {\bf \course} \hfill #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\it #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcounter{pppp}
+\newcommand{\prob}{\arabic{pppp}}  %problem number
+\newcommand{\increase}{\addtocounter{pppp}{1}}  %problem number
+
+%first argument desription, second number of points
+\newcommand{\newproblem}[2]{
+\ifnum\me=0
+\ifnum\prob>0 \newpage \fi
+\increase
+\setcounter{page}{1}
+\handout{\name, Homework \num, Problem \arabic{pppp}}{\today}{Name: \name}{Due:
+\due}{Solutions to Problem \prob\ of Homework \num\ (#2)}
+\else
+\increase
+\section*{Problem \num-\prob~(#1) \hfill {#2}}
+\fi
+}
+
+%\newcommand{\newproblem}[2]{\increase
+%\section*{Problem \num-\prob~(#1) \hfill {#2}}
+%}
+
+\def\squarebox#1{\hbox to #1{\hfill\vbox to #1{\vfill}}}
+\def\qed{\hspace*{\fill}
+        \vbox{\hrule\hbox{\vrule\squarebox{.667em}\vrule}\hrule}}
+\newenvironment{solution}{\begin{trivlist}\item[]{\bf Solution:}}
+                      {\qed \end{trivlist}}
+\newenvironment{solsketch}{\begin{trivlist}\item[]{\bf Solution Sketch:}}
+                      {\qed \end{trivlist}}
+\newenvironment{code}{\begin{tabbing}
+12345\=12345\=12345\=12345\=12345\=12345\=12345\=12345\= \kill }
+{\end{tabbing}}
+
+\newcommand{\eqref}[1]{Equation~(\ref{eq:#1})}
+
+\newcommand{\hint}[1]{({\bf Hint}: {#1})}
+%Put more macros here, as needed.
+\newcommand{\room}{\medskip\ni}
+\newcommand{\brak}[1]{\langle #1 \rangle}
+\newcommand{\bit}[1]{\{0,1\}^{#1}}
+\newcommand{\zo}{\{0,1\}}
+\newcommand{\C}{{\cal C}}
+
+\newcommand{\nin}{\not\in}
+\newcommand{\set}[1]{\{#1\}}
+\renewcommand{\ni}{\noindent}
+\renewcommand{\gets}{\leftarrow}
+\renewcommand{\to}{\rightarrow}
+\newcommand{\assign}{:=}
+
+\newcommand{\AND}{\wedge}
+\newcommand{\OR}{\vee}
+
+\newcommand{\For}{\mbox{\bf For }}
+\newcommand{\To}{\mbox{\bf to }}
+\newcommand{\Do}{\mbox{\bf Do }}
+\newcommand{\If}{\mbox{\bf If }}
+\newcommand{\Then}{\mbox{\bf Then }}
+\newcommand{\Else}{\mbox{\bf Else }}
+\newcommand{\While}{\mbox{\bf While }}
+\newcommand{\Repeat}{\mbox{\bf Repeat }}
+\newcommand{\Until}{\mbox{\bf Until }}
+\newcommand{\Return}{\mbox{\bf Return }}
+
+
+\begin{document}
+
+\ifnum\me=0
+%\handout{PS\num}{\today}{Name: **** INSERT YOU NAME HERE ****}{Due:
+%\due}{Solutions to Problem Set \num}
+%
+%I collaborated with *********** INSERT COLLABORATORS HERE (INDICATING
+%SPECIFIC PROBLEMS) *************.
+\fi
+\ifnum\me=1
+\handout{PS\num}{\today}{Name: Yevgeniy Dodis}{Due: \due}{Solution
+{\em Sketches} to Problem Set \num}
+\fi
+\ifnum\me=2
+\handout{PS\num}{\today}{Lecturer: Yevgeniy Dodis}{Due: \due}{Problem
+Set \num}
+\fi
+
+\newproblem{Improving Deterministic Quicksort}{16 points}
+
+We give the following procedure {\sc StrangeSort} to sort an array $A$ of $n$ distinct elements.
+\begin{itemize}
+
+\item  Divide $A$ into $n/3$ subsets of size $3$ each
+
+\item Compute the median of each set to get $n/3$ elements
+
+\item Sort these $n/3$ elements recursively using {\sc StrangeSort} and get $p$ as the median of these $n/3$ elements
+
+\item Use $p$ as a pivot in the {\sc Partition} procedure of {\sc Quicksort}, i.e., divide $A$ into sets with elements less than $p$ (call $A_{<p}$), those with elements equal to $p$, and those with elements greater than $p$ (call $A_{>p}$)
+
+\item Recursively call {\sc StrangeSort} on $A_{<p}$ and $A_{>p}$.
+\end{itemize}
+
+\begin{itemize}
+\item[(a)] (4 points) Give a lower bound on the number of elements in
+$A_{<p}$ and $A_{>p}$.
+
+\ifnum\me<2
+\begin{solution}
+\\
+{\Large \textbf{Distinction: } }  If $\frac{n}{3}$ is even.  Then when calculating median $p$,  we are going to be using the lesser of the two middle values, instead of adding them together and dividing by two for the median.  We are doing this because we need to have $p$ be an actual element from Array $A$.
+\\ \\
+With this distinction in mind  we can come up with the lower bound of $A_{<p}$ and $A_{>p}$
+\\ \\
+\textbf{ Lower Bound of $A_{>p}$} : \\
+\textbf{If $\frac{n}{3}$ is odd, lower bound is $\frac{n}{3}$.  \\
+  If $\frac{n}{3}$ is even, lower bound is $\frac{n}{3} + 1$}\\
+\\
+If $\frac{n}{3}$ is odd, this is how we can imagine the lower bound.  In the ideal case, we can have $\frac{\frac{n}{3}}{2}$ subdivisions that have their midpoints less than $p$ have all their values be less than $p$, so they are out.\\
+
+We now examine the subdivision that has $p$.  The least amount of elements this subdivision can have above $p$ is one, for the $p$ element and the one lower than the $p$ element are out. So far we have 1.
+\\ \\
+Now we examine half the subdivisions that have a midpoint above $p$.  There are a total of $\frac{\frac{n}{3}}{2} - 1$ of these subdivisions.  The -1 exists because that is the subdivision that contains $p$.  These subdivisions have 2 elements each that are above $p$.  This means that the minimum amount of elements in $A_{<p}$ is  $(\frac{\frac{n}{3} - 1}{2} )*2 + 1$ which equals {\Large$\frac{n}{3}$}.
+\\ \\
+If $\frac{n}{3}$ is even, we use very similar logic.  All the subdivisions with a midpoint less than $p$, we assume have all elements with values less than $p$, so they are not evaluated.\\ \\
+Once again the subdivision with $p$ has 1 element with a value greater than $p$.  \\ \\
+Because of our distinction stated at the start of this solution, if we have an even amount of subdivisions, then half of the subdivisions have a midpoint above $p$.  These subdivisions all have 2 elements greater than $p$, which are the midpoint and the point above.  This means that with even subdivisions, the minimum amount of elements is $A_{<p}$ is  $(\frac{\frac{n}{3}}{2} )*2 + 1$, which is just {\Large$\frac{n}{3} + 1$}\\ \\ \\
+\textbf{ Lower Bound of $A_{<p}$} : \\
+\textbf{If $\frac{n}{3}$ is even, lower bound is $\frac{\frac{n}{3}}{2} - 1$.  \\
+  If $\frac{n}{3}$ is odd, lower bound is $\frac{n}{3}$}\\
+  We are using the same logic as the above example.  
+  
+  If $\frac{n}{3}$ is even, half the subdivisions with medians larger than $p$, we can assume have all their values above $p$, we we rule them out.  
+  
+The subdivision that has $p$ has one element less than $p$, meaning we currently have 1.
+
+There are $\frac{\frac{n}{3}}{2} - 1$ divisions with a midpoint less than $p$.  These elements have 2 values less than p. So in total, including the one element from the subdivision with $p$, we have  $(\frac{\frac{n}{3}}{2} - 1)2 + 1$ subdivisions which reduces to
+\\ \\
+{\Large$\frac{\frac{n}{3}}{2} - 1$}
+\\ \\ \\
+If $\frac{n}{3}$ is odd, we have the exact same math as if it is odd for the $A_{<p}$ case, so refer to that to find the correct reasoning behind that.
+
+\end{solution}
+\fi
+
+\item[(b)] (2 points) What is the recurrence relation you obtain for
+  the time complexity $T(n)$ of {\sc StrangeSort} assuming that the
+  position of $p$ corresponds to the lower bound found in part
+  (a)?\footnote{It is easy to see that this is the worst case, but
+    you do not have to show this.}
+
+\ifnum\me<2
+\begin{solution}
+$T(n) = 3T(\frac{n}{3}) + n$ 
+\\ \\
+This is because we have $3$ recursive calls of size $\frac{n}{3}$. The finding medians also takes $n$ time, so we get $T(n) = 3T(\frac{n}{3}) + n$ 
+\end{solution}
+\fi
+
+\item[(c)] (4 points) Try to use induction to show that $T(n) \leq
+  n^{1 + c}$ for some (yet undetermined) value of $c>0$. For
+  simplicity, you may ignore the term corresponding to the
+  (non-recursive) divide-and-conquer step\footnote{I.e., the $n/3$
+    median findings on $3$ elements and the run of the {\sc Partition}
+    procedure around $p$.} in your recurrence relation, when you do
+  your inductive step. (In other words, only keep all the
+  ``$T$-terms'' and drop the ``$f(n)$''-terms when your prove your
+  inductive step.)  What is the inequality that $c$ should satisfy in
+  order for the induction to work?
+
+\ifnum\me<2
+\begin{solution}
+\\
+We need to prove.
+$T(n) \leq  n^{1 + c}$
+$T(n) \leq  n^{1 + c}$ and $T(n) = 3T(\frac{n}{3}) + n$ so
+If we us $n^{1 + c}$ as our guess, when replace everything from the first equation into the second equation, we get
+\begin{enumerate}
+\item[1. ] $T(n) = 3(\frac{n^{1+c}}{3}) + n$\\
+\item[2. ] $T(n) = n^{1 + c} + n$\\
+\\
+\textbf{Unfortunately, this next statement is not true.}
+\item[3. ] $n^{1 + c} + n \leq  n^{1 + c}$ \\ \\
+This means we have to readjust our guess.
+
+Now lets try the guess.  $an^{1 + c} + bn$ where $a$, $b$, and $c$ are all constants.
+
+This guess is appropriate too because in terms of Big O notation running time,\\
+ $O(n^{1 + c}) = O(an^{1 + c} + bn)$
+ \\
+  so for proof, we need to prove 
+$T(n) \leq  an^{1 + c} + bn$ which uses $an^{1 + c} + bn$ as our guess. \\ \\
+\begin{enumerate}
+\item[1. ] $T(n) = 3(\frac{an^{1 + c} + bn}{3}) + n$\\
+\item[2. ] $T(n) = an^{1 + c} + bn + n$\\
+\item[3. ] $T(n) = an^{1 + c} + bn$\\
+\item[4. ] $an^{1 + c} + bn \leq an^{1 + c} + bn$\\
+\end{enumerate}
+\end{enumerate}
+\end{solution}
+\fi
+
+\item[(d)] (2 points) Use {\tt http://www.wolframalpha.com} to find
+  the smallest possible $c$ (upto two decimal places) for which the
+  ``nasty'' inequality in part (c) is satisfied. How does the
+  resulting running time of {\sc StrangeSort} compare to the worst and
+  average-case running times of {\sc QuickSort}?
+
+
+\ifnum\me<2
+\begin{solution}
+The resulting running time is slightly less than the running time of quicksort, but if we ignore the constants when we put them in Big O notation, it is the same.
+\end{solution}
+\fi
+
+\item[(e)] (4 points) How does your answer from part (d) change if you
+  replace sets of size $3$ by sets of size $5$ in the {\sc
+    StrangeSort} algorithm.
+
+\ifnum\me<2
+\begin{solution}
+Once again, the running time of set size $5$ is less than the running time of set size $3$, but in terms of Big O notation, it is the same.
+
+\end{solution}
+\fi
+
+
+\end{itemize}
+
+\newproblem{Randomized Quicksort}{8 (+1) points}
+
+Assume we are given an array $A[1\ldots n]$ of $n$ {\em distinct}
+integers and that $n=2k+1$ is {\em odd}.
+
+\begin{itemize}
+
+\item[(a)] (3 points) Let $pivot(A)$ denote the rank of the pivot
+  element at the end of the partition procedure, and assume that we
+  choose a random element $A[i]$ as a pivot, so that $pivot(A) = i$
+  with probability $1/n$, for all $i$. Let $smallest(A)$ be the length
+  of the smaller sub-array in the two recursive subcalls of the {\sc
+    Quicksort}.  Notice, $smallest(A) = \min(pivot(A)-1,n-pivot(A))$
+  and belongs to $\set{0\ldots k}$, since $n=2k+1$ is odd. Given $0\le
+  j\le k$, what is the probability that $smallest(A)=j$?
+
+\ifnum\me<2
+\begin{solution} 
+
+The probability is $\frac{1}{k+1}$
+\\ \\
+The range of $smallest(A)$ goes from possible values $0$ to $k$
+\\ \\
+We can see this by examining the edge cases.  When the pivot is at the min or max of the array, then $smallest(A) = 0$.  When the pivot is the actual median of the array, then $smallest(A) = k$.  So we can have all possible values of ${0, 1, 2, ... , k}$, which is $k+1$ options\\
+
+This means that our probability will be $\frac{1}{k+1}$ \\ \\
+
+
+\end{solution}
+\fi
+
+\item[(b)] (2 points) Compute the {\em expected value} of
+  $smallest(A)$;   i.e., $\sum_{j=0}^k \Pr(smallest(A)=j)\cdot j$.\\
+  \hint{If you solve part (a) correctly, no big computation is needed
+    here.}
+
+\ifnum\me=0
+\begin{solution}
+The expected value of $smallest(A)$ is $$\frac{\sum_{j=0}^k j}{k+1}$$
+\\
+Here is an example.  Lets say $n = 7$.  This would make $k = 3$.  We now have an expected value of $\frac{0 + 1 + 2 + 3}{4}$, which equals $\frac{3}{2}$
+\end{solution}
+\fi
+
+\item[(c)] (3 points) Write a recurrence equation for the running time
+  $T(n)$ of {\sc Quicksort}, assuming that at every level of the
+  recursion the corresponding sub-arrays of $A$ are partitioned {\em
+    exactly} in the ratio you computed in part (b). Solve the
+  resulting recurrence equation. Is it still as good as the average
+  case of randomized {\sc Quicksort}?
+
+\ifnum\me=0
+\begin{solution}
+$T(n) = 2T(\frac{n}{2}) + n$
+\\
+If we plug in the Master Theorem to this recurrence equation, we get $$O(n) = n\ log(n)$$
+
+This is the same running time as the average case of randomized {\sc Quicksort}.
+\end{solution}
+\fi
+
+\item[(d)$^{*}$] ({\bf Extra Credit}; 1 point) The analysis in parts
+  (a)-(c) was much simpler than the analysis of randomized {\sc
+    Quicksort} we did in class. On the other hand, it {\em seems} that
+  it also computes the expected running time of {\sc Quicksort} when
+  the pivot is chosen at random. Indeed, it seems that since we expect
+  the array to be split according the ratio found in part (b) in every
+  subcall, the recursive equation in part (c) was justified. Why is
+  this argument incorrect?
+
+\ifnum\me=0
+\begin{solution}
+This argument is incorrect because in actuality, at some iterations, especially when k is small, we will pick a pivot that will be the min/max of the array, which means that we will be having a recursive call that will do absolutely no work for us.  Because of this, the equation is not justified.
+\end{solution}
+\fi
+
+\end{itemize}
+
+\iffalse
+\newproblem{QuickSort vs Insertion Sort} {10 Points}
+
+We say that an array $A$ is {\em $c$-nice}, where $c$ is a constant
+(think $100$), if for all $1\le i,j \le n$, such that $j-i\ge c$, we
+have that $A[i]\le A[j]$. For example, $1$-nice array is already
+sorted. In this problem we will sort such $c$-nice $A$ using {\sc
+Insertion Sort} and {\sc QuickSort}, and compare the results.
+
+\begin{itemize}
+ \item[(a)] (4 Points) In asymptotic notation (remember, $c$ is a
+ constant) what is the worst-case running time of {\sc Insertion Sort}
+ on a $c$-nice array?  Be sure to justify your answer.
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(b)] (5 Points) In asymptotic notation (remember, $c$ is a constant)
+ what is the  worst-case running time of {\sc QuickSort} on a $c$-nice array?
+Be sure to justify your answer.
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(c)] (1 Points) Which algorithm would you prefer?
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob c SOLUTION HERE ***************
+\end{solution}
+\fi
+\end{itemize}
+\fi
+
+\newproblem{Positive Elements in a Heap} {13 points}
+
+Given a heap $A$ of size $n$, let $pos=pos(A,i,n)$ denote the number
+of positive elements in the sub-heap of $A$ rooted at $i$. Consider
+the following recursive procedure that computes $pos$:
+
+\begin{code}
+1 {\sc PositiveCount}$(A, i,n)$\\
+2 \> \If $i>n$ \Return $0$ \\
+3 \> \If $A[i] \le 0$ \Return $0$ \\
+4 \> $pos = 1$ $+$ {\sc PositiveCount}$(A,\mbox{\sc Left}(i), n)$ \\
+5 \> $pos = pos$ $+$ {\sc PositiveCount}$(A, \mbox{\sc Right}(i),n)$ \\
+6 \> \Return $pos$
+\end{code}
+
+\begin{itemize}
+\item[(a)] (5 points) Prove correctness of the above algorithm. Make
+  sure to explain the meaning of each line 2-5. Then argue that the
+  algorithm above runs in time $O(pos)$.
+
+\ifnum\me<2
+\begin{solution}
+
+On a high level, this algorithm first checks if root $i$ is positive.  If it is positive, need to check all of its children and count their positive values.  To prove the correctness of this algorithm, I will explain what each line is doing.
+
+{\Large\textbf{Line 2: }}\\
+This just this checks if $i > n$.  This means that we are searching for an element that is past the last leaf of the heap, and because that doesn't exist, we just return 0. \\ \\
+
+{\Large\textbf{Line 3: }}\\
+We are now checking if the current node is positive or not.  Because this is a heap, we know that all children of a node will be less than the value of the parent, so if $A[i] \leq 0$, we know that both $A[i]$ and all of its children will not be positive, so we just return 0. \\ \\
+
+{\Large\textbf{Line 4: }}\\
+We only get here if $A[i]$ is positive.  This is why we have the $1$ being added.  That $1$ represents the positive value in $A[i]$.  We add this $1$ to positive elements to under the left child of this subroot, which we will be solving recursively.\\ \\
+
+{\Large\textbf{Line 5: }}\\
+When we hit this line, {\sc pos} now is all the positive numbers of the root and the right children.  All we need to calculate now is the positive numbers under the right child.  We add the the number of positive values of the root and the left children with the recursively solved positive numbers under the right child to get the total positive numbers. \\ \\
+
+This runs in time $O(pos)$ because this algorithm never evaluates anything that is not positive.  It immediately return out of all non positive values, and runs through all positive, so we know that this has a running time of $O(pos)$\\
+\end{solution}
+\fi
+
+\item[(b)] (8 points) Assume now that we do not really care about the
+  exact value of $pos$ when $pos>k$; i.e., if the heap contains more
+  than $k$ positive elements, for some parameter $k$. More formally,
+  you wish to write a procedure {\sc kPositiveCount}$(A,i,n,k)$ which
+  returns the value $\min(pos,k)$, where $pos =$ {\sc
+    PositiveCount}$(A, i,n)$.
+
+  Of course, you can implement {\sc kPositiveCount}$(A,i,n,k)$ by
+  calling {\sc PositiveCount}$(A, i,n)$ first, but this will take time
+  $O(pos)$, which could be high if $pos\gg k$. Show how to (slightly)
+  tweak the pseudocode above to {\em directly} implement {\sc
+    kPositiveCount}$(A,i,n,k)$ (instead of {\sc PositiveCount}$(A,
+  i,n)$) so that the running time of your procedure is $O(k)$,
+  irrespective of $pos$. Make sure you explicitly write the pseudocode
+  of you new recursive algorithm (which should be similar to the one given
+  above), prove its correctness, and argue the $O(k)$ run time.\\
+\hint{There is a reason we did not consolidate lines 4. and 5. of our
+  pseudocode to a single line 4.5: $pos = 1$ $+$
+  {\sc PositiveCount}$(A,\mbox{\sc Left}(i), n)$ $+$
+  {\sc PositiveCount}$(A, \mbox{\sc Right}(i),n)$.}
+
+\ifnum\me<2
+\begin{solution}
+\begin{code}
+1 {\sc kPositiveCount}$(A, i,n, k)$\\
+2 \> \If $i>n$ \Return $0$ \\
+3 \> \If $A[i] \le 0$ \Return $0$ \\
+4 \> \If $k = 1$ \Return $k$\\
+5 \> $pos = 1$ $+$ {\sc kPositiveCount}$(A,\mbox{\sc Left}(i), n, k-1)$ \\
+6 \> \If $pos \geq k $ \Return $k$\\
+7 \> $pos = pos$ $+$ {\sc kPositiveCount}$(A, \mbox{\sc Right}(i),n, k - pos)$ \\
+8 \> \If $pos \geq k $ \Return $k$\\
+9 \> \Return $pos$\\
+\end{code}
+
+The logic of this algorithm is that we keep on adding values to the positive count, and whenever we recursively call $kPositiveCount$, we subtract the k input by the current calculated positive  value.
+We know this will run in time $O(k)$ because we never evaluate more than k.  On line 4, we check if $k = 1$ and return if so.  We never do work more than k because of this return, so we can safely say that the running time is $O(k)$
+
+
+\end{solution}
+\fi
+
+\end{itemize}
+
+\newproblem{The $k$ Smallest Elements}{12 points}
+
+We wish to implement a data structure $D$ that maintains the $k$
+smallest elements of an array $A$. The data structure should allow the
+following procedures:
+\begin{itemize}
+
+\item $D\leftarrow$ {\sc Initialize}($A,n,k$) that initializes $D$ for a
+  given array $A$ of $n$ elements.
+
+\item {\sc Traverse}($D$), that returns the $k$ smallest elements of
+  $A$ {\em in sorted order}.
+
+\item {\sc Insert}($D, x$), that updates $D$ when an element $x$ is
+  inserted in the array $A$.
+
+\end{itemize}
+
+\noindent We can implement $D$ using one of the following data
+structures: (i) an unsorted array of size $k$; (ii) a sorted array of
+size $k$; (iii) a max-heap of size $k$.
+
+\begin{itemize}
+
+\item[(a)] (4 points) For each of the choices (i)-(iii), show that the
+  {\sc Initialize} procedure can be performed in time $O(n + k \log
+  n)$.
+
+\ifnum\me<2
+\begin{solution}
+\begin{enumerate}
+\item[$(i)$] To put a bunch of numbers into an unsorted array, this will only take $O(n)$ time because we just have to iterate through all items and place them into an array, disregarding order. \\
+
+\item[$(ii)$] To Initialize a sorted array.  We first create an unsorted array which will take time $O(n)$ and then we use $Quicksort$ to make this a sorted array, which then takes $O(n\ log(n)$ time to run, so total time we have $O(n\ log(n) + n) = O(n\ log(n))$\\
+
+\item[$(ii)$] To initialize a heap, we take $O(n)$ time.  In high level terms, this is because when we call heapify, potentially all elements have to move down all the way to the bottom, which then creates $O(n)$ time.  Here is that process explained.
+\\ \\ \\
+When doing this, we must build the heap from bottom up. All the leaves are trivial because they don't need any shifting down, so we are good with those elements.  All of the elements on the 1st level from the bottom going up can possibly shift down 1 level.  All of the elements on the 2nd level from the bottom going up can possibly shift down 2 levels, and so on and so forth.  If we have a total of $h$ levels, then the amount of nodes on the level one up level is $2^{h-1}$.  At level 2 from the bottom up, we have At level one, we have $2^{h - 2} $ elements.  \\
+\\
+So in terms of levels from the bottom up, if $j$ represents that level, each node can potentially move down $j$ levels.  We also have $2^{h - j}$ nodes at that level, so the total work is a summation of all $j * 2^{h - j}$  for all levels.  So the worst time this will take is $O(n)$
+\end{enumerate}
+\end{solution}
+\fi
+
+\item[(b)] (3 points) For each of the choices (i)-(iii), compute the
+  best running time for the {\sc Traverse} procedure you can think
+  of. (In particular, tell your procedure.)
+
+\ifnum\me<2
+\begin{solution}
+\begin{enumerate}
+\item[$(i)$]  The Traverse here should take $O(n)$ time.  This is because you have to iterate through the entire array when looking for these numbers, so running time is $O(n)$\\
+
+\item[$(ii)$]  The Traverse here should be constant time, $O(1)$ time.  This is because the array is already sorted, so all we have to do is grab the first three elements of the array. \\
+
+\item[$(iii)$]  The Traverse here will take $O(n)$ time.  We know the three minimum numbers will all be leaves, but we are not sure which ones.  This means that we have to iterate through $\frac{n}{2}$ elements in order find the three minimum numbers, which is still a running time of $O(n)$ 
+\end{enumerate}
+\end{solution}
+\fi
+
+\item[(c)] (5 points) For each of the choices (i)-(iii), compute the
+  best running time for the {\sc Insert} procedure you can think
+  of. (In particular, tell your procedure.)
+
+\ifnum\me<2
+\begin{solution}
+\begin{enumerate}
+\item[$(i)$] The Insert here is $O(1)$ because all we have to do is insert the new element at the end.  Order doesn't matter so inserting in the end always works.\\
+
+\item[$(ii)$]  The insert here takes time $O(n)$.  This is because you have to iterate through the array to find the correct spot.  Wherever this element does go, we then must shift all remaining elements over to the right. This means that everything will run in running time of $O(n)$\\
+
+\item[$(iii)$]  The insert here will take running time of $O(log\ n)$.  This is because when we insert, what we do is just insert the new item as a leaf.  We then compare the element to its parent.  If the element is smaller than the parent, no more work is needed to happen.  If the new element is larger than its parent, we then have to replace the new element with its parent.  We keep comparing this new element's value with its parents value, and stop once we find a parent that is larger than this new element.  This does not run through most elements, and only has an effect on a logrithmic value.
+\end{enumerate}
+\end{solution}
+\fi
+
+\end{itemize}
+
+
+
+
+\end{document}

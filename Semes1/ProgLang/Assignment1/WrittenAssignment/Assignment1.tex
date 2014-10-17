@@ -1,0 +1,233 @@
+\documentclass[1pt]{article}
+\usepackage{lingmacros}
+\usepackage{tree-dvips}
+\usepackage{tikz, tikz-qtree}
+\begin{document}
+
+{\Large
+Keeyon Ebrahimi \\
+kme322\\
+N14193968\\
+}
+\textit{Each problem on seperate page}
+\section{Problem 1}
+
+\textit{Provide regular expressions for defining the syntax of the following}
+\begin{enumerate}
+\item[$(a)$] 
+\begin{verbatim}
+([a-z0-9]*[A-Z]+[a-zA-Z]*[0-9]+[a-zA-Z0-9]*)|
+([a-zA-Z]*[0-9]+[a-z0-9]*[A-Z]+[a-zA-Z0-9]*)
+\end{verbatim}
+\item[$(b)$]
+\begin{verbatim}
+ [0-9]+\.[0-9]+E[0-9]+
+\end{verbatim}
+\item[$(c)$] 
+\begin{verbatim}
+^[a-zA-Z][a-zA-Z_0-9]{0,19}
+\end{verbatim}
+\end{enumerate}
+\pagebreak
+
+\section{Problem 2}
+
+\begin{enumerate}
+\item[$(a)$]
+\begin{itemize}
+\item
+\begin{verbatim}
+<Agenda>  ::=  <SubRouteDef>
+		{ <varDecl> ; \n} 	
+		begin
+			{ <varOperate>; \n}
+		end <ID>;
+		
+\end{verbatim}
+
+\item
+\begin{verbatim}
+<SubRouteDef> ::= <func> | <prog> | <procedure>
+\end{verbatim}
+
+\item
+\begin{verbatim}
+<func> ::=   function <ID> '(' [<varDecl>+, <varDecl>] ')'  
+\end{verbatim}
+
+\item
+\begin{verbatim}
+<prog> ::=   program <ID>;
+\end{verbatim}
+
+\item
+\begin{verbatim}
+<procedure> ::=   procedure <ID> '(' [<varDecl>+, <varDecl>] ')'  
+\end{verbatim}
+
+\item
+\begin{verbatim}
+<varDecl> ::=   var <ID>
+\end{verbatim}
+
+\item
+\begin{verbatim}
+<varOperate> ::=   <varAssign> | <varCalc>
+\end{verbatim}
+
+
+\item
+\begin{verbatim}
+<varAssign> ::=   <ID> := <varOption> ;
+\end{verbatim}
+
+\item
+\begin{verbatim}
+<varCalc> ::= <ID> := <ID> | (<varOption> <MathOperation>)*<varOption>;
+\end{verbatim}
+
+\item
+\begin{verbatim}
+<varOption> ::= <ID> | <number>
+\end{verbatim}
+\end{itemize}
+
+\item[$(b)$]
+
+\Tree [.$z$ [.$-$ [.$+$ [.$x$ ] [.$y$ ] ] [. $1$ ] ] [.$*$  2.0 ]  ]
+\end{enumerate}
+\pagebreak
+
+\section{Problem 3}
+\begin{enumerate}
+\item[$(a)$] Static scoping means we bind the value of a variable based on the innermost enclosing block.  Dynamic scoping means we bind the value of a variable based on the most recent declaration of the variable.
+\item[$(b)$]
+
+\begin{verbatim}
+foo():
+    x = 12;
+Main():
+    x = 2;
+    foo();
+    print x;
+\end{verbatim}
+
+Static scoping will print $2$\\
+Dynamic Scoping will print $12$\\
+
+\item[$(c)$] In a block structured, statically scoped language, we resolve variables by the innermost enclosing block.
+
+\item[$(d)$] In a block structured but dynamically scoped language, we resolve variables by the most recent declaration of the variable.
+
+\end{enumerate}
+
+\pagebreak
+\section{Problem 4}
+
+\textit{ Please ignore the spaces between the different frames.  I put the labels there so you know which function each group of boxes is representing.  The spaces between the boxes between frames is not intended.}
+\begin{enumerate}
+\item[$A$]
+\fbox{Return Address}
+
+\item[$F$]
+\fbox{Dynamic Link to $A$}\\
+\fbox{Static Link to $A$}\\
+\fbox{Return Address}
+
+\item[$B$]
+\fbox{Dynamic Link to $F$}\\
+\fbox{Static Link to $A$}\\
+\fbox{Parameter $Process C$}  $\rightarrow$  This contains $G$'s information\\
+\fbox{Return Address}
+
+\item[$G$]
+\fbox{Dynamic Link to $B$}\\
+\fbox{Static Link to $F$}\\
+\fbox{Parameter $Process H$} $\rightarrow$  This contains $D$'s information \\
+\fbox{Return Address}
+
+\item[$D$]
+\fbox{Dynamic Link to $G$}\\
+\fbox{Static Link to $B$}\\
+\fbox{Parameter $6$} \\
+\fbox{Return Address}\\
+\end{enumerate}
+{\Large Part B}\\ \\
+Sometimes functions will access variables that are outside of its immediate scope.  If we do not store the closer on the stack, when the closer reaches outside of its immediate scope, its frame will get popped, causing memory issues and failed execution.
+
+\begin{verbatim}
+foo(x):
+    y = 12;
+    bar(z):
+        print x + y + z;
+Main():
+    var baz = foo(4);
+    baz(10);
+    print x;
+\end{verbatim} 
+\pagebreak
+
+\section{Problem 5}
+
+{\Large 
+\begin{itemize}
+\item[$(a)$] Pass by value $\rightarrow$ $1\ 2\ 3\ 4\ 5$
+\item[$(b)$] Pass by reference  $\rightarrow$ $4\ 2\ 3\ 4\ 5$
+\item[$(c)$] Pass by value-reference  $\rightarrow$ $2\ 2\ 3\ 4\ 5$
+\item[$(d)$] Pass by name $\rightarrow$ $1\ 2\ 4\ 4\ 5$
+\end{itemize}
+
+\pagebreak
+
+\section{Problem 6}
+{\Large Part A}
+\begin{verbatim}
+with Ada.Text_IO;
+
+procedure Problem6 is
+	use Ada.Text_IO;
+
+    protected PrintOne is
+        entry TwoWasPrinted;
+    end PrintOne;
+    
+    protected PrintTwo is
+        entry OneWasPrinted;
+    end PrintTwo;
+    
+    p1 : PrintOne;
+    p2 : PrintTwo;
+    
+    protected body PrintOne is
+    S : String;
+    begin
+        loop
+       	    Put_Line('one');
+       	    p2.OneWasPrinted;
+       	    accept TwoWasPrinted do
+       	    end TwoWasPrinted;
+       	end loop;
+    end PrintOne;
+	
+	protected body PrintTwo is
+    S : String;
+    begin
+        loop
+           accept OneWasPrinted do
+       	    end OneWasPrinted;       	    
+       	    Put_Line('two');
+       	    p1.TwoWasPrinted;
+       	end loop;
+    end PrintOne;    
+    
+begin
+    PrintOne;
+    PrintTwo;
+end Problem6;
+
+
+\end{verbatim}
+{\Large Part B}
+\\
+These two are running concurrently because we have two threads that are both making progress.  They both do not need to be running at the same instant like with parallelism.  Because we have multiple tasks making progress, we have concurrency.  
+\end{document}
