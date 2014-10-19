@@ -1,0 +1,751 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"li",
+				"List"
+			],
+			[
+				"mid",
+				"midpointIndex"
+			],
+			[
+				"mi",
+				"midpointIndex"
+			],
+			[
+				"in",
+				"Integer"
+			],
+			[
+				"In",
+				"Integer"
+			],
+			[
+				"Quick",
+				"QuicksortTask"
+			],
+			[
+				"Re",
+				"Recursive"
+			],
+			[
+				"Numb",
+				"Numbers"
+			],
+			[
+				"Num",
+				"NumberArray"
+			],
+			[
+				"Sort",
+				"sortTask"
+			],
+			[
+				"sor",
+				"sortTask"
+			],
+			[
+				"sort",
+				"sortTask2"
+			],
+			[
+				"so",
+				"sort"
+			],
+			[
+				"sortTa",
+				"sortTask1"
+			],
+			[
+				"Sor",
+				"sortTask"
+			],
+			[
+				"Quicksort",
+				"QuicksortPackage"
+			],
+			[
+				"Quic",
+				"QuicksortPackage"
+			],
+			[
+				"Int",
+				"Int_Array"
+			],
+			[
+				"Pr",
+				"Printed"
+			],
+			[
+				"noti",
+				"notifyAddTask"
+			],
+			[
+				"notify",
+				"notifyPrinterTask"
+			],
+			[
+				"no",
+				"notifyPrinter"
+			],
+			[
+				"Print",
+				"Print"
+			],
+			[
+				"Number",
+				"NumberArray"
+			],
+			[
+				"Sum",
+				"Sum"
+			],
+			[
+				"print",
+				"printTask"
+			],
+			[
+				"be",
+				"begin"
+			],
+			[
+				"Nu",
+				"NumberArray"
+			],
+			[
+				"put",
+				"Put_Line"
+			],
+			[
+				"pro",
+				"procedure"
+			],
+			[
+				"is",
+				"isprime"
+			],
+			[
+				"happy",
+				"happy"
+			],
+			[
+				"sad",
+				"sad"
+			],
+			[
+				"kcik",
+				"KICKASS"
+			],
+			[
+				"classify",
+				"classifyString"
+			],
+			[
+				"hap",
+				"happyChance"
+			],
+			[
+				"show",
+				"showProbability"
+			],
+			[
+				"prob",
+				"prob_dist"
+			],
+			[
+				"any",
+				"anything"
+			],
+			[
+				"don",
+				"dont"
+			],
+			[
+				"test",
+				"testingString"
+			],
+			[
+				"wonder",
+				"wonderful"
+			],
+			[
+				"pos",
+				"posfeats"
+			],
+			[
+				"clas",
+				"classify"
+			],
+			[
+				"neg",
+				"negfeats"
+			],
+			[
+				"cate",
+				"categories"
+			],
+			[
+				"set",
+				"setSent3"
+			],
+			[
+				"Sent",
+				"sent3ArraySplit"
+			],
+			[
+				"ran",
+				"range"
+			],
+			[
+				"inde",
+				"indexj"
+			],
+			[
+				"pus",
+				"pushToIndex"
+			],
+			[
+				"replace",
+				"replaceInitial"
+			],
+			[
+				"push",
+				"push_list_elements"
+			],
+			[
+				"i",
+				"i"
+			],
+			[
+				"pr",
+				"practicemodules"
+			],
+			[
+				"ARGU",
+				"argument"
+			],
+			[
+				"arg",
+				"arg"
+			],
+			[
+				"Tw",
+				"TwoArgumentsAddition"
+			],
+			[
+				"if",
+				"ifmain	if __name__ == '__main__'"
+			],
+			[
+				"ar",
+				"arg"
+			],
+			[
+				"Set",
+				"SetGlobal"
+			],
+			[
+				"Add",
+				"Add1NumNormal"
+			],
+			[
+				"main",
+				"mainWindow"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "test.scm",
+			"settings":
+			{
+				"buffer_size": 2811,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "MIT/GNU Scheme running under OS X\n\nCopyright (C) 2014 Massachusetts Institute of Technology\nThis is free software; see the source for copying conditions. There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nImage saved on Saturday May 17, 2014 at 2:39:25 AM\n  Release 9.2 || Microcode 15.3 || Runtime 15.7 || SF 4.41 || LIAR/x86-64 4.118\n  Edwin 3.116\n\n1 ]=> (display 5)\n5\n;Unspecified return value\n\n1 ]=> (load \"test.scm\")\n\n;Unable to find file \"test.scm\" because: File does not exist.\n;To continue, call RESTART with an option number:\n; (RESTART 1) => Return to read-eval-print level 1.\n\n2 error> (restart 1)\n\n;Abort!\n\n1 ]=> (restart 1)\n\n;Abort!\n\n1 ]=> (load \"test.scm\")\n\n;Unable to find file \"test.scm\" because: File does not exist.\n;To continue, call RESTART with an option number:\n; (RESTART 1) => Return to read-eval-print level 1.\n\n2 error> ",
+			"settings":
+			{
+				"buffer_size": 884,
+				"line_ending": "Unix",
+				"name": "*REPL* [scheme]",
+				"scratch": true
+			}
+		}
+	],
+	"build_system": "Packages/Scheme/Scheme.sublime-build",
+	"command_palette":
+	{
+		"height": 87.0,
+		"selected_items":
+		[
+			[
+				"acheme",
+				"Set Syntax: Scheme"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"cheme",
+				"Set Syntax: Scheme"
+			],
+			[
+				"schem",
+				"Set Syntax: Scheme"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"ada",
+				"Set Syntax: Ada"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"python",
+				"Set Syntax: Python"
+			],
+			[
+				"java",
+				"Set Syntax: Java"
+			],
+			[
+				"save",
+				"File: Save All"
+			],
+			[
+				"INSTALL",
+				"Package Control: Install Package"
+			],
+			[
+				"Install",
+				"Package Control: Install Package"
+			],
+			[
+				"Insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Package ins",
+				"Package Control: Install Package"
+			],
+			[
+				"Packa",
+				"Package Control: Install Package"
+			],
+			[
+				"pyth",
+				"Set Syntax: Python"
+			],
+			[
+				"pytho",
+				"Set Syntax: Python"
+			],
+			[
+				"",
+				"Package Control: List Packages"
+			],
+			[
+				"PACKAGE",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"pip install pep8",
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/Keeyon/School/Semes1/ProgLang/Assignment1/Assign1/QuicksortPackage.adb",
+		"/Users/Keeyon/Coding/PythonPractice/Gooey/gooey/gui/runtime_display_panel.py",
+		"/Users/Keeyon/Coding/Sublime Files/Sublime Projects/Example1Project.sublime-project",
+		"/Users/Keeyon/Coding/Project-Euler/Python/Euler.sublime-project",
+		"/Users/Keeyon/Coding/PythonPractice/Gooey/gooey/source_parser_unittest.py",
+		"/Users/Keeyon/School/Semes1/ProgLang/Assignment1/test2/stack.adb",
+		"/Users/Keeyon/School/Semes1/ProgLang/Assignment1/test3/README.txt",
+		"/Users/Keeyon/School/Semes1/ProgLang/Assignment1/test3/QuicksortPackage.adb",
+		"/Users/Keeyon/School/Semes1/ProgLang/Assignment1/test3/QuicksortPackage.ads",
+		"/Users/Keeyon/School/Semes1/ProgLang/Assignment1/test2/main.adb",
+		"/Users/Keeyon/School/Semes1/ProgLang/Assignment1/test/printingprogram.ads",
+		"/Users/Keeyon/School/Semes1/ProgLang/Assignment1/test/printingprogram.adb",
+		"/Users/Keeyon/School/Semes1/ProgLang/Assignment1/test3/numbers.txt",
+		"/Users/Keeyon/School/Semes1/ProgLang/Assignment1/printingprogram.ads",
+		"/Users/Keeyon/School/Semes1/ProgLang/Assignment1/printingprogram.adb",
+		"/Users/Keeyon/School/Semes1/ProgLang/Assignment1/test2/stack.ads",
+		"/Users/Keeyon/School/Semes1/ProgLang/Assignment1/hello.adb",
+		"/Users/Keeyon/Coding/Project-Euler/Python/LargetPrimeFactorP3.py",
+		"/Users/Keeyon/Coding/PythonPractice/Gooey/gooey/source_parser.py",
+		"/Users/Keeyon/Coding/PythonPractice/practicemodules/Assignments.py",
+		"/Users/Keeyon/Coding/PythonPractice/Gooey/gooey/gui/argparse_test_data.py",
+		"/Users/Keeyon/Coding/PythonPractice/test/test_two_arg.py",
+		"/Users/Keeyon/Coding/Hacks/Unhackathon/nltkExample.py",
+		"/Users/Keeyon/test.py",
+		"/Users/Keeyon/Coding/Hacks/Unhackathon/StartWorking.py",
+		"/Users/Keeyon/Coding/Hacks/Unhackathon/Test/Classification.py",
+		"/Users/Keeyon/Coding/Hacks/Unhackathon/textblob.py",
+		"/Users/Keeyon/Desktop/Hack.py",
+		"/Users/Keeyon/Desktop/Unhackathon/Hack.py",
+		"/Users/Keeyon/Coding/PythonPractice/test/test_sorts.py",
+		"/Users/Keeyon/Coding/PythonPractice/practicemodules/sorts.py",
+		"/Users/Keeyon/Coding/Hacks/Unhackathon/nltkpractice.py",
+		"/Users/Keeyon/Coding/PythonPractice/practicemodules/pythoncolors.py",
+		"/Users/Keeyon/Coding/Sublime Files/Testing Random/Prints",
+		"/Users/Keeyon/Desktop/JavaTest.java",
+		"/Users/Keeyon/Coding/PythonPractice/Gooey/gooey/languages/english.json",
+		"/Users/Keeyon/Coding/PythonPractice/practicemodules/twoargprog.py",
+		"/Users/Keeyon/Coding/PythonPractice/test/test_me.py",
+		"/Users/Keeyon/Coding/PythonPractice/test/random.py",
+		"/Users/Keeyon/Coding/PythonPractice/practicemodules/run_tests.py",
+		"/Users/Keeyon/Coding/PythonPractice/Assignments.py",
+		"/Users/Keeyon/Coding/PythonPractice/test/all_tests.py",
+		"/Users/Keeyon/Coding/PythonPractice/__init__.py",
+		"/Users/Keeyon/Coding/PythonPractice/Functions.py",
+		"/Users/Keeyon/Coding/PythonPractice/TwoArgumentTests.py",
+		"/Users/Keeyon/Coding/PythonPractice/practicemodules/TwoArgumentTests.py",
+		"/Users/Keeyon/Coding/PythonPractice/TwoArgumentProgram.py",
+		"/Users/Keeyon/Coding/PythonPractice/test.py",
+		"/Users/Keeyon/Coding/General Files/pre-commit.py",
+		"/Users/Keeyon/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/Keeyon/Coding/PythonPractice/Numbers.py",
+		"/Users/Keeyon/Coding/PythonPractice/Gooey/gooey/gooey_decorator.py",
+		"/Users/Keeyon/Coding/PythonPractice/Gooey/LICENSE.txt",
+		"/Users/Keeyon/Coding/PythonPractice/printStuff.py",
+		"/Users/Keeyon/Coding/Sublime Files/Testing Random/SampleCode.py",
+		"/Users/Keeyon/Coding/Sublime Files/Sublime Projects/PythonPracticeBook.sublime-project",
+		"/Users/Keeyon/Coding/Sublime Files/Testing Random/PrintStatements.py",
+		"/Users/Keeyon/Coding/Sublime Files/Testing Random/Initial.py",
+		"/Users/Keeyon/Coding/Sublime Files/Test2.py",
+		"/Users/Keeyon/Coding/Sublime Files/What.py",
+		"/Users/Keeyon/Coding/Sublime Files/Testing Random/Number2.py",
+		"/Users/Keeyon/Coding/Sublime Files/SampleCode.py",
+		"/Users/Keeyon/Coding/Sublime Files/TestFile.PY",
+		"/Users/Keeyon/Coding/Sublime Files/Initial.py",
+		"/Users/Keeyon/Coding/Sublime Files/Number2.py",
+		"/Users/Keeyon/Library/Application Support/Sublime Text 3/Packages/User/Hell.py"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"put",
+			"sortTask",
+			"tempintarray",
+			"NumberArray",
+			"sort",
+			"adder",
+			"put",
+			"swap",
+			"i",
+			"two_arguemnts_addition",
+			"string",
+			"two_arguemnts_addition",
+			"TwoArgumentsAddition",
+			"TwoArgumentsAdditionInitial",
+			"args",
+			"sys",
+			"sys.argv[1:]",
+			"SetNormal",
+			"root",
+			"ttk",
+			"?`",
+			"This",
+			"Initial",
+			"asdf",
+			"asdf  adsfaf\n\n\nadsfasdl;k"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"Ttkk"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "test.scm",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2811,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2661,
+								2661
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Scheme/Scheme.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1547.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 1,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 884,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								884,
+								884
+							]
+						],
+						"settings":
+						{
+							"auto_complete": true,
+							"auto_indent": false,
+							"detect_indentation": false,
+							"gutter": false,
+							"history_arrows": true,
+							"indent_subsequent_lines": false,
+							"line_numbers": false,
+							"repl": true,
+							"repl_external_id": "scheme",
+							"repl_id": "61942dfb671147c6a447799de81454af",
+							"repl_restart_args":
+							{
+								"cmd":
+								{
+									"linux":
+									[
+										"scheme"
+									],
+									"osx":
+									[
+										"scheme"
+									],
+									"windows":
+									[
+										"scheme"
+									]
+								},
+								"cmd_postfix": "\n",
+								"cwd": "$folder",
+								"encoding": "utf8",
+								"extend_env":
+								{
+									"INSIDE_EMACS": "1"
+								},
+								"external_id": "scheme",
+								"soft_quit": "\nexit\n",
+								"syntax": "Packages/sublime-scheme-syntax/Scheme.tmLanguage",
+								"type": "subprocess"
+							},
+							"repl_sublime2": false,
+							"smart_indent": false,
+							"spell_check": false,
+							"syntax": "Packages/sublime-scheme-syntax/Scheme.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 191.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "Scheme.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"repl",
+				"*REPL* [scheme]"
+			],
+			[
+				"python",
+				"Sublime Projects/PythonPracticeBook.sublime-project"
+			],
+			[
+				"ini",
+				"Testing Random/Initial.py"
+			],
+			[
+				"",
+				"Testing Random/Number2.py"
+			],
+			[
+				"prin",
+				"Testing Random/Prints"
+			],
+			[
+				"initia",
+				"Testing Random/Initial.py"
+			],
+			[
+				"py",
+				"~/Coding/Sublime Files/Number2.py"
+			],
+			[
+				"in",
+				"~/Coding/Sublime Files/Number2.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"~/School/Semes1/ProgLang/Assignment2/Programming/Scheme.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 47.0,
+		"selected_items":
+		[
+			[
+				"python",
+				"convert_to_python"
+			]
+		],
+		"width": 593.0
+	},
+	"selected_group": 1,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 199.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
