@@ -14,6 +14,8 @@
 (display "********************************")
 (newline)
 
+
+;; Testing creating a funciton 
 (display 5)
 (newline)
 (define (f x y)
@@ -43,6 +45,7 @@
     (newline)
     (newline))
 
+;; Test the Same Function
 (drawLine)
 (display "Same")
 (display (same 4 5))
@@ -135,8 +138,6 @@
 (KeeyonPrint "Recursion for nth Numb")
 
 (define (nth elem List)
-    (KeeyonPrint elem)
-    (KeeyonPrint List)
     (cond ((= elem 1) (car List))
     (else (nth (- elem 1) (cdr List)))
     ))
