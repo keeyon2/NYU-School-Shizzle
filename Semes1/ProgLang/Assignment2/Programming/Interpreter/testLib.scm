@@ -57,29 +57,6 @@
 		 		(else #f))
 			)))))
 
-;;   	((if (not2 (pair? L1))
-;;	   (if (pair? L2) 
-;;	     #f)))
-;;
-;;    	;; If Pair - NPair
-;;	(if (not2 (pair? L2)) 
-;;	   (if (pair? L1) 
-;;	     #f))
-;;
-;;	;; If Npair - Npair 
-;;	(if (not2 (pair? L1)) 
-;;	    (if (not2 (pair? L2)) 
-;;	      (= L1 L2)))
-;;	    
-;;	;; Pair -  pair    
-;;	(if (pair? L1) 
-;;	    (if (pair? L2) 
-;;	        (cond ((null? L1) (if (null? L2) #t #f))
-;;                 ((eq? (car L1) (car L2)) (equal3? (cdr L1) (cdr L2)))
-;;		 (else #f)
-;;		 )))
-;;	))	
-		 	
 (define (assoc2 obj L1)
   (cond ((not2 (pair? L1)) #f)
 	(else 
