@@ -285,7 +285,7 @@
 	[
 		{
 			"contents": "                            ;;;Mini-Scheme Interpreter\n\n\n;;; Your first task is to understand this. \n\n(define (repl)     ;;; the read-eval-print loop.\n  (display \"--> \") \n  (let ((exp (read)))\n    (cond ((equal? exp '(exit))      ; (exit) only allowed at top level\n       'done)\n      (else  (display (top-eval exp))\n         (newline)\n         (repl))\n      )))\n\n\n(define (my-load filename)       ;; don't want to redefine the Scheme LOAD\n  (load-repl (open-input-file filename)))\n\n\n(define (load-repl port)\n  (let ((exp (read port)))\n    (cond ((eof-object? exp) 'done)\n      (else (let ((res (top-eval exp)))\n          (display res)\n          (load-repl port)))\n      )))\n\n\n\n;; insert!, below, is a destructive update of a list L, inserting the\n;; parameter val onto the front of L (so that L is actually modified).\n;; insert! must only be used where absolutely necessary, e.g. when an\n;; environment must be destructively updated to allow for recursion\n;; (see the implementation of (define ...) below).\n\n;; As their names imply, set-car! and set-cdr! destructively modify \n;; the car field and cdr field of a cons cell, respectively. They are\n;; built-in functions (see *global-env* below).\n\n(define (insert! val L)\n  (set-cdr! L (cons (car L) (cdr L)))\n  (set-car! L val)\n  )\n\n\n;; (define ....) is only allowed at the top level and affects only the \n;; global environment. Only the basic form of define is supported here.\n\n(define (top-eval exp)\n  (cond ((not (pair? exp)) (my-eval exp *global-env*))\n    ((eq? (car exp) 'define)   \n     (insert! (list (cadr exp) (my-eval (caddr exp) *global-env*)) *global-env*)\n     (cadr exp)) ; just return the symbol being defined\n    (else (my-eval exp *global-env*))\n    ))\n\n\n(define (lookup var env)\n  (let ((item (assoc var env)))  ;; assoc returns #f if var not found in env\n    (cond ((not item) (display \"Error: Undefined Symbol \")\n              (display var) (newline))\n      (else (cadr item))\n      )))\n\n(define (handle-if test then-exp else-exp env)\n  (if (my-eval test env)\n      (my-eval then-exp env)\n      (my-eval else-exp env)))\n\n\n;; still missing let, let*, letrec, the syntax for (define (f x) ...),\n;; cond, begin (block).\n\n(define (my-eval exp env)\n  (cond\n   ((symbol? exp) (lookup exp env))\n   ((not (pair? exp)) exp)\n   ((eq? (car exp) 'quote) (cadr exp))\n   ((eq? (car exp) 'if)\n    (handle-if (cadr exp) (caddr exp) (cadddr exp) env))\n   ((eq? (car exp) 'lambda)\n    (list 'closure exp env))\n   ((eq? (car exp) 'letrec)\n    (handle-letrec (cadr exp) (cddr exp) env))  ;; see explanation below\n   (else\n    (handle-call (map (lambda (sub-exp) (my-eval sub-exp env)) exp)))\n   ))\n\n\n(define (bind formals actuals)\n  (cond ((null? formals) '())\n    (else (cons (list (car formals) (car actuals))\n            (bind (cdr formals) (cdr actuals))))\n    ))\n\n(define (handle-block block env)\n  (cond ((null? block) (display \"Error: Can't have empty block or body\"))\n    ((null? (cdr block)) (my-eval (car block) env))\n    (else (my-eval (car block) env)\n          (handle-block (cdr block) env))\n    ))\n    \n\n; Here's how handle-letrec should implement LETREC\n; 0) The parameters are the defs,(e.g. ((f exp1) (g exp2)), and the body,\n;    which is a list of expressions, e.g. ((display x) (f (g 1)))\n; 1) create an association list binding the new names introducted by\n;    the letrec to uninitialized values (e.g. the symbol '*uninitialized*).\n;    For example, if the new names are x and y, then create \n;    ((x *uninitialized*) (y *uninitialized*))\n; 2) create a new-env by appending the above association list to env.\n; 3) eval the right hand side of each def using new-env\n; 4) destructively modify new-env to replace the unitialized value for each\n;    new name with its correspondinng value.\n; 5) evaluate the body of the letrec using new-env\n\n\n(define (handle-letrec defs body env)\n  (display \"Error: letrec not implemented yet\") \n  (newline))\n\n\n(define (handle-call evald-exps)\n  (let ((fn (car evald-exps))\n    (args (cdr evald-exps)))\n   (cond\n    ((eq? (car fn) 'closure)\n     (let ((formals (cadr (cadr fn)))\n       (body (cddr (cadr fn)))\n       (env (caddr fn)))\n       (handle-block body (append (bind formals args) env))))\n    ((eq? (car fn) 'primitive-function)\n     (apply (cadr fn) args))\n    (else (display \"Error: Calling non-function\"))\n    )))\n\n\n\n\n;;-------------------- Here is the initial global environment --------\n\n(define *global-env*\n  (list (list 'car (list 'primitive-function car))\n    (list 'cdr (list 'primitive-function cdr))\n    (list 'set-car! (list 'primitive-function set-car!))\n    (list 'set-cdr! (list 'primitive-function set-cdr!))\n    (list 'cons (list 'primitive-function cons))\n    (list 'list (list 'primitive-function list))\n    (list '+ (list 'primitive-function +))\n    (list '- (list 'primitive-function -))\n    (list '* (list 'primitive-function *))\n    (list '= (list 'primitive-function =))\n    (list '< (list 'primitive-function <))\n    (list '> (list 'primitive-function >))\n    (list '<= (list 'primitive-function  <=))\n    (list '>= (list 'primitive-function >=))\n    (list 'eq? (list 'primitive-function eq?))\n    (list 'pair? (list 'primitive-function pair?))\n    (list 'symbol? (list 'primitive-function symbol?))\n    (list 'null? (list 'primitive-function null?))\n    (list 'read (list 'primitive-function read))\n    (list 'display (list 'primitive-function  display))\n    (list 'open-input-file (list 'primitive-function open-input-file))\n    (list 'close-input-port (list 'primitive-function close-input-port))\n    (list 'eof-object? (list 'primitive-function eof-object?))\n    (list 'load (list 'primitive-function my-load))  ;;defined above\n    ))",
-			"file": "Interpreter/interpreter.scm",
+			"file": "interpreter.scm",
 			"file_size": 5675,
 			"file_write_time": 130585682670000000,
 			"settings":
@@ -296,7 +296,7 @@
 			}
 		},
 		{
-			"file": "Interpreter/testingScheme.scm",
+			"file": "testingScheme.scm",
 			"settings":
 			{
 				"buffer_size": 65,
@@ -552,7 +552,7 @@
 			[
 				{
 					"buffer": 0,
-					"file": "Interpreter/interpreter.scm",
+					"file": "interpreter.scm",
 					"semi_transient": false,
 					"settings":
 					{
@@ -583,7 +583,7 @@
 				},
 				{
 					"buffer": 1,
-					"file": "Interpreter/testingScheme.scm",
+					"file": "testingScheme.scm",
 					"semi_transient": false,
 					"settings":
 					{
@@ -663,7 +663,7 @@
 	{
 		"height": 0.0
 	},
-	"project": "Scheme.sublime-project",
+	"project": "SchemeInterpreter.sublime-project",
 	"replace":
 	{
 		"height": 64.0
