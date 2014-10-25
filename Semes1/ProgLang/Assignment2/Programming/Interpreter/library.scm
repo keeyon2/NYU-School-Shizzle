@@ -35,8 +35,11 @@
 	))
 
 ;; Test Func - Remove me
-(define (f x)
+(define (testFunc x)
   (+ x 2))
+
+;; TestList
+(define testList '(1 2 3 4 5 6 7 8 9))
 
 ;; And
 (define (and x y)
@@ -49,10 +52,6 @@
 ;; Not
 (define (not x)
   (if x #f #t))
-
-;; Equal?
-(define (equal? x y)
-  (if (if x y #f) #t (if (not x) (not y) #f)))
 
 ;; Equal?
 (define (equal? L1 L2)

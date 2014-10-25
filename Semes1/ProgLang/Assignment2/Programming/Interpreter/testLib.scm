@@ -14,8 +14,10 @@
 	(else (cons (func (car L)) (map2 func (cdr L))))
 	))
 
-(define (f x)
+(define (testFunc x)
   (+ x 2))
+
+(define testList '(1 2 3 4 5 6 7))
 
 (define (and2 x y)
   (if x y #f))
