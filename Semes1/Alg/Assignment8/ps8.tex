@@ -3,7 +3,7 @@
 \def\num{8}  %homework number
 \def\due{Wednesday, November 12}  %due date
 \def\course{CSCI-GA.1170-001/002 Fundamental Algorithms} %course name
-\def\name{**** INSERT YOUR NAME HERE ****}
+\def\name{Keeyon Ebrahimi}
 %
 \iffalse
 INSTRUCTIONS: replace # by the homework number.
@@ -160,8 +160,18 @@ Activity-Selection} on $S_i'$, scheduling the resulting activities
 together with $a_i$.
 
 \ifnum\me<2
-\begin{solution}
-***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\begin{solution} \\ \\
+This greedy approach will fail if the shortest activity disqualifies 2 other disjoint activities by overlapping both.  Here is an example of this type of problem. \\ \\
+\begin{tabular}{l*{6}{c}r}
+$i$              & 1 & 2 & 3 & 4 & 5 \\
+\hline
+$si$ 		& 1 & 9 & 10 & 18 & 20  \\
+$fi$            & 10 & 12 & 20 & 22 &  34  \\
+\end{tabular}
+
+In this example, the first block that will be picked is $a_2$, for it has the shortest duration of $3$.  The selection of $a_2$ disqualifies $a_1$ and $a_3$, for they have intersecting start and end times.  The next shortest time will then be $a_4$ with a total time of $4$.  This will then disqualify $a_5$, which then in total gives this greedy algorithm a total of 2 activities.
+\\ \\
+We can see though that is is not the optimal, for the optimal is actually $a_1\cup a_3 \cup a_5$\\  This has a total of 3 activities, while the previously suggested greedy algorithm only gives 2 activities.
 \end{solution}
 \fi
 
