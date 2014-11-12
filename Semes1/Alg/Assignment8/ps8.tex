@@ -188,8 +188,8 @@ be discouraged if small examples are all bad.}
 
 \ifnum\me<2
 \begin{solution}
-
 \end{solution}
+
 \fi
 
 \end{itemize}
@@ -323,13 +323,13 @@ $h_i(g) = i$ Hotel number Visited on Day $i$ by Greedy Solution
 $h_i(z) = i$ Hotel number visited on Day $i$ by optimal solution
 \\ \\
 \begin{enumerate}
-\item[1. ] $a_1(g) \geq a_1(z)$ \\ \\
+\item[1. ] $h_1(g) \geq h_1(z)$ \\ \\
 We know this because of definition.  We go to the furthest one each day in the greedy approach, so we go the the furthest, so greedy $\geq$ optimal for day 1.\\
-\item[2. ] $a_m(g) \geq a_m(z)$ \\ \\
+\item[2. ] $h_m(g) \geq h_m(z)$ \\ \\
 Same logic as step 1.  If we know it is true for day $1$, we know it is also true for day $m$\\
-\item[3. ] $a_{m+1}(z) \geq a_m(g) \geq a_m(z)$\\ \\
+\item[3. ] $h_{m+1}(z) \geq h_m(g) \geq h_m(z)$\\ \\
 The optimal hotel number we visit on day $m+1$ has to be $\geq$ the hotel number we visit on day $m$ with both the greedy and optimal approach. \\
-\item[4. ] $a_{m+1} (g) \geq a_{m+1}(z)$\\ \\
+\item[4. ] $h_{m+1} (g) \geq h_{m+1}(z)$\\ \\
 This step shows us finally that for the entire solution, greedy does best.\\
 \end{enumerate}
 \end{solution}
@@ -353,7 +353,7 @@ greedy.
 \item[2. ] $Z_1$ agrees with optimal because there is no further you can go for option 1 than the greedy so $Z_1$ agrees with greedy. \\ \\
 \item[3. ] $Z_2$ First two days selected greedy wont be worse than the optimal because it is the furthest possible for 2 days, so it cannot be less than optimal.\\ \\
 \item[4. ] $Z_2$ agrees with Optimal $Z$ because for the only 2 days that are different, we are picking the furthest we can go, which is the definition of optimal\\ \\
-\item[5. ] $Z_k$ is the optimal.  We keep on moving one by one and see that with each replaced item, the greedy is the optimal.  For every element greedy replaced works as good as optimal, making it the optimal
+\item[5. ] $Z_k$ is the optimal.  We keep on moving one by one and see that with each replaced item, the greedy is the optimal.  For every element greedy replaced works as good as optimal, making it the optimal%
 \end{itemize}
 \end{solution}
 \fi
@@ -370,7 +370,25 @@ f_{i-1} + f_{i-2}$ for $i\ge 2$.
 of frequencies which are the first $8$ Fibonacci numbers.
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\\Lets first look at the frequency of each element in a Fibonacci Sequence \\ 
+
+\begin{tabular}{l*{9}{c}r}
+$Value$              & 0 & 1& 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+\hline
+$Frequence$ 		& 13 & 21 & 13 & 8 & 5 & 3 & 2 & 1 & 1 \\
+\end{tabular}
+
+
+Now we need to keep on adding the two minimum up and creating a tree out of those two elements.  We keep doing this until we get the full tree.  
+\\ \\
+What makes this tree not be a tree with a left element always having only one element is the fact that Value 1 has a higher frequency than value 0.  This makes it so from our top root node, the left subtree contains 0 and 2, while the right subtree contains the rest of the elements in incremental order with at each sublevel, the left tree has the next min while the right tree has the remaining elements in a tree until we get to leaves 7 and 8.  Here is the encoding for Fibonacci sequence   \\ \\
+
+\begin{tabular}{l*{9}{c}r}
+$Value$              & 0 & 1& 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+\hline
+$Encoding$ 		& 00 & 10 & 01 & 110 & 1110 & 11110 & 111110 & 1111110 & 1111111 \\
+\end{tabular}
+
 \end{solution}
 \fi
 
@@ -381,7 +399,24 @@ first $i$ Fibonacci numbers. Prove that $S_i = f_{i+2} -1$ for any $i\ge
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\\
+We are going to prove this by induction.  We need to prove that $$f_{i+2} - 1 = f_i + f_{i-1} + ... + f_0$$
+\begin{itemize}
+\item[1. ] Prove base case of when $i = 1$\\ 
+$$ f_3 - 1  = f_1 + f_0$$
+$$2 = 2$$
+\\ This is true, so base case passes, we may now move on to $f_k$
+\item[2. ]  We need to find the equation for $f_k$ which is \\
+$$f_{k+2} - 1 = f_k + f_{k-1} + ... + f_0$$ \\
+\item[3. ] Time for inductive step.  We assume that this is true up to k, we must prove for $k + 1$\\
+$$f_{k+2+1} - 1 = f_{k+1} + f_k + ... + f_0$$
+\\
+For $f_k + ... + f_0$, we replace this value with the left hand side of equation from item 2, for we assume is correct.\\
+$$f_{k+2+1} - 1 = f_{k+1} + f_{k+2} - 1$$
+This equals
+$$ f_{k+3} = f_{k+2} + f_{k+1}$$
+This is the definition of a Fibonacci sequence, so we know that we have come to the correct value
+\end{itemize}
 \end{solution}
 \fi
 
@@ -391,7 +426,38 @@ Formally argue that your tree structure is correct, by using part (b).
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob c SOLUTION HERE ***************
+\\ Here is a generalized version the optimal Huffman Code for $n$ Fibonacci numbers. \\ \\
+\begin{tabular}{l*{5}{c}r}
+$Value$              & 0 & 1& 2 & 3...(n-1) & n \\
+\hline
+$Encoding$ 		& 00 & 10 & 01 & (value - 1) 1's + 0 & (n-1) 1's  \\
+\end{tabular}
+\\\\ \\
+The last two columns might not make sense, but this is what I mean.  Lets pretend that $n = 5$
+Elements $3..n-1$ or $3$ and $4$ will be their (value - 1) 1's with a 0 concatenated at the end.  So $3 = 110; 4 = 1110;$ and this repeats up to $n-1$.  Then for value $n$, we get $n-1$ 1's.  So if $n=5$, $5 = 1111$.\\ \\ 
+
+To show this. we look at $$S_k = S_k-1 + f_k$$
+\\
+This shows that the change at every level is a change of $f_k$.  The definition of this is
+$$ f_k = f_{k-1} + f_{k-2} $$ \\
+Number smaller will increasing at the repeating rate of the Fibonnacci sequence.  This pattern will be matched with each next level of element, so our key will work throughout.  
+\\
+Here is an inductive proof of the sum of each new level actually equals the next level of Fibonacci
+\\
+\\
+ \begin{enumerate}
+ \item[1. ] Prove: $$S_{i-1} + f_i = f_i + f_{i-1} + ... + f_0$$\\
+ \item[2. ]  Prove for $i=2$ \\
+ $$S_1 + f_2 = f_2 + f_1 + f_0$$
+ $$2 + 2 = 2 + 1 + 1$$
+ $$ 4 = 4$$ \\
+ This shows that we pass the base case. Now need to show the $k$ step
+ \item[3. ]  $$S_{k-1} + f_k = f_k + f_{k-1} + ... f_0$$
+ \item[4. ]  We now assume that up to $k$ is true, and we do an inductive step of $k+1$
+ \item[5. ] $$S_{k} + f_{k+1} = f_{k+1} + S_{k-1} + f_k$$
+ $$S_{k} = S_{k-1} + f_k$$
+ \end{enumerate}
+ This is our original equation proving that at each level, the sum goes up by that Fibonacci value, which keeps our pattern for our general encoding.
 \end{solution}
 \fi
 
@@ -421,7 +487,42 @@ parents are away.
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\\
+The algorithm we are going to pick a show that is currently running and it ends last.  Mathematically we will \\
+\begin{enumerate}
+\item[1. ] For all $i$, find shows where $s_i \leq S_i \leq f_i$ where $f_i - S_i$ is greatest.
+\item[2. ] Run algorithm again, but we update $S_i$ to chosen show's $f_i$, which eliminates all shows that end before that $f_i$
+\end{enumerate}
+We are going to be going through each show, checking if they are running, but with each update, we are eliminating all shows that end before chosen activities, making our sample sizes smaller and smaller by a variable amount.
+
+This gives us the running time of $O(n\ log\ n)$\\ \\
+Now we want to prove that this is optimal\\
+\textbf{Proof by GASA}
+\\
+To prove this, we need to set up some variables
+$R_i = $ Remaing Time after watching of channel $i$.\\  So, if we watched channel $1$ for 20 units, we would set $R_1 = [S,F) - 20$.\\
+Now we will set a difference for Greedy and optimal solution\\ \\
+$R_i(g) = $ Time remaining after watching $i$ channels with greedy approach\\
+$R_i(z) = $ Time remaining after watching $i$ channels with optimal approach\\
+$S_i = $ Shows watched in time of $i$ units.
+
+
+
+\begin{itemize}
+\item[1. ] $$R_1(g) \leq R_1(z)$$ 
+Prove for Initial case that greedy is atleast as good as optimal\\
+We know that $R_1(g) \leq R_1(z)$ because we are picking the largest possible time unit for the greedy solution, so by definition, the remaining has to be the least possible amount. Because we are reducing the total first by the max for the first step, we know that $R_1(g) \leq R_1(z)$
+\item[2. ] $$R_{m+1}(z) \leq R_m(g) \leq R_m(z) $$
+This shows that the remaining time of watching $k+1$ episodes the optimal way is going to be less than the total time of watching only $k$ channels both the greedy and the optimal way.  Because of Step 1, we also know $$R_m(g) \leq R_m(z) $$
+\item[3. ] $$S_{i - 1} \leq S_i$$ 
+\textbf{This is a very important step.}
+ We show here that the amount of shows we watch in less time is going to be either the same or less than the amount of shows watched in more time.  This gives importance to our $R_i$ value, for now we know that $R_i$ has a direct correlation with shows watched, or $S_i$.  We know $$ S_i \leq S_{i+1}$$ which in turn means that \\ \\
+Total Channels watched at $R_i(z) \geq $ Total Channels watched at $R_{i+1}(z)$, which is why we want to minimize our $R_i$, or remaining time left.
+\item[4.] $$R_{m+1}(g) \leq R_{m+1}(z)$$
+\\
+Now we know that for all options, the remaining time of the greedy algorithm will be less or equal to the optimal solution.  We know that the smaller the remaining time the less channels will be watched which is better.  We know this thanks to Step 3.  
+\end{itemize}
+
 \end{solution}
 \fi
 
@@ -437,7 +538,15 @@ parents are away.
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+$Max(F_{i+1} - S_{i+1} - (F_i - S_{i + 1}))$ where $S_{i+1} \leq F_{i}$\\ \\
+
+Here is what that is saying in regular words. \\
+\begin{enumerate}
+\item[1. ] Initially turn on TV 1 to show that already running and has the latest finish time for $f_1$
+\item[2. ] Find the show $2$ that starts before or at the same time as show $1$ ends, and has the longest playing time after show $1$ ends.
+\item[3. ] Play this show on the opposite tv
+\item[4. ] Repeat this process for the remaining $i$ steps.
+\end{enumerate}
 \end{solution}
 \fi
 
