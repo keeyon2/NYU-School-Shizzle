@@ -188,7 +188,7 @@ be discouraged if small examples are all bad.}
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+
 \end{solution}
 \fi
 
@@ -216,7 +216,37 @@ these books.
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\\
+With a constant height for all shelves, we have this equation for the Total Shelve Height.\\
+$S = $ Number of Shelves\\
+$h = $ constant\\
+$TotalHeight = h * S$\\
+Because $h$ is constant, we need to minimize $S$ to get the minimal $TotalHeight$\\ \\
+
+\textbf{Proof by GASA}\\
+$b_m = $ total number of books on shelf\\
+$b_i(g)$ = $i$ books on shelf in greedy approach\\
+$b_i(z)$ = $i$ books on shelf in optimal approach \\
+$S_i$ = Amount of shelves needed with $i$ books.\\
+\\
+First we will be showing that the approach of if it fits it sits puts the maximum books on a shelf.\\
+\begin{enumerate}
+\item[1. ] $b_1(g) \geq b_1(z)$  \\ \\ We know this by definition.  If the first book fits, it sits. Which has atleast as many as the optimal, because there is no greater for 1.\\
+\item[2. ] $b_m(g) \geq b_m(z)$ \\ \\ If this happens with one, this happens with $m$ as well.\\
+\item[3. ] $b_{m+1}(z) \geq b_m(g) \geq b_m(z)$\\
+\item[4. ] $b_{m+1}(g) \geq b_{m+1}(z)$\\ 
+\end{enumerate}
+This shows that we can fit the most books on the shelf by going with the approach, if it fits it sits.
+\\\\
+Now we know $$totalBooks = BooksOnShelves + BooksRemaining$$\\
+
+Because $totalBooks$ is constant, the greater $BooksOnShelves$ is, the smaller $BooksRemaining$ will be.  We have proven that our greedy approach gives the maximum $BooksOnShelves$, so we know need to prove that a smaller $BooksRemaining$ leads to smaller $TotalShelves$
+\\ \\
+Lets set $S_i$ to be the total number of shelves it takes to store $i$ books.  By laws of nature we know that $S_1 \leq S_2 \leq ... \leq S_n$\\
+
+\textbf{We know that we have given the least remaining books with our greedy algorithm, which in turn has the least amount of shelves as shown directly above this, and we also know that the less Shelves we have the less our Total height will be, so with all this we know that our greedy algorithm gives the optimal number of shelves.} \\ 
+
+\textbf{Running Time: } All we have to do here is at every book, see if it will fit or not and then either place on existing shelf or next shelf.  We only have to iterate through each book once in order to do this for all books, so because we only iterate through all books once, we know that we have a running time of $$O(n)$$
 \end{solution}
 \fi
 
@@ -229,7 +259,33 @@ these books.
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\\Here is an example of when this will not work.\\  Lets say he have two heights, $B$ for tall and $b$ for short.  \\ \\
+
+Let say our greedy algorithm first whatever we can and we get 2 shelves shaped like this.\\ \\
+\begin{tabular}{l*{6}{c}r}
+$Shelf\ 1$ 		& $b$ & $b$ & $b$ & $B$   \\
+$Shelf\ 2$         & $B$  \\
+\end{tabular}
+\\ \\ \\
+The tallest in both shelves is $B$, so the total height would be $2B$.\\
+There is a better solution though. What if we placed the $B$ at the end of shelf on on the next shelf.  We would get this solution. \\ \\
+\begin{tabular}{l*{6}{c}r}
+$Shelf\ 1$ 		& $b$ & $b$ & $b$   \\
+$Shelf\ 2$         & $B$  & $B$ \\
+\end{tabular}\\ \\ \\
+Which gives us a total Height of $b + B$, which is less than $B+B$, so the greedy approach is not optimal.
+\\ \\ 
+Here is the algorithm to figure out the best solution.
+We set up a Memoization Array $TH$ with $TH[0] = 0$ and $TH[1..n]$ = infinity.\\ \\
+If the next book will not fit on the current shelf, we put it on the next Shelf.  \ \\\
+If the book does fit, then we must look at the books height vs the Current Shelf Height.
+If book height, $h[i]$ is less than Current Shelf Height,  then we just place the book on the shelf. \\ \\
+
+If the book height does fit, but it's height is greater than the current Row Height. We have to make a decision. \\
+We pick $Min($Placing book on current shelf, Placing book on next shelf$)$, which is where the recursion and memoization come in to help.\\
+
+This will have a running time of $O(n^2)$, which is significantly better than the $2^n$ running time we would usually have if we didn't use memoization.  It is $n^2$ because for each problem n, we have to look at all previous books and check if it is better for them to go on the current row or to start a new row off.
+
 \end{solution}
 \fi
 
@@ -262,7 +318,20 @@ For this problem, the name of the method is really appropriate.}
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\textbf{Proof by GASA}\\
+$h_i(g) = i$ Hotel number Visited on Day $i$ by Greedy Solution
+$h_i(z) = i$ Hotel number visited on Day $i$ by optimal solution
+\\ \\
+\begin{enumerate}
+\item[1. ] $a_1(g) \geq a_1(z)$ \\ \\
+We know this because of definition.  We go to the furthest one each day in the greedy approach, so we go the the furthest, so greedy $\geq$ optimal for day 1.\\
+\item[2. ] $a_m(g) \geq a_m(z)$ \\ \\
+Same logic as step 1.  If we know it is true for day $1$, we know it is also true for day $m$\\
+\item[3. ] $a_{m+1}(z) \geq a_m(g) \geq a_m(z)$\\ \\
+The optimal hotel number we visit on day $m+1$ has to be $\geq$ the hotel number we visit on day $m$ with both the greedy and optimal approach. \\
+\item[4. ] $a_{m+1} (g) \geq a_{m+1}(z)$\\ \\
+This step shows us finally that for the entire solution, greedy does best.\\
+\end{enumerate}
 \end{solution}
 \fi
 
@@ -278,7 +347,14 @@ greedy.
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\\
+\begin{itemize}
+\item[1. ] $Z_1$ picks the furthest we can go on day 1.  This can't be worse than the optimal, because it cannot be less then the optimal.  \\ \\
+\item[2. ] $Z_1$ agrees with optimal because there is no further you can go for option 1 than the greedy so $Z_1$ agrees with greedy. \\ \\
+\item[3. ] $Z_2$ First two days selected greedy wont be worse than the optimal because it is the furthest possible for 2 days, so it cannot be less than optimal.\\ \\
+\item[4. ] $Z_2$ agrees with Optimal $Z$ because for the only 2 days that are different, we are picking the furthest we can go, which is the definition of optimal\\ \\
+\item[5. ] $Z_k$ is the optimal.  We keep on moving one by one and see that with each replaced item, the greedy is the optimal.  For every element greedy replaced works as good as optimal, making it the optimal
+\end{itemize}
 \end{solution}
 \fi
 
