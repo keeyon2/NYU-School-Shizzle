@@ -176,8 +176,11 @@ all other nodes $v$ have $v.color= white$.
 color of each node.
 
 \ifnum\me<2
-\begin{solution}
-***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\begin{solution} \\
+The way to solve with two BFS calls is you first run a BFS with the red node as your source and for each node save the distance as $Red\ Distance$.  You then run a BFS with the blue node as your source, and have each node save the distance labeled $Blue\ Distance$.
+\\
+\\
+After that you compare every nodes $Red\ Distance$ with their $Blue\ Distance$.  If the $Blue\ Distance < Red\ Distance$, you then change the node's color to Blue.  If the $Red\ Distance \leq Blue\ Distance$, then you change the node's color to Red.
 \end{solution}
 \fi
 
@@ -191,8 +194,81 @@ very} similar to the standard BFS pseudocode, and is much easier to
 grade. But briefly explain your code.
 
 \ifnum\me<2
-\begin{solution}
-***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\begin{solution}\\
+First a brief explanation, then pseudo code.  We first set the distance of the republican node the democrat node to 0.  We will run a modified BFS that will Enqueue all neighbors that are not the same color as itself.  We will call the current node $CN$ and the adjacent node $AN$.  When comparing all of its adjacent nodes, if the adjacent color is white, progress as normal.  If $AJ.color \neq White$, we run these checks\\ \\
+
+If $$ CN.Color == Red\ and\ AN.Color == blue$$ $$and$$ $$CN.Distance + 1 \leq AN.Distance$$ then we change $AN.Color$ to red, and we enqueue $AN$. \\
+
+If $$ CN.Color == Blue\ and\ AN.Color == blue$$ $$and$$ $$CN.Distance + 1 < AN.Distance$$ then we change $AN.Color$ to red, and we enqueue $AN$. \\
+\\ \\
+The reason the change from red to blue happens when distance is $\leq$ and the blue to red only happens with distance is $<$ is because red is analyzed first.  If the problem was changed to analyze blue first, we would change this. \\
+
+This will give us a the correct color scheme with only one BFS search.  Here is the Pseudo Code.
+\\ \\
+\begin{verbatim}
+// r = Initial Red
+// b = Initial Blue
+BFS(G, r, b)
+{
+    for each vertex u in G.V - {r, b}
+    {
+        u.color = white
+        u.d = infinity
+        u.pi = NIL
+    }
+    
+    r.color = Red
+    r.d = 0
+    r.pi = NIL
+    
+    b.color = Red
+    b.d = 0
+    b.pi = NIL
+    
+    Q = EmptySet
+    ENQUEUE(Q, r)    
+}
+ENQUEUE(Q, s)
+{
+    while Q != EmptySet
+    {
+        u = DEQUEUE(Q)
+        for each v in G.adjacent[u]
+        {
+            if v.color == white
+            {
+                v.color = u.color
+                v.d = u.d + 1
+                v.pi = u
+                ENQUEUE(Q, v)
+            }
+            
+            if (u.color == Red) and (v.color == Blue)
+            {
+                if(u.d + 1 <= v.d)
+                {
+                    v.color = u.color
+                    v.d = u.d + 1
+                    v.pi = u
+                    ENQUEUE(Q, v)
+                }
+            }
+                
+            if (u.color == Blue) and (v.color == Red)
+            {
+                if(u.d + 1 < v.d)
+                {
+                    v.color = u.color
+                    v.d = u.d + 1
+                    v.pi = u
+                    ENQUEUE(Q, v)
+                }
+            }
+        }
+    }
+}
+
+\end{verbatim}
 \end{solution}
 \fi
 
