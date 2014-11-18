@@ -309,7 +309,14 @@ occupied by a black piece, and $0$, otherwise. Give an $O(n^2)$ algorithm to fin
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob ~ SOLUTION HERE ***************
+\\ To solve this, we will be running a modified $BFS$ to find the shortest distance to $(f_x, f_y)$.  As for the modifications, each node will now have a $(x, y)$ position.  Then our $BFS$ will be modified this way.
+
+\begin{enumerate}
+\item[1. ] In our modified chess $BFS$, when we check adjacent nodes, we will instead be checking all nodes that pass $|k-i| = 1$ and $|j - \ell| = 2$ or $|k - i| = 2$ and $|j -\ell| = 1$.  These are the only nodes that we can check as adjacent nodes.
+\item[2. ] In our modified chess $BFS$, when we would originally check if the node color is white, instead, we just check if that nodes position of $B[x][y] == 1$.  If it is not equal to one, we then know that it is a possible spot for our knight to land, and we ENQUEUE this node
+\end{enumerate}
+
+This will have the desired $O(n^2)$ running time.  We know that the running time of a $BFS = O(|V| + |E|)$.  In this chess example, we know that we have a total of $n^2$ V's, and each V can have at max $8$ E's (Max amount of squares that pass $|k-i| = 1$ and $|j - \ell| = 2$ or $|k - i| = 2$ and $|j -\ell| = 1$ for an individual square).  Now if we ignore constants and replace the $O(|V| + |E|)$ with our newly discovered $n$ values, we will see our running time of $O(n^2)$.
 \end{solution}
 \fi
 
