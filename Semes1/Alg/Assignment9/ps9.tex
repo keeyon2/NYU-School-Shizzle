@@ -349,8 +349,20 @@ Can you help her find an efficient algorithm to form the two sections given as i
 Try to carefully form a graph and use BFS to solve this problem.}
 
 \ifnum\me<2
-\begin{solution}
-***************** INSERT PROBLEM \prob ~ SOLUTION HERE ***************
+\begin{solution} \\
+This solution will do the following.  If there is an existing correct partition, this algorithm will divide the class into 2 sections with each section containing kids all friends with each other.  If there is no viable solution, then this algorithm will tell us. \\ \\
+Basically, we will use $m$ statements to make a matrix containing the grid, we will then pick an arbitrary student as the source and run a $BFS$ with that source, and insert all students at distance 1 into section 1.  We then use the same $G$, with the same visited/non-visited student information, and run a $BFS$ on $G$ and we will use a non-visited student as the source of this $BFS$, appending all distance 1 students to this new source into Section 2.  If we have any remaining students that are not in Section 1 or Section 2, we know that we were given inputs with no possible solution.  This will have a running time of $O(n + m)$.  Here are those steps explained with more detail and with running time analysis. \\ \\
+
+\item[1. ] We first need to create our graph, and we do this with our $m$ statements.  We will be storing our graph in an $n x n$ matrix.  Just how usual matrices store graphs, we will have the matrix at position $[x,y]$ store $1$ if there is a connection and $0$ if there is no connection.  For each $m$ statement that comes in, we will place a $1$ in our $G$ matrix at position $[i, j]$ and also at $[j, i]$.  This step will have a running time of $O(m)$
+\item[2. ]  We then will run a $BFS$ using student $1$ as source. (Which student we pick as the source doesn't actually matter).  Whenever we hit a node and set the distance to $1$, we then append this into our $Secton\ 1$ Set.  Once we hit distance $2$, we will stop our $BFS$, for all distance 2 nodes will not be friends with the original source, and can no longer be in our section.  We will store this first distance 2 node though for later use.\\ \\
+This step has a running time of $O(n)$.  This is because for our source, we are checking connections with each other possible student and there are $n$ students.  (If source student number is $s$, this will be like checking our matrix all values from $1\ to n$ for $G[s,x]$) This checks $n$ possible adjacent students in $G$.  We will also be running one step into distance 2, grabbing the first student that we hit that is not connected to student $s$\\
+\item[3. ]  We will now have a competed Section 1 set that fits the restrictions of having all students be friends.  Now we will use the student with distance 2 to find our next section. We will label this student as $sn$ With our same $G$ from before, we will be running another $BFS$ using this new student, $sn$, as our source.  \\ \\
+We will be using the same $G$ as step 2, because we want to preserve which nodes have been visited and which ones have not been visited from step 2.  We will now mimic the exact steps as step 2, placing all elements with Distance 1 from $sn$ into Set Section 2.  This will also take a running time of $O(n)$, just like step 2 did and for the same reason as step 2.  The only difference here is that if we hit a student that has a distance of two from $sn$ that has not yet been visited from Step 2 as well, we know that we were given a set of $n$ children with no possible solutions for dividing the students into 2 sets with each student in each set being friends. \\ \\
+\begin{itemize}
+\item Running Time Analysis:  As stated above, Step 1 takes $O(m)$, Step 2 takes $O(n)$ and Step 3 takes $O(n)$.  This means that we will have a total run time of $O(m + 2n) = O(m + n)$
+\item Running Time = $O(m + n)$
+\end{itemize}
+
 \end{solution}
 \fi
 
@@ -364,7 +376,11 @@ and outgoing edges.
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\\ If a node has had all of it's outgoing edges have been visited and completely finished and traversed down by another traversal of the $DFS$, meaning other nodes have hit our nodes outgoing edges and have fully traversed down them already. 
+\\ \\ If there exists a node that has incoming and outgoing edges that also has a sister node, which has the same incoming and outgoing edges as our original node does.  Then depending on which way the $DFS$ traverses, one of these nodes with incoming and outgoing edges will be in a depth-first tree with only itself.  Here is an example:\\ \\
+\textbf{Example: } \\
+So lets say we have a source Node, which we will label as $A$, and this $A$ node points to Node $B$ and Node $C$. Now, both Node $B$ and Node $C$ have a directed edge pointing to Node $D$.  So both $B$ and $C$ have one incoming edge from node $A$, and they both have an outgoing edge to node $D$.  \\ \\
+When the $DFS$ occurs, we start at source node $A$.  Then $A$ will traverse down to either $B$ or $C$.  Lets say for this example it traverses down node $B$.  Now from $B$, we traverse down to $C$.  Node $C$ has no outgoing edges, so we update finish time and pop back up to node $B$.  Node $B$ has no remaining non visited outgoing edges, so we update its finish time and pop back up to Node $A$.  Node $A$ now traverses to Node $B$.  \textbf{Node $B$ has already had all of its outgoing edges traversed to by a previous traversal, so it's start time will be one less than it's end time, making it be in its own depth-first tree}
 \end{solution}
 \fi
 
@@ -374,7 +390,13 @@ your answer.\\ \hint{Recall the White Path Theorem.}
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\\ You can still have $u$ end up by itself in the depth-first forest of $G$.  As stated in part (a), this occurs when all outgoing edges of $u$ have already been visited by a different traversal of $G$.  This can still happen if $u$ is in a directed cycle in $G$. \\
+\\
+Let us label $c$ as the first node of a cycle that the $BFS$ visits.  If $u$ is the last node of that cycle, meaning it has an outgoing edge connecting back to $c$ and creates our cycle, then $u$ will be in a depth-first forest by itself.  \\ \\
+We are looking for a case where all outgoing edges have already been traversed.  If we are not at the last element in the cycle that points back to the source, then we have elements that can still be traversed down to, which means it will not be in it's own forest.  If $u$ is the last element of the cycle however, making the final cycle connection, then it's outgoing edge to the source will be visited for it was the source. This will make it's start time be exactly one less than its end time, making it be a part of its own Depth-First forest. 
+\\ \\
+\textbf{Example: }\\
+Lets say we have a cycle that has node $A$, $B$, and $C$, where $A \to B \to C \to A$.  We have a cycle and $A$ is the first element of the cycle that we visit.  Once we get to node $C$, we have already visited all nodes that $C$ outgoes to, so $C$ will have and end time that is 1 more than its start time, making it be a part of its own depth-first forest.
 \end{solution}
 \fi
 
