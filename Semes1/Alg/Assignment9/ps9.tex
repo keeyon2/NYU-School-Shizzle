@@ -177,10 +177,12 @@ color of each node.
 
 \ifnum\me<2
 \begin{solution} \\
-The way to solve with two BFS calls is you first run a BFS with the red node as your source and for each node save the distance as $Red\ Distance$.  You then run a BFS with the blue node as your source, and have each node save the distance labeled $Blue\ Distance$.
+The way to solve with two BFS calls is you first run a BFS with the republican node as your source and for each node save the distance as $Blue\ Distance$.  You then run a BFS with the democrat node as your source, and have each node save the distance labeled $Red\ Distance$.
 \\
 \\
-After that you compare every nodes $Red\ Distance$ with their $Blue\ Distance$.  If the $Blue\ Distance < Red\ Distance$, you then change the node's color to Blue.  If the $Red\ Distance \leq Blue\ Distance$, then you change the node's color to Red.
+After that you compare every nodes $Red\ Distance$ with their $Blue\ Distance$.  If the $Red\ Distance < Blue\ Distance$, you then change the node's color to Red.  If the $Blue\ Distance \leq Red\ Distance$, then you change the node's color to Blue.
+\\
+The difference of having the republican color change when the distance is $\leq$ and the democrat color only change when the distance is $<$ is there because the republicans are being analyzed first as stated in the problem
 \end{solution}
 \fi
 
@@ -197,11 +199,11 @@ grade. But briefly explain your code.
 \begin{solution}\\
 First a brief explanation, then pseudo code.  We first set the distance of the republican node the democrat node to 0.  We will run a modified BFS that will Enqueue all neighbors that are not the same color as itself.  We will call the current node $CN$ and the adjacent node $AN$.  When comparing all of its adjacent nodes, if the adjacent color is white, progress as normal.  If $AJ.color \neq White$, we run these checks\\ \\
 
-If $$ CN.Color == Red\ and\ AN.Color == blue$$ $$and$$ $$CN.Distance + 1 \leq AN.Distance$$ then we change $AN.Color$ to red, and we enqueue $AN$. \\
+If $$ CN.Color == Blue\ and\ AN.Color == Red$$ $$and$$ $$CN.Distance + 1 \leq AN.Distance$$ then we change $AN.Color$ to blue, and we enqueue $AN$. \\
 
-If $$ CN.Color == Blue\ and\ AN.Color == blue$$ $$and$$ $$CN.Distance + 1 < AN.Distance$$ then we change $AN.Color$ to red, and we enqueue $AN$. \\
+If $$ CN.Color == Red\ and\ AN.Color == Blue$$ $$and$$ $$CN.Distance + 1 < AN.Distance$$ then we change $AN.Color$ to red, and we enqueue $AN$. \\
 \\ \\
-The reason the change from red to blue happens when distance is $\leq$ and the blue to red only happens with distance is $<$ is because red is analyzed first.  If the problem was changed to analyze blue first, we would change this. \\
+The reason the change from blue to red happens when distance is $\leq$ and the red to blue only happens with distance is $<$ is because red is analyzed first.  If the problem was changed to analyze blue first, we would change this. \\
 
 This will give us a the correct color scheme with only one BFS search.  Here is the Pseudo Code.
 \\ \\
@@ -243,7 +245,7 @@ ENQUEUE(Q, s)
                 ENQUEUE(Q, v)
             }
             
-            if (u.color == Red) and (v.color == Blue)
+            if (u.color == Blue) and (v.color == Red)
             {
                 if(u.d + 1 <= v.d)
                 {
@@ -254,7 +256,7 @@ ENQUEUE(Q, s)
                 }
             }
                 
-            if (u.color == Blue) and (v.color == Red)
+            if (u.color == Red) and (v.color == Blue)
             {
                 if(u.d + 1 < v.d)
                 {
@@ -286,7 +288,12 @@ gives a faster solution?
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob c SOLUTION HERE ***************
+\\
+To generalize part(a), we would have to run a $BFS$ on each node in set $R$ and each node in set $D$. Then we would have to assign each nodes $Red.distance$ and $Blue.distance$ the the resulting minimum value that any of the $BFS$'s found.  Then we would compare each of the node's $Min(Red.distance)$ with $Min(Blue.distance)$ and determine color that way. \\\\
+The running time of this algorithm would be $O(t(|V| + |E|))$ This is because we are running a $BFS$ $t$ times\\ \\
+To generalize part (b), the only difference is instead of only setting the initial red and blue node's color and distance.  We will instead, initially go through the set D and set all distances to 0 and colors to B.  We will then Go through set R and set all colors to red and distances to 0.  \\ \\
+We then start the $BFS$ giving it any single node from set $R$ or set $D$ and part (b) will solve this issue.  This will not change the running time of part (b), so this algorithm will give us a running time of $O(|V| + |E|)$ \\ \\
+Part (b) gives a much faster solution because part (b) only runs through one $BFS$ while part (a) has to run a $BFS$ for each item in set $D$ and set $R$.
 \end{solution}
 \fi
 
