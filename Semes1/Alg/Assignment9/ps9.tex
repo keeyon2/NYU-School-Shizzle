@@ -328,7 +328,14 @@ Which of BFS or DFS gives a better algorithm for this problem?
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob ~ SOLUTION HERE ***************
+\\ This can be solved using a $BFS$ or a $DFS$. 
+\\ Subnote: For each below method, we just pick any random node in $V$ as our source for each different type of search.  This works because we are dealing with a connected undirected graph\\
+\begin{enumerate}
+\item[$DFS:$] We run a $DFS$ using any node in the connected graph as our source.  Whenever we visit a node and change its color to gray, which is the first step of $DFS-Visit$, we then append that node onto our permutation subgraph.  This will make our permutation order nodes by their time when initially visited.  By definition, all nodes at $t + 1$ can be visited from nodes at time $t$, hence that is how the $DFS$ assigned those value, so we know our permutation is correct.
+\item[$BFS:$]  Very similar to the previous algorithm, we will run a $BFS$ using any node in the connected graph as our source.  When we visit a node and change it's color to gray, we will then append that value to our permutation order.  This will then order our permutation by its distance to $\pi(1)$, which is the source.  Because of how $BFS$ works, we will know that later nodes in the permutation will have a route to earlier nodes in the permutation, because at worst case, they can traverse back to the source and then take the source's path to any other node in the permutation. 
+\end{enumerate}
+
+They both give permutations that fit the given restrictions needed, but the $DFS$ gives more pertinent information as well.  The $DFS$ approach will closer mimic the actual traversal from one node to the next.  In the $DFS$ approach, elements right next to each other in the permutation will actually be close to each other in the graph, and we cannot say the same for the $BFS$ approach.  In the $BFS$ permutation, $\pi(i)$ and $\pi(i+1)$ can have the same distance to the source node, but be on complete opposite sides of $G$, so even though they are neighbors in the permutation, they are not actual neighbors by any means in $G$.  The $DFS$ approach though will have permutation neighbors that will be visited at one time step after itself, making us know that they are actually close in $G$ as well.
 \end{solution}
 \fi
 
