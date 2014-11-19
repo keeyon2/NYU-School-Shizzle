@@ -389,8 +389,8 @@ still end up all by itself in the depth-first forest of $G$? Justify
 your answer.\\ \hint{Recall the White Path Theorem.}
 
 \ifnum\me<2
-\begin{solution}
-\\ You can still have $u$ end up by itself in the depth-first forest of $G$.  As stated in part (a), this occurs when all outgoing edges of $u$ have already been visited by a different traversal of $G$.  This can still happen if $u$ is in a directed cycle in $G$. \\
+\begin{solution} \textbf{Yes, the node in the cycle that visits the gray node will be in its own depth field forest of $G$}
+\\ \\ You can still have $u$ end up by itself in the depth-first forest of $G$.  As stated in part (a), this occurs when all outgoing edges of $u$ have already been visited by a different traversal of $G$.  This can still happen if $u$ is in a directed cycle in $G$. \\
 \\
 Let us label $c$ as the first node of a cycle that the $BFS$ visits.  If $u$ is the last node of that cycle, meaning it has an outgoing edge connecting back to $c$ and creates our cycle, then $u$ will be in a depth-first forest by itself.  \\ \\
 We are looking for a case where all outgoing edges have already been traversed.  If we are not at the last element in the cycle that points back to the source, then we have elements that can still be traversed down to, which means it will not be in it's own forest.  If $u$ is the last element of the cycle however, making the final cycle connection, then it's outgoing edge to the source will be visited for it was the source. This will make it's start time be exactly one less than its end time, making it be a part of its own Depth-First forest. 
