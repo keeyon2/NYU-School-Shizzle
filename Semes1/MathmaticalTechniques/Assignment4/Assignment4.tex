@@ -9,5 +9,89 @@
 
 
 \begin{document}
-Hi team
+\textbf{Keeyon Ebrahimi}\\
+\textbf{N14193968}\\
+\textbf{Homework 4}\\
+\\ \\ \\
+\textbf{Problem 2:}\\
+\begin{enumerate}
+\item[a) ] Lets look at the basic observation, $$P(A) + P(\overline{A}) = 1$$\\
+This means that in the total array of possibilities, the Probability of A happening plus the Probability of A not happening is 1.\\ \\
+When we say $$P(A|B)$$ \\ We are just limiting the total array of possibilities to set $B$.
+This means that $$P(A|B) + P(\overline{A}|B) = 1$$
+\begin{center}
+ is the same as 
+\end{center}
+$$P(A) + P(\overline{A}) = 1$$ \\ \\
+The only difference is that in the first statement, we are just limiting the total array of possibilities to B. \\ \\
+To explain the drawing below, \textit{which is on the next page}, we have to look at a certain fact.
+$$0 \leq P(A|B) \leq 1$$ 
+\begin{center}
+and 
+\end{center}
+$$0 \leq P(\overline{A}|B) \leq 1$$.
+\\ Because we know the sum of these two probabilities is $1$, we know that either both probabilities will be between $0$ and $1$, or one probability will be $1$ leaving the other probability at $0$.  As you can see in the drawings below, for all three possibilities, if we fill out both $P(A|B)$ and $P(\overline{A}|B)$, we can see that the circle $B$ is always completely filled out, hence the sum of $P(A|B)$ and $P(\overline{A}|B)$ will equal 1.\\ \\ 
+\newpage
+\item[b) ]  We know that events $A_1$, $A_2$, and $A_3$ are all disjoint, but they span all possible values.  We know they are disjoint because all possible Unions have a size of $0$, as stated in the problem.  Knowing they are all disjoint, but they all still sum up to $1$, we know that events $A_1$, $A_2$, and $A_3$ span over all possible outcomes.\\ \\
+In part A, $P(A) + P(\overline{A})$ spanned over the entire array of possible values, which was the basis of our proof.  Now we know that $P(A_1) + P(A_2) + P(A_3)$ span over the entire array of possible values. \\ \\
+$P(A_1|B) + P(A_2|B) + P(A_3|B) = x$ is asking that in the subspace of $A_1 \cup A_2 \cup A_3$, how much of $B$ do we cover over?  Because $A_1 \cup A_2 \cup A_3$ is the entire subspace, we have to be covering over all of $B$, meaning that $$P(A_1|B) + P(A_2|B) + P(A_3|B) = 1$$
+\newpage
+\textbf{Problem 3}
+\\
+\begin{center}
+\textbf{Observation 1}
+\end{center}
+The probability of one heads and one tails is the sum of probability First coin heads and second coin tails, and the probability of First coin tails and second coin heads.
+
+$$P[one\ heads,\ one\ tails] = P[H_1,T_2] + P[T_1, H_2]$$
+\noindent\rule{20cm}{0.4pt}
+\begin{center}
+\textbf{Observation 2}
+\end{center}
+We also know that coin tosses are independent of each other.  What effects a coin toss result is the result of the dice roll, which is in turn not effected by a coin toss in any way, so Coin toss results are independent. This means that 
+\\
+
+$$ P[H_1, T_2] = P[H_1] * P[T_2]$$
+\begin{center}
+and
+\end{center}
+$$ P[T_1, H_2] = P[T_1] * P[H_2]$$
+\noindent\rule{20cm}{0.4pt}
+\begin{center}
+\textbf{Observation 3}
+\end{center}
+We also know that coin flips can either be heads or tails, meaning that if we are not one result, we must be the opposite, so 
+$$P[\overline{H_i}] = P[T_i]$$
+\begin{center}
+and
+\end{center}
+$$P[\overline{T_i}] = P[H_i]$$
+\noindent\rule{20cm}{0.4pt}
+\begin{center}
+\textbf{Observation 4}
+\end{center}
+
+We also know that $P[A] + P[\overline{A}] = 1$, so building off of this and Observation 3, we know that
+$$P[H_i] + P[T_i] = 1$$
+\noindent\rule{20cm}{0.4pt}
+Here are the math steps to solve now
+\begin{enumerate}
+\item[1. ] $P[one\ heads,\ one\ tails] = P[H_1,T_2] + P[T_1, H_2]$ \\
+\item[2. ] $P[H_1, T_2] = P[H_1] * P[T_2]$\\
+\item[3. ] $P[H_1] = 0.5$\\
+\item[4. ] $P[T_2] = (P[D_0\ \leq 2] * P[T|C_0] ) + (P[D_0\ \geq 2] * P[T|C_1] )$\\
+\item[5. ] $P[T_2] = (\frac{1}{3} * (0.5) + \frac{2}{3} * 0.2) = 0.3$\\
+\item[6. ] $P[H_1, T_2] = P[H_1] * P[T_2] = 0.5 * 0.3 = 0.15$\\
+\item[7. ] $P[T_1, H_2] = P[T_1] * P[H_2]$\\
+\item[8. ] $P[T_1] = 0.5$\\
+\item[9. ] $P[H_2] = (P[D_0\ \leq 2] * P[H|C_0] ) + (P[D_0\ \geq 2] * P[H|C_1] ) = P[\overline{T_2}]$\\
+\item[10. ] $P[H_2] = (\frac{1}{3} * (0.5) + \frac{2}{3} * 0.8) = 0.7$ //As we can see, this is also the same as $P[\overline{T_2}]$\\
+\item[11. ] $P[T_1, H_2] = P[T_1] * P[H_2] = 0.5 * 0.7 = 0.35$\\
+\item[12. ] $P[one\ heads,\ one\ tails] = P[H_1,T_2] + P[T_1, H_2] = 0.15 + 0.35 = 0.5$\\
+\item[13. ] \textbf{Solution: }$0.5$
+\end{enumerate}
+\newpage
+\textbf{Problem 4}
+\end{enumerate}
+
 \end{document}
