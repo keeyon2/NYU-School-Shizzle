@@ -17,24 +17,24 @@
 \begin{enumerate}
 \item[a) ] Lets look at the basic observation, $$P(A) + P(\overline{A}) = 1$$\\
 This means that in the total array of possibilities, the Probability of A happening plus the Probability of A not happening is 1.\\ \\
-When we say $$P(A|B)$$ \\ We are just limiting the total array of possibilities to set $B$.
-This means that $$P(A|B) + P(\overline{A}|B) = 1$$
+When we say $$P(A\ |\ B)$$ \\ We are just limiting the total array of possibilities to set $B$.
+This means that $$P(A\ |\ B) + P(\overline{A}\ |\ B) = 1$$
 \begin{center}
  is the same as 
 \end{center}
 $$P(A) + P(\overline{A}) = 1$$ \\ \\
 The only difference is that in the first statement, we are just limiting the total array of possibilities to B. \\ \\
 To explain the drawing below, \textit{which is on the next page}, we have to look at a certain fact.
-$$0 \leq P(A|B) \leq 1$$ 
+$$0 \leq P(A\ |\ B) \leq 1$$ 
 \begin{center}
 and 
 \end{center}
-$$0 \leq P(\overline{A}|B) \leq 1$$.
-\\ Because we know the sum of these two probabilities is $1$, we know that either both probabilities will be between $0$ and $1$, or one probability will be $1$ leaving the other probability at $0$.  As you can see in the drawings below, for all three possibilities, if we fill out both $P(A|B)$ and $P(\overline{A}|B)$, we can see that the circle $B$ is always completely filled out, hence the sum of $P(A|B)$ and $P(\overline{A}|B)$ will equal 1.\\ \\ 
+$$0 \leq P(\overline{A}\ |\ B) \leq 1$$.
+\\ Because we know the sum of these two probabilities is $1$, we know that either both probabilities will be between $0$ and $1$, or one probability will be $1$ leaving the other probability at $0$.  As you can see in the drawings below, for all three possibilities, if we fill out both $P(A\ |\ B)$ and $P(\overline{A}\ |\ B)$, we can see that the circle $B$ is always completely filled out, hence the sum of $P(A\ |\ B)$ and $P(\overline{A}\ |\ B)$ will equal 1.\\ \\ 
 \newpage
 \item[b) ]  We know that events $A_1$, $A_2$, and $A_3$ are all disjoint, but they span all possible values.  We know they are disjoint because all possible Unions have a size of $0$, as stated in the problem.  Knowing they are all disjoint, but they all still sum up to $1$, we know that events $A_1$, $A_2$, and $A_3$ span over all possible outcomes.\\ \\
 In part A, $P(A) + P(\overline{A})$ spanned over the entire array of possible values, which was the basis of our proof.  Now we know that $P(A_1) + P(A_2) + P(A_3)$ span over the entire array of possible values. \\ \\
-$P(A_1|B) + P(A_2|B) + P(A_3|B) = x$ is asking that in the subspace of $A_1 \cup A_2 \cup A_3$, how much of $B$ do we cover over?  Because $A_1 \cup A_2 \cup A_3$ is the entire subspace, we have to be covering over all of $B$, meaning that $$P(A_1|B) + P(A_2|B) + P(A_3|B) = 1$$
+$P(A_1\ |\ B) + P(A_2\ |\ B) + P(A_3\ |\ B) = x$ is asking that in the subspace of $A_1 \cup A_2 \cup A_3$, how much of $B$ do we cover over?  Because $A_1 \cup A_2 \cup A_3$ is the entire subspace, we have to be covering over all of $B$, meaning that $$P(A_1\ |\ B) + P(A_2\ |\ B) + P(A_3\ |\ B) = 1$$
 \newpage
 \textbf{Problem 3}
 \\
@@ -92,6 +92,67 @@ Here are the math steps to solve now
 \end{enumerate}
 \newpage
 \textbf{Problem 4}
+\\
+\begin{itemize}
+\item[a) ] We are trying to solve for $P[C_0|H]$.  We will use Bayes Rule\\
+$$ P[C_0\ |\ H] = \frac{P[H\ |\ C_0] * P[C_0]}{P[H]} $$
+\\
+We know $P[H\ |\ C_0]$ and $P[C_0]$, but we do not know $P[H]$, but we can solve for it. We know that
+$$ P[C_0\ |\ H] + P[\overline{C_0}\ |\ H] = 1$$
+\\
+This means that
+$$\frac{P[H\ |\ C_0] * P[C_0]}{P[H]} + \frac{P[H\ |\ C_1] * P[C_1]}{P[H]} = 1$$
+\\
+$$P[H] = P[H\ |\ C_0] * P[C_0] + P[H\ |\ C_1] * P[C_1]$$
+\\
+$$P[H] = 0.5* \frac{8}{11} + 0.8 * \frac{3}{11} = 0.581$$
+\\
+Now we know $P[H\ |\ C_0]$, $P[C_0]$, and $P[H]$, meaning we can solve for $P[C_0\ |\ H]$
+\\
+$$ P[C_0\ |\ H] = \frac{P[H\ |\ C_0] * P[C_0]}{P[H]} = \frac{0.5 * \frac{8}{11}}{.581} = 62.26\%$$\\
+\begin{center}
+\textbf{Solution = $62.26\%$}
+\end{center}
+\newpage	
+\item[b) ] 
+$$ P[C_0\ |\ HH] = \frac{P[HH\ |\ C_0] * P[C_0]}{P[HH]} $$
+\\
+$$\frac{P[HH\ |\ C_0] * P[C_0]}{P[HH]} + \frac{P[HH\ |\ C_1] * P[C_1]}{P[HH]} = 1$$
+\\
+$$P[HH] = P[HH\ |\ C_0] * P[C_0] + P[HH\ |\ C_1] * P[C_1]$$
+\\
+$$P[HH] = ((0.5 * 0.5) * \frac{8}{11}) + ((0.8 * 0.8) * \frac{3}{11}) = 0.35636$$
+\\
+$$ P[C_0\ |\ HH] = \frac{0.25 * \frac{8}{11}}{0.35656} = 51.02\% $$
+\\
+\begin{center}
+\textbf{Solution: $51.02\%$}
+\end{center}
+\newpage
+\item[c) ] $$ P[C_0\ |\ 1\ Head\ and\ 1\ Tail] = \frac{P[1\ Head\ and\ 1\ Tail\ |\ C_0]P[C_0]}{P[1\ Head\ and\ 1\ Tail]}$$
+\\
+$$ \frac{P[1\ Head\ and\ 1\ Tail\ |\ C_0]P[C_0]}{P[1\ Head\ and\ 1\ Tail]} +  \frac{P[1\ Head\ and\ 1\ Tail\ |\ C_1]P[C_1]}{P[1\ Head\ and\ 1\ Tail]} = 1$$
+\\
+$$P[1\ Head\ and\ 1\ Tail] = P[1\ Head\ and\ 1\ Tail\ |\ C_0]P[C_0] + P[1\ Head\ and\ 1\ Tail\ |\ C_1]P[C_1]$$
+\\
+$$P[1\ Head\ and\ 1\ Tail\ |\ C_0] = P[H_1,\ T_2\ |\ C_0] + P[T_1, H_2\ |\ C_0]$$
+\\
+$$P[1\ Head\ and\ 1\ Tail\ |\ C_0] = (0.5 * 0.5) + (0.5 * 0.5) = 0.5$$
+\\
+$$P[1\ Head\ and\ 1\ Tail\ |\ C_1] = P[H_1,\ T_2\ |\ C_1] + P[T_1, H_2\ |\ C_1]$$
+\\
+$$P[1\ Head\ and\ 1\ Tail\ |\ C_1] = (0.8 * 0.2) + (0.2 * 0.8) = 0.32$$
+\\
+$$P[1\ Head\ and\ 1\ Tail] = (0.5 * \frac{8}{11}) + (0.32 * \frac{3}{11}) = 0.451$$
+\\
+$$P[C_0\ |\ 1\ Head\ and\ 1\ Tail] = \frac{0.5 * \frac{8}{11}}{0.451} = 80.63\%$$
+\\
+\begin{center}
+\textbf{Solution: $80.63\%$}
+\end{center}
+
+
+\end{itemize}
 \end{enumerate}
 
 \end{document}
