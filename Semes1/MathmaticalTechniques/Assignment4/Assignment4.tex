@@ -150,9 +150,26 @@ $$P[C_0\ |\ 1\ Head\ and\ 1\ Tail] = \frac{0.5 * \frac{8}{11}}{0.451} = 80.63\%$
 \begin{center}
 \textbf{Solution: $80.63\%$}
 \end{center}
-
-
 \end{itemize}
+\newpage
+\textbf{Problem 5}
+\\
+\begin{center}
+\textbf{We want to know the probability of the second ball being black when we know the first ball was black.  This only happens when we are in Urn 1, so we are trying to find out $P[U_1\ |\ B]$}
+\end{center}
+$$ P[U_1\ |\ B] = \frac{P[B\ |\ U_1] * P[U_1]}{P[B]}$$
+\\
+$$P[U_1\ |\ B] + P[\overline{U_1}\ |\ B] = 1$$
+\\
+$$P[U_1\ |\ B] + P[U_2\ |\ B] + P[U_3\ |\ B] = 1$$
+\\
+$$\frac{P[B\ |\ U_1] * P[U_1]}{P[B]} + \frac{P[B\ |\ U_2] * P[U_2]}{P[B]} + \frac{P[B\ |\ U_3] * P[U_3]}{P[B]} = 1$$
+\\
+$$P[B] = P[B\ |\ U_1] * P[U_1] + P[B\ |\ U_2] * P[U_2] + P[B\ |\ U_3] * P[U_3]$$
+\\
+$$P[B] = (1 * \frac{1}{3}) + (0 * \frac{1}{3}) + (0.5 * \frac{1}{3}) = \frac{1}{2}$$
+\\
+$$ P[U_1\ |\ B] = \frac{1 * \frac{1}{3}}{\frac{1}{2}} = \frac{2}{3}$$
 \end{enumerate}
 
 \end{document}
