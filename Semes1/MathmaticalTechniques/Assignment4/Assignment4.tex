@@ -35,6 +35,7 @@ $$0 \leq P(\overline{A}\ |\ B) \leq 1$$.
 \item[b) ]  We know that events $A_1$, $A_2$, and $A_3$ are all disjoint, but they span all possible values.  We know they are disjoint because all possible Unions have a size of $0$, as stated in the problem.  Knowing they are all disjoint, but they all still sum up to $1$, we know that events $A_1$, $A_2$, and $A_3$ span over all possible outcomes.\\ \\
 In part A, $P(A) + P(\overline{A})$ spanned over the entire array of possible values, which was the basis of our proof.  Now we know that $P(A_1) + P(A_2) + P(A_3)$ span over the entire array of possible values. \\ \\
 $P(A_1\ |\ B) + P(A_2\ |\ B) + P(A_3\ |\ B) = x$ is asking that in the subspace of $A_1 \cup A_2 \cup A_3$, how much of $B$ do we cover over?  Because $A_1 \cup A_2 \cup A_3$ is the entire subspace, we have to be covering over all of $B$, meaning that $$P(A_1\ |\ B) + P(A_2\ |\ B) + P(A_3\ |\ B) = 1$$
+\end{enumerate}
 \newpage
 \textbf{Problem 3}
 \\
@@ -88,7 +89,7 @@ Here are the math steps to solve now
 \item[10. ] $P[H_2] = (\frac{1}{3} * (0.5) + \frac{2}{3} * 0.8) = 0.7$ //As we can see, this is also the same as $P[\overline{T_2}]$\\
 \item[11. ] $P[T_1, H_2] = P[T_1] * P[H_2] = 0.5 * 0.7 = 0.35$\\
 \item[12. ] $P[one\ heads,\ one\ tails] = P[H_1,T_2] + P[T_1, H_2] = 0.15 + 0.35 = 0.5$\\
-\item[13. ] \textbf{Solution: }$0.5$
+\item[13. ] {\Large \textbf{Solution: }$0.5$ }
 \end{enumerate}
 \newpage
 \textbf{Problem 4}
@@ -111,7 +112,7 @@ Now we know $P[H\ |\ C_0]$, $P[C_0]$, and $P[H]$, meaning we can solve for $P[C_
 \\
 $$ P[C_0\ |\ H] = \frac{P[H\ |\ C_0] * P[C_0]}{P[H]} = \frac{0.5 * \frac{8}{11}}{.581} = 62.26\%$$\\
 \begin{center}
-\textbf{Solution = $62.26\%$}
+{\Large \textbf{Solution = $62.26\%$} }
 \end{center}
 \newpage	
 \item[b) ] 
@@ -126,7 +127,7 @@ $$P[HH] = ((0.5 * 0.5) * \frac{8}{11}) + ((0.8 * 0.8) * \frac{3}{11}) = 0.35636$
 $$ P[C_0\ |\ HH] = \frac{0.25 * \frac{8}{11}}{0.35656} = 51.02\% $$
 \\
 \begin{center}
-\textbf{Solution: $51.02\%$}
+{\Large \textbf{Solution: $51.02\%$} }
 \end{center}
 \newpage
 \item[c) ] $$ P[C_0\ |\ 1\ Head\ and\ 1\ Tail] = \frac{P[1\ Head\ and\ 1\ Tail\ |\ C_0]P[C_0]}{P[1\ Head\ and\ 1\ Tail]}$$
@@ -148,7 +149,7 @@ $$P[1\ Head\ and\ 1\ Tail] = (0.5 * \frac{8}{11}) + (0.32 * \frac{3}{11}) = 0.45
 $$P[C_0\ |\ 1\ Head\ and\ 1\ Tail] = \frac{0.5 * \frac{8}{11}}{0.451} = 80.63\%$$
 \\
 \begin{center}
-\textbf{Solution: $80.63\%$}
+{\Large \textbf{Solution: $80.63\%$} }
 \end{center}
 \end{itemize}
 \newpage
@@ -170,6 +171,34 @@ $$P[B] = P[B\ |\ U_1] * P[U_1] + P[B\ |\ U_2] * P[U_2] + P[B\ |\ U_3] * P[U_3]$$
 $$P[B] = (1 * \frac{1}{3}) + (0 * \frac{1}{3}) + (0.5 * \frac{1}{3}) = \frac{1}{2}$$
 \\
 $$ P[U_1\ |\ B] = \frac{1 * \frac{1}{3}}{\frac{1}{2}} = \frac{2}{3}$$
+\\
+\begin{center}
+{\huge \textbf{Solution: $\frac{2}{3}$} }
+\end{center}
+\newpage
+\textbf{Problem 6}
+\\
+\begin{enumerate}
+\item[a) ] To find the expected value of questions asked, we must look at the graph and find out how many questions will be asked for each value on the Dice.  Then we multiply each of those question numbers by the probability of that dice roll.\\ 
+\\
+$$Expected\ Value\ Questions\ = (0.25 * 1) + (0.25 * 3) + (0.20 * 3) + (0.15 * 3) + (0.10 * 4) + (0.05 * 4)$$
+\\
+$$Expected\ Value\ D_1\ = 2.65$$
+
+\begin{center}
+{\Large \textbf{Solution: $2.65$}}
+\end{center}
+\vspace{20 mm}
+ \item[b) ] {\Large $Entropy\ = \sum\limits_{i=1}^n (P[i] * log_2(\frac{1}{P[i]}))$}\\
+ $$= (.25 * log_2(\frac{1}{.25})) + (.25 * log_2(\frac{1}{.25})) + (.20 * log_2(\frac{1}{.20})) + (.15 * log_2(\frac{1}{.15})) + (.10 * log_2(\frac{1}{.10})) + (.05 * log_2(\frac{1}{.05}))$$
+ \\
+ $$ = 2.42$$
+ \begin{center}
+{ \Large \textbf{Solution: $2.42$}}
+ \end{center}
 \end{enumerate}
+
+
+
 
 \end{document}
