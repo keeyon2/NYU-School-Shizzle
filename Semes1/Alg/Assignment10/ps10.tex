@@ -3,7 +3,7 @@
 \def\num{10}  %homework number
 \def\due{Wednesday, November 26}  %due date
 \def\course{CSCI-GA.1170-001/002 Fundamental Algorithms} %course name
-\def\name{**** INSERT YOUR NAME HERE ****}
+\def\name{Keeyon Ebrahimi}
 %
 \iffalse
 INSTRUCTIONS: replace # by the homework number.
@@ -152,7 +152,7 @@ vertex $v$ having no outgoing edges.
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+Imagine $G$ as a graph that has all vertexes with outgoing edges, and that after traversing down all Vertexes except for one, we do not have a cycle.  We now have to analyze the last non visited Vertex, which we will label as $L$.  Now, if every node has an outgoing edge, then node $L$ will also have an outgoing edge.  Because all nodes other than $L$ have already been visited, and $L$ has an outgoing edge, then no matter what, $L$ will have an outgoing node to a node that has already been visited, therefore creating a cyclic Graph.  This shows that in order to have an acyclic graph, we need to have a Vertex with no outgoing edges.
 \end{solution}
 \fi
 
