@@ -235,7 +235,10 @@ As we can see, for this snapshot, both the cut property and the cycle property w
 \ifnum\me<2
 \begin{solution}
 \\
-
+I claim that with all edges weighing $w$, then any tree that includes all Vertexes will all have the same total weight, thus will be a $MST$.  If this claim is true, a correct algorithm would be to traverse through $G$ and add all non visited vertexes and the edge that connected them into our $MST$. To do this, we would just run a Depth First Search and traverse through $G$, adding all non visited Vertexes and the Edges connecting to them into our $MST$. With this algorithm, we will only be traveling to each vertexes edges.  If we have our graph stored in an adjacency list, this search will have a running time of $O(m +n)$. \textbf{ This $O(m + n)$ algorithm will have a faster running time than Prim's Algorithm.}
+\\
+\\
+Now we must prove that this algorithm will give the correct result.  With all $MST$'s, we know that we need to be able to connect all vertexes, only visiting each vertex once, which means that we will always have a total of $V - 1$ edges.  If all edges weigh the same, and all spanning trees have $V - 1$ edges, then we know that all spanning trees in this example will have the total weight of $w * (V - 1)$.  This means that all spanning trees of $G$ will be a $MST$.  As long as we create a spanning tree, we will also have a $MST$.  A $DFS$ will always give us a tree spanning all vertexes, and because all spanning trees in this example are a $MST$, we know that this algorithm will give us a correct solution.
 \end{solution}
 \fi
 
