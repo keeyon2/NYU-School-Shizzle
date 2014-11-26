@@ -196,8 +196,9 @@ to $O(m + n)$
 
 \newproblem{Minimizing Maximal Weight Edge}{6 points}
 
-Recall, MST finds a spanning sub-tree $T$ of the original graph minimizing the sum of edge weights in $T$: $\sum_{e\in T} w(e)$. Consider a related problem MST$'$ which attempts to find a spanning sub-tree $T'$ of the original graph minimizing the maximum edge weight in $T'$: $\sum_{e\in T'} w(e)$.
-Show that the solution $T$ to MST is also an optimal solution $T'$ to MST$'$, and vice versa.
+Recall, MST finds a spanning sub-tree $T$ of the original graph minimizing the sum of edge weights in $T$: $\sum_{e\in T} w(e)$. Consider a related problem MST$'$ which attempts to find a spanning sub-tree $T'$ of the original graph minimizing the maximum edge weight in $T'$: $\max_{e\in T'} w(e)$.
+Show that the solution $T$ to MST is also an optimal solution $T'$ to
+MST$'$. Is the converse true as well?
 
 \ifnum\me<2
 \begin{solution}
@@ -221,6 +222,7 @@ Now if we use the cut property through $s$ and $l$, we will be selecting the sma
 Now lets use the cycle property instead of the cut property.  With the cycle property, we will examine $s$ and $l$ and eliminate $l$.  The cycle property will select $s$ after eliminating $l$.
 \\ \\
 As we can see, for this snapshot, both the cut property and the cycle property will both be selecting the same edge for our finished $MST$ and our $MST'$.  If we repeat this process throughout the entire $G$, we will also eventually be selecting all of the same edges for $MST$ and $MST'$, giving the use of each the same optimal solution
+
 \end{solution}
 \fi
 
@@ -232,7 +234,8 @@ As we can see, for this snapshot, both the cut property and the cycle property w
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\\
+
 \end{solution}
 \fi
 
