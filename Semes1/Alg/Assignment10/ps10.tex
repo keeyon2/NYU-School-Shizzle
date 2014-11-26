@@ -246,7 +246,18 @@ Now we must prove that this algorithm will give the correct result.  With all $M
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\\
+My above solution will not work as is, because if $w'$ is less than $w$, we have the chance of skipping over it in a regular old $DPS$.  Also, if $w'$ is more than $w$, now we have the chance of including this in our solution, yet both of these situations will not give us a correct $MST$.  
+\\
+\\
+Instead of running a $DFS$, we could now instead run a $BFS$, and instead of just selecting the first edge we see, we know have to compare all the edges and select the edge with the minimum edge weight.  With this, we would now include $w'$ whenever $w' < w$, and we would also skip over $w'$ if $w' > w$, giving us the correct $MST$
+\\ \\
+This new algorithm would now have a different running time.  Now when we hit a new vertex, instead of just going edge to edge until we hit an edge that visits a new vertex, we now have to make sure we go through every edge and select the one with the minimum weight.  \\
+\\
+As we can see though, this is exactly what Prim's algorithm does.  It goes to a Vertex, find the minimum weight edge, and includes it if a cyle is not created.  We are doing the exact same thing here now, which we have to do in order to make sure we handle $w'$ correctly.
+\\
+\\
+Adding one $w'$ element that is different than $w$ now forces us to check the weight of all edges, making us now have to use Prim's algorithm which has the $O(m + n\ log\ n)$ edges.
 \end{solution}
 \fi
 
