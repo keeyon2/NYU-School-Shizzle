@@ -166,7 +166,14 @@ it, else give a counter-example.
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+Few things to consider\\
+\begin{itemize}
+\item If we have a vertex with no outgoing edges at any time, we will have an cyclic graph, as shown by $Part A$\\
+\item By taking a vertex completely out of an acyclic graph, we will never all of a sudden create a cyclic graph. \\
+\item If there is any acyclic section of $G$, when all of $G$ is acyclic.
+\\ \\
+With the above statements, we know that the very first removal will not create an cyclic graph out of an acyclic graph, and that it tests for the graph being cyclic or not correctly.  By removing this node that has no outgoing edges, we will not be disrupting the tree structure that $G$ has.  After removing the vertex with no edges, we now run this algorithm on the newly created tree because if there is any section of $G$ that is acyclic, then the whole graph becomes acyclic.  We keep running this test until we remove all Vertexes, which we now know correctly answers if there is any acyclic section or not.
+\end{itemize}
 \end{solution}
 \fi
 
@@ -176,7 +183,12 @@ credit}, do it in time $O(m+n)$.
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob c SOLUTION HERE ***************
+We will be running a modified Topological sort using a $DFS$. \\
+After the $DFS$ Topological sort, elements with the lowest end time should have no children if we are dealing with a cyclic $G$.  So we run a $DFS$ and sort in reverse finish time order and place them each into a stack.  This gives us $G$ in topological sort in running time $O(m + n)$.  Now we pop from the stack, giving us the element with the smallest end time, which we will label as $L$ and we see if this child has any children.  If it does have children, then we know that we are dealing with an cyclic $G$, for in an acyclic $G$, the vertex with the smallest end time will have no children.  If $L$ does not have any children, we remove this $L$ Vertex from $G$, and also remove all incoming edges.  This process will happen in constant time because we are storing $G$ in a $2 x 2$ array. \\ \\
+We have now accurately implemented the initial step of the algorithm in time $O(m + n)$.  After a successful removal of $L$, we once again pop from our stack, giving us the new Vertex with the least ending time.  With this vertex we run our constant time checks and repeat. \\ \\
+To make this happen, we need to run our topological sort and place these all into a stack, which will take $O(m + 2n)$. This is because the topological sort takes $O(m + n)$ and placing in the stack takes time $O(n)$.  We then pop from the stack, make checks on children and update the problem base on this info, which only takes constant time.  \\
+Our running time is now $O(m + 2n)$, and we are also going to pop from the stack $0(n)$ times, meaning our total running time for this algorithm will be $O(m + 3n)$, which is equivalent
+to $O(m + n)$
 \end{solution}
 \fi
 
