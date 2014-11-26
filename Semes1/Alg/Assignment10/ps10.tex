@@ -201,7 +201,26 @@ Show that the solution $T$ to MST is also an optimal solution $T'$ to MST$'$, an
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob ~ SOLUTION HERE ***************
+\\ In this problem it is very important to look at both the cut property and the cycle property.  \\
+\begin{enumerate}
+\item[1. ] \textbf{Cut Property: }This states that whenever you put a line through the graph, also called a cut, of all  edges that this cut touches, if there is an edge that is strictly smaller than all the other edges that the cut touches, then that edge must belong in the $MST$. \\
+\item[2. ] \textbf{Cycle Property: }This states that for any cycle within $G$, if there is an edge that is strictly larger than all the other edges, then this edge should not be in the $MST$.\\
+\\
+\end{enumerate}
+We can see that for the Original $MST$, we are looking for the minimal sum, meaning we follow the cut property picking the edge with the least weight until we have our completed $MST$. 
+\\
+We can also see that for the related $MST'$, we will continuously be following the Cycle Property, eliminating edges with the greatest weight. \\ \\
+If we can show that these two properties are actually doing the same thing, we can show that each process will be a solution to the other.\\ \\
+Lets imagine we have $G$, that is split into two sub Graphs, $A$ and $B$, which have no overlap with each other.  Graph $A$ and graph $B$ are completely disjoint.  Lets also say that we have created this division of $A$ and $B$ to have only two edges connecting graph $A$ and $B$ as well. \\ \\
+So we have graph $A$ that is a subset of $G$.  We have $B$ that is a subset of $G$.  $A$ and $B$ are completely disjoint, and also have 2 edges connecting $A$ to $B$.
+\\ \\
+These two edges are not going to have the same value as well, so one of the edges will be larger, $l$, and one will be smaller, $s$. 
+\\ \\
+Now if we use the cut property through $s$ and $l$, we will be selecting the smaller value, so we will be selecting edge $s$ for our $MST$.
+\\ \\
+Now lets use the cycle property instead of the cut property.  With the cycle property, we will examine $s$ and $l$ and eliminate $l$.  The cycle property will select $s$ after eliminating $l$.
+\\ \\
+As we can see, for this snapshot, both the cut property and the cycle property will both be selecting the same edge for our finished $MST$ and our $MST'$.  If we repeat this process throughout the entire $G$, we will also eventually be selecting all of the same edges for $MST$ and $MST'$, giving the use of each the same optimal solution
 \end{solution}
 \fi
 
