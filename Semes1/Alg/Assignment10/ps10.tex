@@ -284,7 +284,7 @@ In this example, if $w = O(1)$, then all of our weights will be the same at $1$,
 \ifnum\me<2
 \begin{solution}
 \\
-In Kruscal's algorithm we have four main steps
+In Kruscal's algorithm we have three main steps
 \begin{enumerate}
 \item[1. ] \textbf{Make $n$ sets. (One for each vertex)}
 \\
@@ -292,9 +292,9 @@ This usually has a running time of $O(n)$
 \\
 \item[2. ] \textbf{Order edges by weight}
 \\
-This usually has a running time of $O(m\ log\ m)$, which reduces down to $O(m\ log\ n)$ and this is why.  With $G$, we can at most have each vertex have an edge to each other vertex.  This would give us $v^2$ edges.  This means that we can reduce $O(m\ log\ m)$ down to $O(m\ log\ n^2)$.  This equals $O(m\ 2 * log\ n)$, which equals $O(m\ log\ n)$
+This usually has a running time of $O(m\ log\ m)$, which reduces down to $O(m\ log\ n)$ and this is why.  With $G$, the maximum edges we can have is when each vertex have an edge to each other vertex.  This would give us $v^2$ edges.  This means that we can reduce $O(m\ log\ m)$ down to $O(m\ log\ n^2)$.  This equals $O(m\ 2 * log\ n)$, which equals $O(m\ log\ n)$
 \\
-\item[3. ] Iterate through all stages 
+\item[3. ] Iterate through all edges.  For each edge, check if the connecting vertexes are in each others set.  If not 
 \end{enumerate}
 \end{solution}
 \fi
