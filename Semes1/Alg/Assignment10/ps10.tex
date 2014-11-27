@@ -274,7 +274,8 @@ Assume all edge weights in $G$ are integers from $1$ to $w$.
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+A modification to give the $O(m+nw)$ running time is based on the fact that we now know the minimum possible value of our edges.  The modification would that whenever we visit an edge with weight $1$, which is our minimum possible value, and this edge keeps our solution acyclic, we select that edge because we know that this is the minimum an edge can possibly weigh, giving us the correct edge without having to span through the rest of the edges.   \\ \\
+In this example, if $w = O(1)$, then all of our weights will be the same at $1$, and this will make us always use the first edge we will see, which will give us the running time $O(m + n)$, as explained in Problem $3 a$.
 \end{solution}
 \fi
 
@@ -282,7 +283,19 @@ Assume all edge weights in $G$ are integers from $1$ to $w$.
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\\
+In Kruscal's algorithm we have four main steps
+\begin{enumerate}
+\item[1. ] \textbf{Make $n$ sets. (One for each vertex)}
+\\
+This usually has a running time of $O(n)$
+\\
+\item[2. ] \textbf{Order edges by weight}
+\\
+This usually has a running time of $O(m\ log\ m)$, which reduces down to $O(m\ log\ n)$ and this is why.  With $G$, we can at most have each vertex have an edge to each other vertex.  This would give us $v^2$ edges.  This means that we can reduce $O(m\ log\ m)$ down to $O(m\ log\ n^2)$.  This equals $O(m\ 2 * log\ n)$, which equals $O(m\ log\ n)$
+\\
+\item[3. ] Iterate through all stages 
+\end{enumerate}
 \end{solution}
 \fi
 
