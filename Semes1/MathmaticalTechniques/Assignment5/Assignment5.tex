@@ -203,5 +203,46 @@ By Theorem 9.8 from page 260, (Proof on page 261), we know that Exp($X + Y$) = E
 $$Exp(X + Y) = Exp(X) + Exp(Y) = 0.7 + 0.45 = 1.15$$
 \end{enumerate}
 \end{enumerate}
+\newpage
+\textbf{Problem 6}
+\begin{enumerate}
+\item[(a)] What is the value of $a$ (written as "a" in the drawing) 
+\\ \\
+\textbf{Solution: $a = 9$}
+\\ \\
+With a probability density function, the area under the function has to go to $1$.  This is because $P(A) + P(\overline{A}) = 1$.  So we must find the complete area under the function before $a$, and then find out how long $a$ must be by finding the difference of 1 and the area under the function before $a$.
+\\
+\begin{itemize}
+\item[(i)] Area under $x < 2.0 = 0$
+\item[(ii)] Area under $2.0 \leq x < 4.0 = 0.4$
+\begin{center}
+The equation of this section is $Y = .2$.   To find the area under this part of the function, we take the integral of this equation and give it a range from $2.0$ to $4.0$.
+\end{center}
+$$ \int_2^4 0.2\ dx = 4.0(0.2) - 2.0(0.2) = 0.4$$
+\item[(iii)] Area under $4.0 \leq x < 6.0 = 0.3$
+\begin{center}
+We must first find the equation of the line from $4.0 \leq x < 6.0$.  
+\end{center}
+\begin{enumerate}
+\vspace{5mm}
+\item[•] Slope $4.0 \leq x < 6.0$ 
+$$m = \frac{0.1 - 0.2}{6.0 - 4.0} = -0.05$$
+\\
+\item[•] Equation Y
+$$Y = -0.05(x - 4.0) + 0.2 = -0.05x + 0.4$$
+\\
+\item[•] Area Under Y from $4.0 \leq x < 6.0$
+{\Large $$ \int_4^6 -0.05x + 0.4 = (\frac{-0.05}{2}*6^2 + (0.4*6)) - (\frac{-0.05}{2}*4^2 + (0.4*4)) = 0.3$$ }
+\end{enumerate}
+\item[(iv)]Area under $6.0 \leq a = 0.3$
+\\ \\So far our current area under the curve up until $x = 6.0$ is $0.4 + 0.3 = 0.7$ We need total  area under the curve to be $1$, so the remaining amount we need to have under the curve is $1 - 0.7 = 0.3$.\\ \\
+\item[(v)] Value of $a = 9$
+\\ \\
+We need $0.3$ more under the curve, and we know that past $6$, we keep the constant rate of $0.1$. so $$a = 6 + \frac{0.3}{0.1} = 9$$
 
+\end{itemize}
+\item[(b)] Using the given $f$, what is the probability that a randomly chosen real number will fall in the interval [5.0, 7.0]?
+\item[(c)] What is the cumulative distribution function? Please both define it as done in the bulleted list above above and produce a drawing.
+
+\end{enumerate}
 \end{document}
