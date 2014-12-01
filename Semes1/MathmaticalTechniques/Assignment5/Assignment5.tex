@@ -151,7 +151,29 @@ We are given all $P(X)$ and also all $P(Y | X)$.  We must now solve for $P(X, Y)
 \end{center}
 
 \item[(b)] Distribution of $Y$
+\\
+\\
+{\Large 
+$P(Y = -1) = 0.25 + 0.08 + 0.04 = 0.37 = 37\%$\\
+$P(Y = 1) = 0.15 + 0.28 + 0.01 = 0.44 = 44\%$\\
+$P(Y = 2) = 0.1 + 0.04 + 0.05 = 0.19 = 19\%$\\
+}
+
 \item[(c)] Corresponding table for $P(X|Y)$
+\\
+$$P(X, Y) = P(X | Y) * P(Y)$$
+$$\frac{P(X, Y)}{P(Y)} = P(X | Y)$$
+\\ \\
+\begin{center}
+{\Large \textbf{$P(X, Y)$}}\\ 
+  \begin{tabular}{ r || c | c | c |}
+	 & -1 & 1 & 2 \\ \hline
+	 0 & 0.6757 & 0.341 & 0.5263\\ \hline   
+    1 & 0.216 & 0.636 & 0.2105 \\ \hline
+    3 & 0.108 & 0.0227 & 0.2623 \\ \hline
+    \hline
+  \end{tabular}
+\end{center}
 \item[(d)] Distribution of $X + Y$
 \item[(e)] Exp($X$), Exp($Y$), Exp($X + Y$).
 \\
