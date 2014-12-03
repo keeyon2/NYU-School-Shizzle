@@ -1,0 +1,396 @@
+%%me=0 student solutions, me=1 - my solutions, me=2 - assignment
+\def\me{0}
+\def\num{11}  %homework number
+\def\due{Wednesday, December 5}  %due date
+\def\course{CSCI-GA.1170-001/002 Fundamental Algorithms} %course name
+\def\name{**** INSERT YOUR NAME HERE ****}
+%
+\iffalse
+INSTRUCTIONS: replace # by the homework number.
+(if this is not ps#.tex, use the right file name)
+
+  Clip out the ********* INSERT HERE ********* bits below and insert
+appropriate TeX code.  Once you are done with your file, run
+
+  ``latex ps#.tex''
+
+from a UNIX prompt.  If your LaTeX code is clean, the latex will exit
+back to a prompt.  To see intermediate results, type
+
+  ``xdvi ps#.dvi'' (from UNIX prompt)
+  ``yap ps#.dvi'' (if using MikTex in Windows)
+
+after compilation. Once you are done, run
+
+  ``dvips ps#.dvi''
+
+which should print your file to the nearest printer.  There will be
+residual files called ps#.log, ps#.aux, and ps#.dvi.  All these can be
+deleted, but do not delete ps1.tex. To generate postscript file ps#.ps,
+run
+
+  ``dvips -o ps#.ps ps#.dvi''
+
+I assume you know how to print .ps files (``lpr -Pprinter ps#.ps'')
+\fi
+%
+\documentclass[11pt]{article}
+\usepackage{amsfonts,amsmath}
+\usepackage{latexsym}
+\setlength{\oddsidemargin}{.0in}
+\setlength{\evensidemargin}{.0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1, Page \arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in { {\bf \course} \hfill #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\it #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcounter{pppp}
+\newcommand{\prob}{\arabic{pppp}}  %problem number
+\newcommand{\increase}{\addtocounter{pppp}{1}}  %problem number
+
+%first argument desription, second number of points
+\newcommand{\newproblem}[2]{
+\ifnum\me=0
+\ifnum\prob>0 \newpage \fi
+\increase
+\setcounter{page}{1}
+\handout{\name, Homework \num, Problem \arabic{pppp}}{\today}{Name: \name}{Due:
+\due}{Solutions to Problem \prob\ of Homework \num\ (#2)}
+\else
+\increase
+\section*{Problem \num-\prob~(#1) \hfill {#2}}
+\fi
+}
+
+%\newcommand{\newproblem}[2]{\increase
+%\section*{Problem \num-\prob~(#1) \hfill {#2}}
+%}
+
+\def\squarebox#1{\hbox to #1{\hfill\vbox to #1{\vfill}}}
+\def\qed{\hspace*{\fill}
+        \vbox{\hrule\hbox{\vrule\squarebox{.667em}\vrule}\hrule}}
+\newenvironment{solution}{\begin{trivlist}\item[]{\bf Solution:}}
+                      {\qed \end{trivlist}}
+\newenvironment{solsketch}{\begin{trivlist}\item[]{\bf Solution Sketch:}}
+                      {\qed \end{trivlist}}
+\newenvironment{code}{\begin{tabbing}
+12345\=12345\=12345\=12345\=12345\=12345\=12345\=12345\= \kill }
+{\end{tabbing}}
+
+%\newcommand{\eqref}[1]{Equation~(\ref{eq:#1})}
+
+\newcommand{\hint}[1]{({\bf Hint}: {#1})}
+%Put more macros here, as needed.
+\newcommand{\room}{\medskip\ni}
+\newcommand{\brak}[1]{\langle #1 \rangle}
+\newcommand{\bit}[1]{\{0,1\}^{#1}}
+\newcommand{\zo}{\{0,1\}}
+\newcommand{\C}{{\cal C}}
+
+\newcommand{\nin}{\not\in}
+\newcommand{\set}[1]{\{#1\}}
+\renewcommand{\ni}{\noindent}
+\renewcommand{\gets}{\leftarrow}
+\renewcommand{\to}{\rightarrow}
+\newcommand{\assign}{:=}
+
+\newcommand{\AND}{\wedge}
+\newcommand{\OR}{\vee}
+
+\newcommand{\For}{\mbox{\bf For }}
+\newcommand{\To}{\mbox{\bf to }}
+\newcommand{\Do}{\mbox{\bf Do }}
+\newcommand{\If}{\mbox{\bf If }}
+\newcommand{\Then}{\mbox{\bf Then }}
+\newcommand{\Else}{\mbox{\bf Else }}
+\newcommand{\While}{\mbox{\bf While }}
+\newcommand{\Repeat}{\mbox{\bf Repeat }}
+\newcommand{\Until}{\mbox{\bf Until }}
+\newcommand{\Return}{\mbox{\bf Return }}
+
+
+\begin{document}
+
+\ifnum\me=0
+%\handout{PS\num}{\today}{Name: **** INSERT YOU NAME HERE ****}{Due:
+%\due}{Solutions to Problem Set \num}
+%
+%I collaborated with *********** INSERT COLLABORATORS HERE (INDICATING
+%SPECIFIC PROBLEMS) *************.
+\fi
+\ifnum\me=1
+\handout{PS\num}{\today}{Name: Yevgeniy Dodis}{Due: \due}{Solution
+{\em Sketches} to Problem Set \num}
+\fi
+\ifnum\me=2
+\handout{PS\num}{\today}{Lecturer: Yevgeniy Dodis}{Due: \due}{Problem
+Set \num}
+\fi
+
+\newproblem{Modified Dijkstra - Too Slow?} {15 points}
+
+Dijkstra's algorithm solves the single-source shortest-path problem on a weighted directed graph $G = (V, E)$, when all edge weights are non-negative. Suppose we wish to modify the algorithm
+so that it works on graphs which has negative weight edges as long as there is no {\em negative cycle}. Consider the following modified Dijkstra's algorithm.
+
+\begin{code}
+{\sc ModifiedDijkstra}$(G,w,s)$\\
+1. \> {\sc Initialize-Single-Source}$(G,s)$ \\
+2. \> $S = \emptyset$ \\
+3. \>$Q = G.V$ \\
+4. \> \While  $Q \neq \emptyset$ \Do \\
+5. \> \> $u =$ {\sc Extract-Min}($Q$)\\
+6. \> \> $S = S \cup \{u\}$\\
+7. \> \> \For each vertex $v \in G.Adj[u]$\\
+8. \> \> \> \If $v.d >  u.d + w(u,v)$\\
+9. \> \> \> \> $v.d = u.d + w(u, v)$ \\
+10. \> \> \> \> $v.\pi = u$ \\
+11. \> \> \> \> \If $ v\in Q$, \Then {\sc Decrease-Key}($Q, v, v.d$)\\
+12. \> \> \> \> \Else   {\sc Insert}($Q,v$) and $S = S \setminus \{v\}$.\\
+\end{code}
+
+\begin{itemize}
+
+\item[(a)] (3 points) Note that the only step where the above algorithm differs from the original Dijkstra algorithm is in Step 12. Give an example with the smallest possible number of vertices
+ to show that if we remove step 12 from {\sc ModifiedDijkstra}, then it does not solve the single-source
+shortest-path problem if the edge weights may be negative, even if there are no negative weight cycle.
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(b)] (3 points) Assume that the input graph $G$ has no negative weight cycle, although there may be some edges with negative weight.
+Show that the total number of times the value of $v.d$ changes in the above algorithm is finite. Hence argue that the algorithm terminates in a finite number of steps.
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(c)] (4 points) Notice that for all $v \in V$, the value of $v.d$ is at least the shortest distance from $s$ to $v$ in an execution of the above algorithm.
+Argue that when the algorithm terminates, for all $v \in V$, the value of $v.d$ is equal to the shortest distance from $s$ to $v$. Hence conclude the above algorithm correctly solves the single-source
+shortest path problem even for graphs with negative weight, as long as there is no negative weight cycle. Explicitly state where you need step 12 of the above algorithm in your proof.
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob c SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(d)] (5 points) Consider an example of a graph $G$ with vertices $(s, v_1, \ldots, v_n)$ and edge weights $w(s, v_i) = 0$, and $w(v_i, v_j) = -2^{-i}$ for all $1 \leq i < j \leq n$.
+By finding an appropriate recurrence relation, show that {\sc ModifiedDijkstra} takes $\Omega(2^n)$ time in the worst case, when executed on $(G,s,w)$.
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob d SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\end{itemize}
+
+\newproblem{On the Way to the Examination Hall}{14 Points}
+
+John, who lives in a node $s$ of a weighted undirected graph $G$ (with
+non-negative weights), is getting late and has to reach the venue of
+his high school final exam at node $h$ as soon as possible. However,
+he has to buy some pencils on his way to the examination hall.  He can
+get pencils at any stationary, and the stationary shops form a subset
+of the vertices $B\subset V$. Thus, starting at $s$, he must go to
+some node $b\in B$ of his choice, and then head from $b$ to $h$ using
+the shortest total route possible (assume he wastes no time in the
+stationary). Help John to reach the examination hall as soon as
+possible, by solving the following sub-problems...
+
+\begin{itemize}
+
+\item[(a)] (2 points) Compute the shortest distance from $s$ to all stationary shops
+$b\in B$.
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(b)] (4 points) Compute the shortest distance from every stationary shop $b\in
+B$ to $h$. Can one simply add a new ``fake'' source $s'$ connected to
+all stationary shops with zero-weight edges and run Dijkstra from $s'$?
+
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(c)] (2 points) Combine parts (a) and (b) to solve the full problem.
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob c SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(d)] (6 points) Your solution in part (c) used two calls to the Dijkstra's
+algorithm (one in part (a) and one in part (b)). Define a new graph
+$G'$ on at most $2n$ vertices and at most $2m+n$ edges (and ``appropriate''
+weights on these edges), so that the original problem can be solved
+using a {\em single} Dijkstra call on $G'$.
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob d SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\end{itemize}
+
+\newproblem{Arbitrage Tester}{12 points}
+
+You are given a directed graph $G=(V,E)$ representing some financial
+choices. Each edge $(u,v)\in E$ has a weight $w(u,v)$, where
+$w(u,v)>0$ represents a cost, and $w(u,v)<0$ represents a profit. Your
+initial portfolio is a vertex $s\in V$, and at each step you are
+allowed to go from your current node $u\in V$ to a neighboring node
+$v\in Adj(u)$, incurring a cost $w(u,v)$ if $w(u,v)>0$, or a profit
+$-w(u,v)$ otherwise.
+
+\begin{itemize}
+
+\item[(a)] (4 points) We say that a vertex $s$ is {\em super-lucky} if
+$s$ itself is part of a cycle $C$ of negative weight, so that starting
+from $s$ one can repeatedly come back to $s$ with some profit. Using
+the ``matrix multiplication'' approach, design $O(n^3\log n)$
+algorithm to find all super-lucky vertices.
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(b)] (4 points) Say that $s$ is {\em lucky} if there exists a way to
+eventually make unbounded profit starting from $s$ (but not
+necessarily coming back to $s$ infinitely many times as with
+super-lucky vertices). Assume also you know all super-lucky
+vertices. Give the fastest algorithm you can for finding lucky
+vertices given super-lucky vertices. State its running time as a
+function of $m$ and $n$.\\
+\hint{Make sure you use super-lucky vertices instead of computing
+from scratch.}
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(c)] (4 points) Assume $s$ is not lucky (or super-lucky). Design the best
+finite strategy to make as much profit starting from $s$ as
+possible. State the running time of your algorithm.\\
+\hint{Think Bellman-Ford.}
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob c SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\end{itemize}
+
+\newproblem{Avoiding Tolls}{22 points}
+
+You are given a map $G=(V,E)$ with cities $V$ connected by roads $E$.
+Each road (edge) is labeled with a weight which is a real number. You are located in city $s\in V$. You are also given an
+array $A$ of boolean values that tells you if there is a toll on that
+road. More precisely, for road $e\in E$ we have $A[e] = 1$ if and only
+if there is a toll on $e$. Being the low budget traveler that you are,
+your budget allows for at most one such toll to be payed for any given
+trip (path).
+
+Let $d(s,t)$ denote the minimum possible sum of weights of a path from $s$ to $t$ for any $s, t \in V$. If there is no path from $s$ to $t$, then $d(s, t) = \infty$, and if there is a path from $s$ to $t$ that contains a negative cycle, then $d(s, t) = - \infty$ (since one can cycle along the path an arbitrary number of times).
+
+Similarly, let $c(s, t)$  denote the minimum possible sum of weights of a path from $s$ to $t$ that passes through at most $1$ toll.
+
+\begin{itemize}
+
+\item[(a)] (10 points) Construct a graph $G' = (V', E')$ and mappings $f: V \mapsto V'$, $g: V \mapsto V'$ such that $|V'| = 2 |V|$, $|E'| \le 2|E| + |V|$ and for any $s, t \in V$, $c(s, t) = d(f(s), g(t))$. Namely, you reduce the ``constrained'' problem on $G$ to ``unconstrained'' problem in $G'$. Remember to consider the case when $c(s, t)$ is $-\infty$, and prove the correctness of your solution.
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(b)] (3 points) Give an algorithm that takes as input $s$ and finds a shortest
+path with at most one toll road from $s$ to all cities in $V$. Analyze the running time of your algorithm.
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(c)] (3 points) Now assume your buddy Billybob who works at a major airlines
+company has given you a free plane ticket to any city in $V$, meaning
+you can start your trip at any node. As before, once you start your
+road trip, you are still refusing to pay more then a single toll on
+any such trip. To help plan the trip, your job is to give an algorithm to find a shortest
+path with at most one toll road between {\em all pairs} of cities in $V$.
+Analyze the running time of your algorithm. \hint{Remember Johnson.}
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob c SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\item[(d)] (6 points) Here you will solve the problem in part (c) directly on graph $G$, without constructing the helper graph $G'$. Let $W = \{w(i,j)\}$ be the original edge weight matrix and $W' = \{w'(i,j)\}$ be the same edge
+    matrix except we replace $w'(i,j)=\infty$ if $A(i,j)=1$ (i.e., never use toll roads in $W'$). For simplicity, assume $W'$ is pre-computed for you. For $0\le k\le n$, let
+ \begin{itemize}
+ \item $D^k$ be the matrix of all shortest distances w.r.t. $W'$ which only use nodes $\le k$ as intermediate nodes.
+ \item $C^k$ be the matrix or all shortest distances w.r.t. $W$ which only use nodes $\le k$ as intermediate nodes, but {\em also use at most one toll}.
+ \end{itemize}
+Fill in the blanks below to directly modify the Floyd-Warshall algorithm to compute the correct answer for problem (c) in time $O(n^3)$. Argue the correctness of your algorithm.
+
+\begin{code}
+{\sc Floyd-Warshall}$(W,W')$\\
+\> $n = W.rows$\\
+\> $D^0 = ......$\\
+\> $C^0 = ......$ \\
+\> \For $k = 1$ \To $n$ \Do \\
+\> \> $C^k = (c_{i,j}^k)$ be a new $n \times n$ matrix\\
+\> \> $D^k = (d_{i,j}^k)$ be a new $n \times n$ matrix\\
+\> \> \For $i = 1 $ \To $n$ \Do\\
+\> \> \> \For $j = 1$ \To $ n$ \Do \\
+\> \> \> \> $d_{i,j}^k = \min \left(....................................................................... \right)$ \\
+\> \> \> \> $c_{i,j}^k = \min \left(....................................................................... \right)$ \\
+\> \Return $.............$
+\end{code}
+
+\ifnum\me<2
+\begin{solution}
+***************** INSERT PROBLEM \prob d SOLUTION HERE ***************
+\end{solution}
+\fi
+
+\end{itemize}
+
+\end{document}
