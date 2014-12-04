@@ -217,7 +217,7 @@ Show that the total number of times the value of $v.d$ changes in the above algo
 \item[5. ] Cycles can only be negative cycles or positive cycles.
 \item[6. ] Positive cycles mean they add a positive value to the total cost of the path. We only change $v.d$ if the cost to the path to $v.d$ is decremented, meaning we will not change $v.d$ in a positive cycle, meaning that positive cycles would still lead to a finite amount of $v.d$ changes.
 \item[7. ]   The only other option is a negative cycle.  A negative cycle can repeat multiple times, and also by definition, a negative cycle will decrease the total cost.  This means that a negative cycle will infinitely decrease the total path cost value, which in tern could potentially infinitely decrease the value $v.d$.   
-\item[Summary ] We either have a cycle or we don't.  If there is no cycle, we cannot infinitely change $v.d$, as explained in proof line 5. If there is a cycle, we can only have a positive and negative cycle.  Positive cycles cannot cause infinite amount of $v.d$ changes as shown in proof line 6.  Negative cycles can change $v.d$ infinite amount of times as shown in proof line 7.  We have exhausted all possible outcome, and have deduced that the only potential infinite changes to $v.d$ is only when there are negative cycles.
+\item[Summary: ] We either have a cycle or we don't.  If there is no cycle, we cannot infinitely change $v.d$, as explained in proof line 5. If there is a cycle, we can only have a positive and negative cycle.  Positive cycles cannot cause infinite amount of $v.d$ changes as shown in proof line 6.  Negative cycles can change $v.d$ infinite amount of times as shown in proof line 7.  We have exhausted all possible outcome, and have deduced that the only potential infinite changes to $v.d$ is only when there are negative cycles.
 \end{solution}
 \fi
 
@@ -226,8 +226,15 @@ Argue that when the algorithm terminates, for all $v \in V$, the value of $v.d$ 
 shortest path problem even for graphs with negative weight, as long as there is no negative weight cycle. Explicitly state where you need step 12 of the above algorithm in your proof.
 
 \ifnum\me<2
-\begin{solution}
-***************** INSERT PROBLEM \prob c SOLUTION HERE ***************
+\begin{solution}\\ 
+We know that Dijkstra's algorithm works with all positive edges, because the distance is always increasing as we traverse.   Dijkstra's always evaluates the edge creating the next minimum total path.  Because all edges are positive, no path ever decreases. Because of this, we know that grabbing the current edge creating the minimum distance will be the next best candidate for a shortest path.  We also know that a path to $v$ evaluated at an earlier time will always have a smaller $v.d$, because we are always increasing in total $d$, and the earlier it is evaluated, the shorter the total cost will be. \\ \\
+
+Knowing that non negative edges will create an always increasing distance, we know that a path to $v$ evaluated at an earlier time will always have a smaller value than the distance to $v$ calculated at a later time. This is what makes Dijkstra's works for positive edges.\\ \\
+
+With negative edges, the distance can decrease.  This means that we cannot assume that a path discovered at an earlier time will be shorter than a path discovered at a later time.  As shown in $part\ a$, the problem with Dijkstra's is when a shorter path that takes later to discover exists, it will never be evaluated because the previous path to $v$ would take $v$ out of our queue, never allowing this later discovered yet shorter path to $v$. \\ \\
+
+This is where $Line\ 12$ comes into play.  If we have those cases where a shorter path to $v$ is discovered later, $Line\ 12$ will allow us to re-evaluate $v$, taking care of the skipping over issue we discovered in $part\ a$, which then fixes the issue with Dijkstra's and negative edges
+
 \end{solution}
 \fi
 
