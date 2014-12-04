@@ -3,7 +3,7 @@
 \def\num{11}  %homework number
 \def\due{Wednesday, December 5}  %due date
 \def\course{CSCI-GA.1170-001/002 Fundamental Algorithms} %course name
-\def\name{**** INSERT YOUR NAME HERE ****}
+\def\name{Keeyon Ebrahimi}
 %
 \iffalse
 INSTRUCTIONS: replace # by the homework number.
@@ -172,7 +172,36 @@ shortest-path problem if the edge weights may be negative, even if there are no 
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\\
+Here is an example demonstrating when Dijkstra's doesn't work with negative edges. \\ \\
+Lets say we have $3$ nodes, $A, B, C$, with the source being $A$\\ \\
+$A \rightarrow B$ with weight 2.\\
+$A \rightarrow C$ with weight 3.\\
+$C \rightarrow B$ with weight -10.\\
+\\
+
+\textbf{Bellman-Ford with $A$ source: $B$ distance $= -7$}\\
+\begin{enumerate}
+
+\item[$(i)$] 
+$A\ distance:\ 0$
+\\
+$A$ is source
+\item[$(ii)$]
+$C\ distance:\ 3$\\
+$A \rightarrow C$\\
+\item[$(iii)$]
+$B\ distance:\ -7$\\
+$A \rightarrow C \rightarrow B$
+\end{enumerate}
+
+\textbf{Dijkstra's with $A$ source: $B$ distance $= 2$}\\
+\begin{enumerate}
+\item[1. ] With this graph, the priority queue will dequeue node $B$ first.  Set it's distance to $2$.  $B$ has no outgoing edges as well, so it will not enqueue up anything new.
+\item[2. ] We will then dequeue $C$, and give it a correct distance of $3$.  We then check all of $C$'s outgoing edges, and we will find a path to $B$ with a total of $-7$.  $B$ is no longer in the priority queue though, it will not have it's key decreased.  Without line 12 it will not be placed back in the queue as well, making $B$ keeps its distance as $2$.
+\end{enumerate}
+\noindent\rule{16cm}{0.4pt}\\
+As we can see, Dijkstra's algorithm will give us the incorrect distance for node $B$ when we have a negative edge weight.
 \end{solution}
 \fi
 
@@ -180,7 +209,15 @@ shortest-path problem if the edge weights may be negative, even if there are no 
 Show that the total number of times the value of $v.d$ changes in the above algorithm is finite. Hence argue that the algorithm terminates in a finite number of steps.
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\\  There are a few points we need to prove this.
+\item[1. ] In order to change $v.d$, we must decrease the cost of a path to $v.d$. This if from line 8 of the algorithm
+\item[2. ] The total amount of paths that can lead to $v.d$ is $E$.  Path's are constructed of edges, making the maximum amount of paths be $E$. 
+\item[3. ] This means that we must visit the same edges infinite times if we want to infinitely change the value of $v.d$.
+\item[4. ] The only time we can visit the same more than once is if a cycle exists.
+\item[5. ] Cycles can only be negative cycles or positive cycles.
+\item[6. ] Positive cycles mean they add a positive value to the total cost of the path. We only change $v.d$ if the cost to the path to $v.d$ is decremented, meaning we will not change $v.d$ in a positive cycle, meaning that positive cycles would still lead to a finite amount of $v.d$ changes.
+\item[7. ]   The only other option is a negative cycle.  A negative cycle can repeat multiple times, and also by definition, a negative cycle will decrease the total cost.  This means that a negative cycle will infinitely decrease the total path cost value, which in tern could potentially infinitely decrease the value $v.d$.   
+\item[Summary ] We either have a cycle or we don't.  If there is no cycle, we cannot infinitely change $v.d$, as explained in proof line 5. If there is a cycle, we can only have a positive and negative cycle.  Positive cycles cannot cause infinite amount of $v.d$ changes as shown in proof line 6.  Negative cycles can change $v.d$ infinite amount of times as shown in proof line 7.  We have exhausted all possible outcome, and have deduced that the only potential infinite changes to $v.d$ is only when there are negative cycles.
 \end{solution}
 \fi
 
