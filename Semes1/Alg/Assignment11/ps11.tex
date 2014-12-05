@@ -247,7 +247,7 @@ By finding an appropriate recurrence relation, show that {\sc ModifiedDijkstra} 
 We are applying the algorithm one item at a time, giving us a $T(n-1)$ in our recurrence relation.  In the worst case analysis for the given $G$, we know for every iteration, we will be placing something back on the queue.  This will give us a recurrence relation of 
 $$T(n) = 2*T(n-1) + O(1)$$
 \\ \\
-This gives us the running tie of $\theta(2^n)$
+This gives us the running time of $\theta(2^n)$
 
 \end{solution}
 \fi
@@ -274,7 +274,8 @@ $b\in B$.
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\\
+Because we know that there are no negative weight edges, we can just run Dijkstra's algorithm.  We can also have a set $B$ where we initially store all $b$.  Whenever we visit and find the distance of a $b$, we remove $b$ from set $B$.  If set $B$ is ever empty, we can stop Dijkstra's algorithm because we know that we have found all the distances to all $b$.
 \end{solution}
 \fi
 
@@ -285,7 +286,12 @@ all stationary shops with zero-weight edges and run Dijkstra from $s'$?
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\\
+
+In order to find the shortest distance from \textbf{every} stationary shop, we need to run Dijkstra's algorithm multiple times.  For each $b$, we will need to run Dijkstra's algorithm using that $b$ as the source.  This means that if $B$ contains 10 $b$'s, then we need to run Dijkstra's algorithm 10 times, with each $b$ being used as a source.
+\\
+\\ 
+We cannot use the fake source method because that will just find which $b$ has the shortest distance to $h$.  This will only find one shortest distance though, and it will not find \textbf{every} shortest distance.
 \end{solution}
 \fi
 
@@ -293,7 +299,8 @@ all stationary shops with zero-weight edges and run Dijkstra from $s'$?
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob c SOLUTION HERE ***************
+\\
+We initially run Dijkstra's algorithm using $s$ as our source. Once we have found the distance to every $b$, we then run Dijkstra's on every $b$, finding each $b$'s distance to $h$.  For each $b$, we then add the distance to $b$ with the distance from $b$ to $h$, and whichever $b$ gives us the smallest sum, we use this path.
 \end{solution}
 \fi
 
@@ -331,7 +338,37 @@ algorithm to find all super-lucky vertices.
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+\\
+For set up. Imagine 3 Matrices $A$, $B$, and $C$.
+\begin{enumerate}
+\item[1. ] $A_{ij}$ is total weight to get from vertex $A_{ij}$
+\item[2. ] $B_{ij}$ is the edge weight of the edge that connects Vertex $i$ and Vertex $j$.
+\item[3. ] $C_{ij}$ is the computed shortest path from Vertex $i$ to Vertex $j$.
+\item[4. ] $D^{x}$ computed shortest paths matrix that contains the shortest paths with a path that has $x$ total edges. 
+\end{enumerate}
+We know that the dynamic solution to this is
+$$C_{ij} = Min_{for\ all\ k}(A_{ik} + B_{kj})$$
+\\
+This will be the same as matrix multiplication, which is 
+$$ C_{ij} = \sum\limits_k(A_{ik} * B_{kj})$$
+\\
+except we have to replace summation with min and the multiplication with an addition.  We will call this math replacement $**$ \\\\
+Now we can see that this gives us the recurrence equation of 
+$$D^n = D^{n-1} ** A$$
+This means that while using that math replacement, we know that $$D^n = A^n$$
+\\
+\\
+Now we must compute $A^n$.  For this we can use Exponentiation by squaring.\\ \\
+This is computed by: \\
+when $n$ is odd, $x^n = x(x)^{\frac{n-1}{2}}$\\
+When $n$ is even, $x^n = (x^2)^{\frac{n}{2}}$\\
+\\
+If we compute $A^n$ using this Exponentiation by squaring method, we will now be running $A^2$ $log(n)$ times.\\
+\\
+\\ 
+Once we do all this, we will have our solution matrix $C$ all filled out.  Now we must find which vertexes have negative paths to themselves, we just need to check the diagonal of matrix $C$, and all negative values will inform us that we have a negative cycle starting and ending at that vertex. \\
+ 
+As for the running time, computing matrix multiplication takes $O(n^3)$ running time, and we are doing this $log(n)$ times meaning that our total running time will be $O(n^3\ log\ n)$
 \end{solution}
 \fi
 
