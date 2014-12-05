@@ -242,8 +242,13 @@ This is where $Line\ 12$ comes into play.  If we have those cases where a shorte
 By finding an appropriate recurrence relation, show that {\sc ModifiedDijkstra} takes $\Omega(2^n)$ time in the worst case, when executed on $(G,s,w)$.
 
 \ifnum\me<2
-\begin{solution}
-***************** INSERT PROBLEM \prob d SOLUTION HERE ***************
+\begin{solution} 
+\\
+We are applying the algorithm one item at a time, giving us a $T(n-1)$ in our recurrence relation.  In the worst case analysis for the given $G$, we know for every iteration, we will be placing something back on the queue.  This will give us a recurrence relation of 
+$$T(n) = 2*T(n-1) + O(1)$$
+\\ \\
+This gives us the running tie of $\theta(2^n)$
+
 \end{solution}
 \fi
 
