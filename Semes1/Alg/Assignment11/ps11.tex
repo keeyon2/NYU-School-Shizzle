@@ -312,7 +312,7 @@ using a {\em single} Dijkstra call on $G'$.
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob d SOLUTION HERE ***************
+The case where this doesn't work is when we only find a single b's shortest distance to h.  We want to make sure that we go through every b.  The way we do this is we modify the graph at each $b$.  At each $b$, we put a 0 weight edge to all other $b$'s.  That ensues that when we hit any $b$, the path will then no matter what travel to all other $b$'s.  This will give us our correct algorithm checking all paths that go through each $b$.
 \end{solution}
 \fi
 
@@ -451,7 +451,7 @@ Similarly, let $c(s, t)$  denote the minimum possible sum of weights of a path f
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob a SOLUTION HERE ***************
+To reconstruct, we run the beginning parts of Johnson's Algorithm.  We will be adding a node $Q$ with 0 weight edges to all other Vertexes.  Then we will run a Bellman-Ford on $G$.  We will then update all the edges by $w(u,v) + h(u) - h(v)$, just like in Johnson's Algorithm.  At this point we will also remove vertex $Q$ and all of it's outing edges that we added.  At this point we now have a graph that we can work with that doesn't have the $- \infty$'s anymore.
 \end{solution}
 \fi
 
@@ -488,7 +488,7 @@ Analyze the running time of your algorithm. \hint{Remember Johnson.}
 This will give us the shortest path from all vertexes and we will skip over all possible routes that have 2 tolls.
 \\
 This is a modified version of Johnson's algorithm, that doesn't add anything that will change the running time.  All we are doing is modifying the potential value at relaxation, which is constant time. \\ \\
-This gives us a total running time of $O(|V|^2\ log(|V|) + |V||E|)$
+This gives us a total running time of $O(|V|^2\ log(|V|) + |V||E|)$%	
 \end{solution}
 \fi
 
@@ -517,7 +517,23 @@ Fill in the blanks below to directly modify the Floyd-Warshall algorithm to comp
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob d SOLUTION HERE ***************
+\begin{code}
+{\sc Floyd-Warshall Solution}$(W,W')$\\
+\> $n = W.rows$\\
+\> $D^0 = ......$\\
+\> $C^0 = ......$ \\
+\> \For $k = 1$ \To $n$ \Do \\
+\> \> $C^k = (c_{i,j}^k)$ be a new $n \times n$ matrix\\
+\> \> $D^k = (d_{i,j}^k)$ be a new $n \times n$ matrix\\
+\> \> \For $i = 1 $ \To $n$ \Do\\
+\> \> \> \For $j = 1$ \To $ n$ \Do \\
+\> \> \> \> $d_{i,j}^k = \min \left(W'_{i,j},\ \ W'_{i,k} + W'_{k,j} \right)$ \\
+\> \> \> \> $c_{i,j}^k = \min \left(d_{i,j},\ \ d_{i,k-1} + W_{k,k} + d_{k+1, j}  \right)$ \\
+\> \Return $C$
+\end{code}
+
+What is going to happen here is $D$ is only updating on $'W$, meaning that it will only hold paths that do not include a toll.  \\ \\
+When we update C, we will check if we have a smaller path going all the way to the destination using no tolls, the $d_{i,j}$,  and we will compare that with no tolls from $i$ to $k-1$ and also from $k+1$ to $j$.  We only check graph $W$ at node k, so we let $k$ be our potential toll.  This will ensue that we will always have $0$ or $1$.
 \end{solution}
 \fi
 
