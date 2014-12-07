@@ -384,7 +384,22 @@ from scratch.}
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\\
+To summarize, we will be running a $BFS$, once we reach a super lucky vertex, we will traverse up the path that got there and add them to a Lucky Set.
+\begin{enumerate}
+\item[1. ] Set $L$ is initially an empty set that we will fill with Lucky Vertexes
+\item[2. ] Set $SL$ is a set of all the super lucky vertexes that are given.
+\item[3. ] Set $Q$ will be our queue that we will run our $BFS$ on have all vertexes excluding all of the vertexes in $SL$.
+\end{enumerate}
+We will run a $BFS$ on each node in $Q$, marking them as we go.  The only difference is whenever we detect a super lucky vertex, we trace the path back to the $s$ and insert these vertexes back into our $L$ set.  
+\\
+\\
+This will have the same running time as a $BFS$.  The only difference is we can itterate back up now when we find lucky vertexes meaning that the total running time will be 
+$$O(2V + E)$$
+\begin{center}
+Which then reduces down to
+\end{center}
+{\Large $$O(V + E)$$}
 \end{solution}
 \fi
 
@@ -395,7 +410,22 @@ possible. State the running time of your algorithm.\\
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob c SOLUTION HERE ***************
+\\
+\\
+$s$ will not be lucky or super lucky.  $s$ not being lucky or super lucky means that there is no path from $s$ that will lead to a negative cycle.  Now we know that $G$ has negative weights and no negative cycles, we know we can run $Bellman-Ford$.  
+\\ \\
+As we are running $Bellman-Ford$ algorithm, we also will store a variable storing location and lowest value, which we will label as $Z$.  Whenever our $Bellman-Ford$ does a relaxation, we will compare our lowest value with the current relaxed value and store the minimum in $Z$.  After $Bellman-Ford$, $Z$ will store the minimum value within our matrix, which gives us the end route spot for the maximum profit path.
+\\ \\
+We can then look at this point and traverse up the tree to find the path to this maximum profit value. 
+\\ \\
+As for the running time, we first run $Bellman-Ford$ with our $Z$ variable modification, which will take $O(|V||E|)$ time.  After this we, traverse up $Z$'s path to find the total path, which takes another $O(V + E)$ worst case.
+\\ \\
+This gives us a running time of 
+$$O(|V||E|| + V + E)$$
+\begin{center}
+Which really equals
+\end{center}
+{\Large $$O(|V||E||)$$}
 \end{solution}
 \fi
 
@@ -430,7 +460,17 @@ path with at most one toll road from $s$ to all cities in $V$. Analyze the runni
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob b SOLUTION HERE ***************
+\\
+This will be a modified version of Johnsons Algorithm.  We will create the 0 weight edges from an imaginary vertex $q$ to all vertexes, run Bellman-Ford, and adjust the weight of each node to be $w(u,v) + h(u) - h(v)$. We now take out node $q$ and all of it's outgoing edges.
+\\ 
+\\
+We can now run Dijkstra's algorithm on this graph because we no longer have negative weights.  We can now run Dijkstra's from the S and find the shortest distance to each vector that has a toll, marking vertexes on the way. Then we run Dijkstra's from each of these toll vertexes on the graph that marked vertexes when finding the distance to each toll, which includes the tolls as marked. 
+\\ \\
+Now we know the weight from source to all the different tolls.  We also know the distance from all the tolls to each vertex that wasn't marked on the way to the tolls, including other tolls.  This stipulation ensures that we wont visit a node toll node more than once. \\ 
+\\
+\\
+At most, the running time is $O(|V|^2\ log(|V|) + |V||E|)$ \\
+This is because we are running a Bellman-Ford which takes time $O(|V||E|)$ and then up to $v$ Dijkstra's on each toll, which is what gives us the $O(|V|^2\ log(|V|)$.  Put together, we get $O(|V|^2\ log(|V|) + |V||E|)$
 \end{solution}
 \fi
 
@@ -444,7 +484,11 @@ Analyze the running time of your algorithm. \hint{Remember Johnson.}
 
 \ifnum\me<2
 \begin{solution}
-***************** INSERT PROBLEM \prob c SOLUTION HERE ***************
+\\ For this algorithm we will do something pretty simple.  We will just be running a Johnson's algorithm.  During the stage where we are running the different Dijkstra's algorithm, we will constantly be checking our amount of tolls that we have passed.  If we have passed 0 tolls and we pass 1, we do nothing special, but we increment our total tolls passed value by 1.  If our tolls visited value is 1 and we visit a node that is a toll, we will do something tricky, like add infinity to potential relaxation phase so that the path through the second toll will never be chosen. \\ \\
+This will give us the shortest path from all vertexes and we will skip over all possible routes that have 2 tolls.
+\\
+This is a modified version of Johnson's algorithm, that doesn't add anything that will change the running time.  All we are doing is modifying the potential value at relaxation, which is constant time. \\ \\
+This gives us a total running time of $O(|V|^2\ log(|V|) + |V||E|)$
 \end{solution}
 \fi
 
