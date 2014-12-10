@@ -12,3 +12,9 @@
         (else (cons a (listfromTo2 (+ a 1) b)))
         ))
 
+(define (removeMult a L)
+  (cond ((null? L) '())
+        (else
+          (if (= (modulo (car L) a) 0) 
+            
+

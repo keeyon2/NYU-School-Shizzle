@@ -1,15 +1,70 @@
 \documentclass[11pt]{article}
 \usepackage{amsfonts,amsmath}
 \usepackage{latexsym}
-\usepackage{pgfplots, pgfplotstable}
 \setlength{\oddsidemargin}{.0in}
 \setlength{\evensidemargin}{.0in}
 \setlength{\textwidth}{6.5in}
 \setlength{\topmargin}{-0.4in}
 \setlength{\textheight}{8.5in}
 
-\begin{document}
+\newenvironment{code}{\begin{tabbing}
+12345\=12345\=12345\=12345\=12345\=12345\=12345\=12345\= \kill }
+{\end{tabbing}}
 
-hi
+\newcommand{\hint}[1]{({\bf Hint}: {#1})}
+%Put more macros here, as needed.
+\newcommand{\room}{\medskip\ni}
+\newcommand{\brak}[1]{\langle #1 \rangle}
+\newcommand{\bit}[1]{\{0,1\}^{#1}}
+\newcommand{\zo}{\{0,1\}}
+\newcommand{\C}{{\cal C}}
+
+\newcommand{\nin}{\not\in}
+\newcommand{\set}[1]{\{#1\}}
+\renewcommand{\ni}{\noindent}
+\renewcommand{\gets}{\leftarrow}
+\renewcommand{\to}{\rightarrow}
+\newcommand{\assign}{:=}
+
+\newcommand{\AND}{\wedge}
+\newcommand{\OR}{\vee}
+
+\newcommand{\For}{\mbox{\bf For }}
+\newcommand{\To}{\mbox{\bf to }}
+\newcommand{\Do}{\mbox{\bf Do }}
+\newcommand{\If}{\mbox{\bf If }}
+\newcommand{\Then}{\mbox{\bf Then }}
+\newcommand{\Else}{\mbox{\bf Else }}
+\newcommand{\While}{\mbox{\bf While }}
+\newcommand{\Repeat}{\mbox{\bf Repeat }}
+\newcommand{\Until}{\mbox{\bf Until }}
+\newcommand{\Return}{\mbox{\bf Return }}
+
+\begin{document}
+\textbf{Keeyon Ebrahimi}\\
+\textbf{N14193968}\\
+\textbf{Assignment 2}\\
+
+\begin{enumerate}
+\item[1. ]
+
+\begin{enumerate}
+\item[(a)] 
+\begin{code}
+$(define\ (listfromTo\ a\ b)$\\
+\> $(cond\ ((>\ a\ b)\ '())$\\
+\> \> $(else\ (cons\ a\ (listfromTo (+\ a\ 1)\ b)))$\\
+\> \> $))$ \\
+\end{code}
+
+\item[(b)]
+\end{enumerate}
+
+
+
+
+\end{enumerate}
+
+
 
 \end{document}
