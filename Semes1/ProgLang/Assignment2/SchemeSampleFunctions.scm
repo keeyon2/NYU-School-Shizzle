@@ -15,6 +15,7 @@
 (define (removeMult a L)
   (cond ((null? L) '())
         (else
-          (if (= (modulo (car L) a) 0) 
-            
-
+          (if (= (modulo (car L) a) 0)
+            (removeMult a (cdr L))
+            (cons (car L) (removeMult a (cdr L)))
+            ))))

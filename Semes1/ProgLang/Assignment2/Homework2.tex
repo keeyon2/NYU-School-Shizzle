@@ -53,16 +53,22 @@
 \begin{code}
 $(define\ (listfromTo\ a\ b)$\\
 \> $(cond\ ((>\ a\ b)\ '())$\\
-\> \> $(else\ (cons\ a\ (listfromTo (+\ a\ 1)\ b)))$\\
+\> \> $(else\ (cons\ a\ (listfromTo\ (+\ a\ 1)\ b)))$\\
 \> \> $))$ \\
 \end{code}
 
 \item[(b)]
+
+\begin{code}
+$(define\ (removeMult\ a\ L)$\\
+\> $(cond\ ((null?\ L)\ '())$\\
+\> \> $(else\ $\\
+\> \> \> $(if\ (=\ (modulo\ (car\ L)\ a)\ 0)$\\
+\> \> \> \> $(removeMult\ a\ (cdr\ L))$\\
+\> \> \> \> $(cons\ (car\ L)\ (removeMult\ a\ (cdr\ L)))$\\
+\> \> \> \> $))))$\\
+\end{code}
 \end{enumerate}
-
-
-
-
 \end{enumerate}
 
 
