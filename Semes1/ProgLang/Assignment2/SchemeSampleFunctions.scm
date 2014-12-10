@@ -19,3 +19,13 @@
             (removeMult a (cdr L))
             (cons (car L) (removeMult a (cdr L)))
             ))))
+
+(define (testS n)
+    (sTest (listfromTo2 2 n)))
+
+(define (sTest L)
+  (cond ((null? L) '())
+        (else (cons (car L) (sTest (removeMult (car L) (cdr L)))))
+        ))
+
+(testS 50)

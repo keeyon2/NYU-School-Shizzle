@@ -68,6 +68,17 @@ $(define\ (removeMult\ a\ L)$\\
 \> \> \> \> $(cons\ (car\ L)\ (removeMult\ a\ (cdr\ L)))$\\
 \> \> \> \> $))))$\\
 \end{code}
+
+\item[(c)]
+
+\begin{code}
+$(define\ (sieve\ n)$ \\
+\> $(sieveHelper\ (listfromTo\ 2\ n)))$ \\ \\
+$(define\ (sieveHelper\ L)$\\
+\> $(cond\ ((null?\ L)\ '())$ \\
+\> \> $(else\ (cons\ (car\ L)\ (sieveHelper\ (removeMult\ (car\ L)\ (cdr\ L)))))$\\
+\> \> $))$\\
+\end{code}
 \end{enumerate}
 \end{enumerate}
 
