@@ -44,7 +44,8 @@
 \textbf{Keeyon Ebrahimi}\\
 \textbf{N14193968}\\
 \textbf{Assignment 2}\\
-
+\\ 
+\textit{Each Problem is on it's own page } \\
 \begin{enumerate}
 \item[1. ]
 
@@ -80,7 +81,7 @@ $(define\ (sieveHelper\ L)$\\
 \> \> $))$\\
 \end{code}
 \end{enumerate}
-
+\newpage
 \item[2. ] 
 \begin{enumerate}
 \item[(a)] My solution will require 3 pieces of code to be added into the interpreter.  
@@ -126,7 +127,7 @@ For example, lets say we have Interpreter $A$ that is interpreting itself, which
 I love this question, for when I was implementing the Scheme Interpreter, I was a bit confused about this issue, and it was a nice little light bulb when I learned why this was ok.
 \\ \\
 \end{enumerate}
-
+\newpage
 \item[3. ]
 \begin{itemize}
 \item[(a)]
@@ -154,5 +155,44 @@ $fun\ foo\ (one)\ (two)\ bar\ = $\\
 \\
 \item[\textbf{Arg $(op >)$:}]  In the definition of $bar$, we see that whatever is returned from the $(op >)$ is used in an if statement.  This means that it's return type must be a boolean.  The $(op >$ is also being used between argument $x$ and $y$, which we previously deduced were type '$b$ and '$c$ respectively.  This means that $(op >)$ will be of type $('b *\ 'c $-$> bool)$ \\
 \end{itemize}
+\newpage
+\item[4. ] 
+\begin{enumerate}
+\item[(a)]  This would not be an \textbf{ADT} for a stack because with this implementation, you cannot declare an object of queue.  This is because currently queue is in a package.
+\item[(b)] 
+\begin{verbatim}
+package queuePackage is
+    package queue is private:
+        function extract return integer;
+        function insert(x: integer);
+    private:
+        ...
+        ...
+        ...
+    end queue;
+end queuePackage;
+
+\end{verbatim}
+It is now possible to to declare a type queue.
+\end{enumerate}
+\newpage
+\item[5. ]
+\begin{enumerate}
+\item[(a)] In order to be 	an Object Oriented Language the three elements you need are Encapsulation, Inheritance, Subtyping with dynamic dispatch
+\begin{enumerate}
+\item[(i)] \textbf{Encapsulation: }\\
+We have to be able to encapsulate data and code into \textbf{objects}
+In java we have Methods and instance variables.  In C++ we have Data members and member functions.  Abstract Data types are also a good indicator of encapsulation.  Abstract Data types have visible parts and non visible parts.  Abstract Data types also have procedures that you can call.\\ 
+\item[(ii)] \textbf{Inheritance: }\\
+This means that we do not have to re-write code.  Code for one type can be re-used with another type\\
+\item[(iii)] \textbf{Subtyping with dynamic dispatch} \\
+This refers to the ability to treat one class as if it were another type.  Type B is a subtype of A if all the values in A are also in B. \\
+\end{enumerate}
+\item[(b)]
+\begin{enumerate}
+\item[(i)] Subset interpretation of subtyping is saying that if $B\ <: A$, then every value of type $B$ is also of type $A$.  More specifically, if $B\ <: A$, then we can treat type $B$ as if it was a type $A$.\\
+\item[(ii)]
+\end{enumerate}
+\end{enumerate}
 \end{enumerate}
 \end{document}
