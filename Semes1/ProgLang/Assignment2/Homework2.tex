@@ -139,7 +139,20 @@ $fun\ foo\ (one)\ (two)\ bar\ = $\\
 \> $in\ two\ x$ \\
 \> $end$\\ 
 \end{code}
-\item[(c)] 
+\item[(c)] The type of the following function is 
+\begin{verbatim}
+'a -> ('b * 'c -> bool) -> 'b * 'c -> int list -> int list
+
+\end{verbatim}
+\item[(d)] In order to prove this we have to prove the type of each input.
+\\
+\item[\textbf{Arg z:}] The line where we define $Bar$, we can see that $bar$ will return either $z$ or $a$.  This means that $z$ and $a$ must be the same type.  The next line we pass $[1, 2, 3]$, into bar as $a$.  We know that $[1, 2, 3]$ is explicitly type $int\ list$.  We are passing in this $int\ list$ into bar, so now we know that $a$ is an $int\ list$.  Because $a$'s type and $z$'s type is the same, and $a$'s type is $int\ list$, we can now deduce that $z$'s type is $int\ list$ 
+\\
+\item[\textbf{Arg f:}] We never use argument f, we f can store anything, meaning that it is polymorphic.  When organizing arguments left to right, this is the first polymorphic item we see,  it is labeled as '$a$
+\\
+\item[\textbf{Arg $(x, y)$:}] All we do with these two variables is we pass them into another function that is another of $foo$'s arguments.  Because passing them into another function gives us no more information on the type that $x$ and $y$ are, we know that they are polymorphic.  They also have nothing to do with argument $f$ at all, so they do not get the same lettering as $f$.  $a$' is already taken so $(x, y)$ get '$b * $'$c$
+\\
+\item[\textbf{Arg $(op >)$:}]  In the definition of $bar$, we see that whatever is returned from the $(op >)$ is used in an if statement.  This means that it's return type must be a boolean.  The $(op >$ is also being used between argument $x$ and $y$, which we previously deduced were type '$b$ and '$c$ respectively.  This means that $(op >)$ will be of type $('b *\ 'c $-$> bool)$ \\
 \end{itemize}
 \end{enumerate}
 \end{document}
