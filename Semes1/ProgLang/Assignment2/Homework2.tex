@@ -80,8 +80,53 @@ $(define\ (sieveHelper\ L)$\\
 \> \> $))$\\
 \end{code}
 \end{enumerate}
+
+\item[2. ] 
+\begin{enumerate}
+\item[(a)] My solution will require 3 pieces of code to be added into the interpreter.  
+
+\begin{itemize}
+
+
+\item[(i)] Code in my-eval that will recognize calls to \textbf{longest}\\
+\item[(ii)] Function \textbf{handle-longest} that is called from my eval and takes all the $(exp_i...result_i)$ pairs in a list\\
+\item[(iii)] \textbf{handle-longest-helper} That will find the longest $exp$ return list and call handle block on the result. 
+\end{itemize}
+\noindent\rule{15cm}{0.4pt}
+\begin{enumerate}
+
+\item[(i)]
+This code will be in the $my-eval$ and be used to to recognize \textbf{longest} and appropriately call \textbf{handle-longest}
+\begin{code}
+$((eq?\ (car\ exp)\ 'longest)$\\
+\>$(handle-longest\ (cddr\ exp)\ env))$\\
+\end{code}
+\item[(ii)]
+This \textbf{handle-longest} will call the helper method, \textbf{handle-longest-helper} that does the bulk of the work.  We are giving it an extra empty list.  We do the bulk of the work in the helper method because we want an extra parameter that stores the current longest length $(expression...result)$, which is what we pass in as an empty list originally.  The first condition is the base case checking if we have anymore remaining Expression Result combos to check, and if we do not, we execute whatever is in LongestER.  If the remaining Expression Result list still has elements, we check length and recursively call, updating LongestER with the appropriate value.
+\begin{code}
+$(define\ (handle-longest\ ERList\ env)$\\
+\> $(handle-longest-helper\ ERList\ ()'\ env)$\\
+\end{code}
+\item[(iii)]
+This \textbf{handle-longest-helper} is where the bulk of the work is being done.  The first contains the remaining $(Exp...result)$ list that need to be evaluate, and the second argument will always contain the current longest $(exp...result)$ value. 
+\begin{code}
+$(define\ (handle-longest-helper\ RemainingER\ LongestER\ env)$\\
+\> $(cond\ ((null?\ RemainingER)\ (my-eval\ (cadr\ LongestEr)\ env))\ $\\
+\> \> $(else\ $\\
+\> \> \> $(cond\ ((>\ (length\ (my-eval\ (caar\ RemainingER)\ env))$\\
+\> \> \> \> \>$(length\ (my-eval\ (car\ LongestER)\ env))) $\\
+\> \> \> \> \> \> $(handle-longest-helper\ (cdr\ RemainingER)$\\
+\> \> \> \> \> \> \> \>$ (car\ RemainingER)\ env))$\\
+\> \> \> \>$(else\ (handle-longest-helper\ (cdr\ RemainingER)\ LongestER\ env)))$\\
+\> \> \> \> $)))$ \\
+\end{code}
+\end{enumerate}
+\item[(b)] We are able to use let and cond within our handle-let and our handle-cond because our interpreter is actually using the if, cond, let, etc. functionality of the Scheme interpreter below it.  It is not using it's own if, cond, etc.  \\ \\
+For example, lets say we have Interpreter $A$ that is interpreting itself, which we will call Interpreter $B$.  When we see a $cond$ statement within $B$, we will call $A$'s $handle-cond$.  This $A: Handle-Cond$ will be using the cond of the original scheme interpreter below it, allowing us to use $cond$ in $handle-cond$.\\ \\
+I love this question, for when I was implementing the Scheme Interpreter, I was a bit confused about this issue, and it was a nice little light bulb when I learned why this was ok.
+\\ \\
 \end{enumerate}
 
-
-
+\item[3. ]
+\end{enumerate}
 \end{document}
