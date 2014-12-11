@@ -128,5 +128,18 @@ I love this question, for when I was implementing the Scheme Interpreter, I was 
 \end{enumerate}
 
 \item[3. ]
+\begin{itemize}
+\item[(a)]
+In ML, the reason all lists have to be of the same type is because ML is a statically typed language.  This means that all type checking is done at compile time.  This means that it is not possible for there to be a run time type error.  \\ \\
+If a list has different types within it, and we map a function through every element of an array, we can easily hit a run time type error.  To eliminate this case, ML does not allow lists of different types.\\ \\
+\item[(b)] 
+\begin{code}
+$fun\ foo\ (one)\ (two)\ bar\ = $\\
+\> $let\ val\ x\ = one\ bar$\\
+\> $in\ two\ x$ \\
+\> $end$\\ 
+\end{code}
+\item[(c)] 
+\end{itemize}
 \end{enumerate}
 \end{document}
