@@ -191,7 +191,19 @@ This refers to the ability to treat one class as if it were another type.  Type 
 \item[(b)]
 \begin{enumerate}
 \item[(i)] Subset interpretation of subtyping is saying that if $B\ <: A$, then every value of type $B$ is also of type $A$.  More specifically, if $B\ <: A$, then we can treat type $B$ as if it was a type $A$.\\
-\item[(ii)]
+\item[(ii)]  Class derivation in Java satisfies the subset interpretation of subtyping because if we have a Class $A$ and Class $B$, and $B\ <: A$, then we can use class $B$ whenever we are expecting a Class $A$.  This shows that subtying of classes is Covariant.  Here is an example.
+\\\\
+Lets say we can an $Animal$ class, and we have a $Dog$ class.  As we know, a dog is an animal, and should have all the same functionality of all animals.  We can then make the Dog class Extend the Animal class, so now $Dog\ <: Animal$.  This means that if we have a function that takes in an object of the class $Animal$, we can now give that function an object of the class $Dog$ instead.\\
+\item[(iii)]  Functions in Scala satisfy the subset interpretation of subtyping this way. \\
+If $B\ <:\ A$ and $D\ <:\ C$, then $A\ \rightarrow D\ <:\ B\ \rightarrow\ C$.  This means that We are Contravarient on the Input Types and Covarient on the output types.\\ \\
+If we have Classes, $Bat <: Animal$ and $Dodge <: Car$, then we have \\
+$Animal\ \rightarrow Dodge\ <:\ Bat\ \rightarrow\ Car$
+\\ \\
+As for the Contravarient input type, here is an explanation.   Lets say we have a function $foo$ that takes in our $\ Bat\ \rightarrow\ Car$ function, creates a new $Bat$ and runs our $Bat$ through the  $\ Bat\ \rightarrow\ Car$ function.  Now we get the output $Car$ easy peasy.
+\\ 
+Now lets imaging passing in the $Animal\ \rightarrow Dodge$ function into $foo$ instead.  If we do that, now we pass the created $Bat$ into the $Animal\ \rightarrow Dodge$ function, which we know is ok.  When it comes to inputs of functions being contravarient, it helps to think of it this way.  If we have $Dog <: Animal$, we know that $Dog$ contains all the information of $Animal$ and anything that is a supertype of $Animal$.  That means that if a function can safely operate on all values within a dog, we know that this function can easily operate on $Animal$ and other $supertypes$ because dog already contains that information.\\ \\
+As for the return type of Covariance, this is the simple example.  We have already established that in part $(ii)$.  We know that the return value from the function will just be a single value, and single variables act the same as Java classes.  Subtypes of a single value can be used in place of a supertype, meaning return values act with Covariance.
+
 \end{enumerate}
 \end{enumerate}
 \end{enumerate}
