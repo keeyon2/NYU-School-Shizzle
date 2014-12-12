@@ -203,8 +203,164 @@ As for the Contravarient input type, here is an explanation.   Lets say we have 
 \\ 
 Now lets imaging passing in the $Animal\ \rightarrow Dodge$ function into $foo$ instead.  If we do that, now we pass the created $Bat$ into the $Animal\ \rightarrow Dodge$ function, which we know is ok.  When it comes to inputs of functions being contravarient, it helps to think of it this way.  If we have $Dog <: Animal$, we know that $Dog$ contains all the information of $Animal$ and anything that is a supertype of $Animal$.  That means that if a function can safely operate on all values within a dog, we know that this function can easily operate on $Animal$ and other $supertypes$ because dog already contains that information.\\ \\
 As for the return type of Covariance, this is the simple example.  We have already established that in part $(ii)$.  We know that the return value from the function will just be a single value, and single variables act the same as Java classes.  Subtypes of a single value can be used in place of a supertype, meaning return values act with Covariance.
+\\
+\end{enumerate}
+
+\item[(c)]
+\begin{verbatim}
+def maxTree[T <: Ordered](t: Tree[T <: Ordered[T]]) {
+    t match {
+      case Node(v,l,r) => 
+          val maxL = maxTree(l);
+          val maxR = maxTree(r);
+          if (maxL < maxR)
+          {
+              max = maxR;
+          }
+          else
+          {
+              max = maxL;
+          }
+          if (max < v)
+          {
+              max = v;
+          }
+          max
+      case Leaf(v) => v;
+      case Empty() => ();
+    }
+    
+    
+\end{verbatim}
+\item[(d)] Solution on next page in order to not break up code
+\newpage
+\item[(d)]
+\begin{enumerate}
+\item[(i)]
+\begin{verbatim}
+Class A {...}
+Class B extends A { ...}
+void foo (ArrayList<A> a)
+{
+    A c = new A();
+    a.add (c);
+}
+
+ArrayList<A> x = new ArrayList<A>();
+ArrayList<B> y = new ArrayList<B>();
+foo(y);  // Now ArrayList<A> an element of type B, which is not appropriate
+
+
+\end{verbatim}
+\item[(ii)]
+\begin{verbatim}
+void foo (ArrayList<? super B> b)
+{
+    B c = new B();
+    b.add (c);
+}
+
+ArrayList<A> x = new ArrayList<A>();
+ArrayList<B> y = new ArrayList<B>();
+foo(x);
+
+ 
+\end{verbatim}
+\end{enumerate}
+
+\item[(e)]
+\begin{enumerate}
+\item[(i)] 
+\begin{verbatim}
+class E[+T] (val bar: T){
+    val baz = bar;
+    def get = baz; 
+}
+
+\end{verbatim}
+\item[(ii)] Code on new page to avoid a break in code
+\newpage
+\item[(ii)]
+\begin{verbatim}
+class A {
+    val x = 12;
+}
+
+class B extends A {
+    val y = 21;
+}
+
+class E[+T] (val bar: T){
+    val baz = bar;
+    def get = baz; 
+}
+
+def main(args: Array[String]) {
+    val b: B = new B();
+    val bb: Foo = new Foo(b);
+    val a: A = new A();
+    val aa: Foo = new Foo(a);
+    aa = bb;
+    // With generics we are now using
+    // type b when an A is expected
+    //  This is covariance at work
+
+\end{verbatim}
+\end{enumerate}
+\item[(f)]
+\begin{enumerate}
+\item[(i)]
+\begin{verbatim}
+class E[-T] (val bar: List[T]){
+    val foo: T = new T();
+    val listT = bar + foo;
+    bar = bar + foo;
+    def get listT;
+}
+
+
+\end{verbatim}
+
+
+\item[(ii)] On new page to avoid code break
+\newpage
+\item[(ii)]
+\begin{verbatim}
+class A {
+    val x = 12;
+}
+
+class B extends A {
+    val y = 21;
+}
+
+class E[-T] (val bar: List[T]){
+    val foo: T = new T();
+    val listT = bar + foo;
+    bar = bar + foo;
+    def get listT;
+}
+
+def main(args: Array[String]) {
+    val quz: E[B] = new E( List(new A()); // Expecting an E[B], and we give E[A]
+                                         // Give supertype when expected subtype
+                                        // Contravariance
+                                        
+                                        
+\end{verbatim}
 
 \end{enumerate}
 \end{enumerate}
+\newpage
+\item[6.]
+
+
+
+
+
+
+
+
+
 \end{enumerate}
 \end{document}
