@@ -354,13 +354,51 @@ def main(args: Array[String]) {
 \newpage
 \item[6.]
 
+\begin{enumerate}
+\item[(a)] The benefit of a mark-and-sweep garbage collector over a reference counting collector is that it is much simpler to implement. Also, a difference between the two is that the mark and sweep only does work when the heap is almost full, whereas the reference counting method is constantly doing work.  If you have a program that will never get close to filling up the heap, mark-and-sweep garbage collector will never have to do work during execution, which can save time on smaller applications.
+\\ \\
+\item[(b)] The advantage of the copying garbage collector over a mark and sweep garbage collector is that a copying garbage collector lines up all of the data when we stick all the marked items into the new heap.  Now we have live data, and a heap pointer, and a bunch of free memory all in a line.  Because everything is lined up, the total amount of space we take will be less and it will be easier to fit all your data on memory avoiding the need to store to disk.
+\\ \\
+\item[(c)] The idea behind the Generational Copying Garbage Collection is that the older an object gets, the longer it is expected to live.  What we do is we create multiple heaps, usually around 4, and we initially start storing information at heap $0$.  Once this heap fills up, we start a copying garbage collector.  As we mark items that have survived, we also increment a counter on the item to indicate how many garbage collections it has survived.  Once an item has survived a certain amount of garbage collections, we move it to the higher lever.  We then keep operating on the lower heap, and seem to only delete things that are freshly used and expected to live the shortest amount of time.  We repeat the process and keep operating on the lower level, deleting some items and adding some back to the higher level heap.  If the higher level heap, heap level $1$ ever fills up, we will do the same thing that we did when the lower level heap filled up, except we will do it with the higher level heap and a heap that is even higher than the higher level heap. So when heap $1$ fills up, we will start a mark and sweep on that, and if some elements have survived a certain amount of garbage collections in heap level $1$, we will then move it to heap level $2$. \\ \\
+\item[(d)] Solution on next page to avoid code break
+\newpage
+\item[(d)] We need to first check if the reference count is equal to 0.  If it is equal to 0, we need to call delete on all the children and we then we need to add the pointer to the free list.
+\\
+\begin{verbatim}
+#include <iostream>
+#include <vector>
 
-
-
-
-
-
-
+Class Foo () 
+{
+    int referenceCount;
+    std::vector <Foo> children;
+    std::vector <Foo *> childrenPointer;
+    
+    // For delete, we are passing x
+    // x contains the memory location of itself
+    // This means that in order to delete children
+    // We must call delete on child and pass in
+    // The child's memory location
+    private void delete(x)
+    {
+        referenceCount = referenceCount - 1;
+        // If this goes to 0, we know we need 
+        // 1.  Delete item by adding to freeList
+        // 2.  Call Delete for all Foo's children
+        
+        if (referenceCount == 0)
+        {
+            for (int i = 0; i < children.size(); i++)
+            {
+                children[i].delete(childrenPointer[i]);
+            }
+            
+            addToFreeList(x);
+        }
+    }
+}
+\end{verbatim}
+\end{enumerate}
 
 \end{enumerate}
 \end{document}
