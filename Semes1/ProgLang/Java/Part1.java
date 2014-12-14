@@ -10,14 +10,12 @@ public class Part1 {
  
     public static void main(String []args)
     {
-        //test();
-        A a = new A(5);
-        System.out.println(a);
+        test();
     }
 
     public static <T extends Comparable<T>> void addToCList(T z, ComparableList<T> L)
     {
-        L.add(z);
+        L.al.add(z);
     }   
     
     static void test() 
@@ -60,14 +58,16 @@ public class Part1 {
 
     class ComparableList<T extends Comparable<T>> extends ArrayList<T> implements Comparable<ComparableList<T>>
     {
-      private ArrayList<T> al;
+      public ArrayList<T> al;
      
       public ComparableList()
       {
+          al = new ArrayList<T>();
       } 
 
       public ComparableList(ArrayList<T> al)
       {
+          al = new ArrayList<T>();
           this.al = al;
       }
 
@@ -100,12 +100,7 @@ public class Part1 {
 
       public String toString()
       {
-          String finalResult = new String();
-          for (int i = 0; i < this.al.size() - 1; i++)
-          {
-              finalResult += (this.al.get(i) + ", ");
-          }
-          return finalResult += this.al.get(this.al.size() - 1); 
+          return al.toString();
       }
     }
 
