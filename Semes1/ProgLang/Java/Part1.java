@@ -7,17 +7,71 @@ public class Part1 {
     public Part1()
     {
     }
-   
-    public class ComparableList<T extends Comparable<T>> extends ArrayList<T> implements Comparable<ComparableList<T>>
+ 
+    public static void main(String []args)
+    {
+        //test();
+        A a = new A(5);
+        System.out.println(a);
+    }
+
+    public static <T extends Comparable<T>> void addToCList(T z, ComparableList<T> L)
+    {
+        L.add(z);
+    }   
+    
+    static void test() 
+    {
+        ComparableList<A> c1 = new ComparableList<A>();
+        ComparableList<A> c2 = new ComparableList<A>();
+        for(int i = 0; i < 10; i++) {
+            addToCList(new A(i), c1);
+            addToCList(new A(i), c2);
+        }
+        
+        addToCList(new A(12), c1);
+        addToCList(new B(6,6), c2);
+        
+        addToCList(new B(7,11), c1);
+        addToCList(new A(13), c2);
+    
+        System.out.print("c1: ");
+        System.out.println(c1);
+        
+        System.out.print("c2: ");
+        System.out.println(c2);
+    
+        switch (c1.compareTo(c2)) {
+        case -1: 
+            System.out.println("c1 < c2");
+            break;
+        case 0:
+            System.out.println("c1 = c2");
+            break;
+        case 1:
+            System.out.println("c1 > c2");
+            break;
+        default:
+            System.out.println("Uh Oh");
+            break;
+        }
+    }  
+}
+
+    class ComparableList<T extends Comparable<T>> extends ArrayList<T> implements Comparable<ComparableList<T>>
     {
       private ArrayList<T> al;
-      
+     
+      public ComparableList()
+      {
+      } 
+
       public ComparableList(ArrayList<T> al)
       {
           this.al = al;
       }
 
-      public int compareTo(Part1.ComparableList<T> other)
+      public int compareTo(ComparableList<T> other)
       {
           //First bullet
           //We will iterate through, and if same, we continue
@@ -55,7 +109,7 @@ public class Part1 {
       }
     }
 
-    public class A implements Comparable<A>
+    class A implements Comparable<A>
     {
         public Integer x;
         public A(Integer x)
@@ -76,7 +130,7 @@ public class Part1 {
         }
     }
 
-    public class B extends A
+    class B extends A
     {
         public Integer y;
         public B(Integer x, Integer y)
@@ -101,69 +155,3 @@ public class Part1 {
         }
     }
 
-    public <T extends Comparable<T>> void addtoCList(T z, ComparableList<T> L)
-    {
-        L.add(z);
-    }
-    
-    public static void main(String []args)
-    {
-        //Part1 p = new Part1();
-        ////p.test();
-        //A a1 = p.new A(6);
-        //A a2 = p.new A(7);
-        //A a3 = p.new A(6);
-        //B b1 = p.new B(2, 4);
-        //B b2 = p.new B(3, 5);
-        //System.out.println("a1.compareTo(a2) should be -1: " + a1.compareTo(a2));
-        //System.out.println("a2.compareTo(a1) should be 1: " + a2.compareTo(a1));
-        //System.out.println("a1.compareTo(a3) should be 0: " + a1.compareTo(a3));
-        //System.out.println();
-        //System.out.println("a1.compareTo(b1) should be 0: " + a1.compareTo(b1));
-        //System.out.println("a1.compareTo(b2) should be -1: " + a1.compareTo(b2));
-        //System.out.println("b1.compareTo(a1) should be 0: " + b1.compareTo(a1));
-        //System.out.println("b2.compareTo(a1) should be 1: " + b2.compareTo(a1));
-        //System.out.println("b1.compareTo(b2) should be -1: " + b1.compareTo(b2));
-    }
-    
-    static void test() {
-        ComparableList<A> c1 = new ComparableList<A>();
-        ComparableList<A> c2 = new ComparableList<A>();
-        for(int i = 0; i < 10; i++) {
-            addToCList(new A(i), c1);
-            addToCList(new A(i), c2);
-        }
-        
-        addToCList(new A(12), c1);
-        addToCList(new B(6,6), c2);
-        
-        addToCList(new B(7,11), c1);
-        addToCList(new A(13), c2);
-    
-        System.out.print("c1: ");
-        System.out.println(c1);
-        
-        System.out.print("c2: ");
-        System.out.println(c2);
-    
-        switch (c1.compareTo(c2)) {
-        case -1: 
-            System.out.println("c1 < c2");
-            break;
-        case 0:
-            System.out.println("c1 = c2");
-            break;
-        case 1:
-            System.out.println("c1 > c2");
-            break;
-        default:
-            System.out.println("Uh Oh");
-            break;
-        }
-    
-    }
-   // static void test() {
-   //     A a1 = new A(6);
-   //     A a2 = new A(7);
-   // }
-}
