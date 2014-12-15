@@ -124,7 +124,7 @@ public class Part1 {
             return "A<" + this.x + ">";
         }
     }
-
+    
     class B extends A
     {
         public Integer y;
