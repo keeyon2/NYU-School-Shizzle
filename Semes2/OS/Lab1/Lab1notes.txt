@@ -1,0 +1,67 @@
+Each word consisting of 4 decimal digits..?
+
+Input: Sequence of tokens
+    * Section not necessarily one line
+    * Can have a range of spaces between tokens
+    * Can have empty lines
+    * Lines may not conform syntactically 
+    * Symbols are in form [a-Z][a-Z0-9]*
+
+    * Symbols up to 16 chars
+    * Ints are decimal based
+    * Instruction type chars are (I, A, R, E) 
+    * Delimiters are ' ', '\t', '\n'
+
+
+Input will have many object modules
+    * Each object module will have (definition list, use list, program text)
+    * Definition List:
+        * Has a count (defcount) followed by defcout pairs (S, R)
+        * S = Symbol being defined 
+        * R = Relative word address (offset) which symbol refers in the module
+
+    * Use List:
+        * Consists of a count (usecount) followed by usecount symbols that this module refers
+        * Can include symbols defined in the definitions list of any module, (prior, subsequent or none at all)
+        
+    * Program Text:
+        * consists of a count (codecount) followed by codecount pairs (type, instruction)
+        * instruction is 4 digit instruction
+        * type is Single Char Immidiate, Absolute, Relative, External
+        * Length of the module
+
+
+Dealing with Instructions
+I - Keep same
+A - Unchanged
+R - Replace Relative address with Absolute Address.  Relative Address + Module's Global Address
+E - Checks value in the Use List.  If Use case is 2 f g. then E 7000 refers to f. E 5001 refers to g
+With E, we must identify which global address the symbol is assigned and then replace the address
+
+2 Pass
+
+Pass 1:
+    * Verifies the correct syntax
+    * Determine base address for each module
+    * Determine absolute address for each defined symbol
+    * Store absolute address in symbol table
+    
+    * First module has base address of 0
+    * N module has N-1 Base address + N-1's length
+    
+    * Symbol's Absolute address = Base address of Module + relative S address in Module M
+    
+    * After Pass 1 print the symbol table(Including Errors)
+    * Don't store parsed tokens, only store meta data (e.g. deflist, uselist, numinstructions) 
+
+Pass 2:
+    * Parse input. use base address and symbol table entries from pass one to generate the output. We relocate relative addresses and resolve external references
+
+
+Questions:
+    * Rule 4: If symbol is defined but not used error (Does it have to be used in that module)
+    * Rule 8: What is the size of the machine?  Absolute address exceeds size of machine
+
+Needed for rules:
+    * Rule 1: While Parsing Pass 1, if detected, exit and print error (Out-11)
+    * Rule 2 
