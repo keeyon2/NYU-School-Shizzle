@@ -1,0 +1,57 @@
+
+\documentclass[ruled]{article}
+\usepackage{relsize}
+
+\begin{document}
+\textbf{Keeyon Ebrahimi}\\
+\textbf{HW1}\\ \\ \\
+\textbf{Problem 1}
+\begin{itemize}
+\item[a) ]
+
+$W = [woof,\ meow,\ squeak]$ \\
+$D1 = [2, 1, 0] $ \\
+$D2 = [2, 0, 1]$\\ \\
+$\mathlarger{\mathlarger{cos\ simularity = \frac{D1 \cdot D2}{||D1|| * ||D2||}}}$
+\\ \\ \\ \\
+$||D1|| = ||D2|| = \sqrt{2^2 + 1^2 + 0^2} = \sqrt{5}$\\
+$D1 \cdot D2 = 4$\\
+$$\mathlarger{\mathlarger{\mathlarger{Solution = \frac{4}{5}}}}$$\\
+\item[b) ]
+$IDF = \mathlarger{\log (\frac{N}{n_i}})$\\
+$W = [woof,\ meow,\ squeak]$ \\
+$IDF\ Vector = [ \mathlarger{\log (\frac{2}{2}), \log (\frac{2}{1}), \log (\frac{2}{1}) ]}$\\
+$\mu D1 = [0, 0.6931, 0] $\\
+$\mu D2 = [0, 0, 0.6931]$ \\
+$\mathlarger{\mathlarger{cos\ simularity = \frac{\mu D1 \cdot \mu D2}{||\mu D1|| * ||\mu D2||}}}$\\
+$\mu D1 \cdot \mu D2 = 0$\\
+$$\mathlarger{\mathlarger{\mathlarger{Solution = 0}}}$$\\
+\item[c) ]
+$W = [woof,\ meow,\ squeak]$ \\
+$IDF Vector = [\log (\frac{3}{2}), \log (\frac{3}{2}), \log (\frac{3}{2})]$\\
+$\mu D1 = [0.811, 0.405465, 0]$\\
+$\mu D2 = [0.811, 0, 0.405465]$\\ \\
+$\mathlarger{ \mu D1 \cdot \mu D2 = 0.65761}$\\ \\
+$\mathlarger{ ||\mu D1|| = \sqrt{5} \log( \frac{3}{2})}$\\\\
+$\mathlarger{ ||\mu D2|| = \sqrt{5} \log( \frac{3}{2})}$\\
+$$\mathlarger{\mathlarger{\mathlarger{Solution = 0.800003}}}$$\\
+\end{itemize}
+\textbf{Problem 2}
+\begin{itemize}
+\item[a) ]
+$P(\ +\ |\ "great\ food\ served") = $ \\ \\
+$P(+) * P("great"\ |\ +) * P("food"\ |\ +) * P("served"\ |\ +) = $ \\ \\
+$\mathlarger{\mathlarger{(\frac{5}{10}) * (\frac{5}{10}) * (\frac{5}{10}) * (\frac{0}{10})}} = $\\ \\
+$$\mathlarger{\mathlarger{\mathlarger{Solution = 0}}}$$\\
+\\ \\ 
+$P(\ -\ |\ "great\ food\ served") = $ \\ \\
+$P(-) * P("great"\ |\ -) * P("food"\ |\ -) * P("served"\ |\ -) = $ \\ \\
+$\mathlarger{\mathlarger{(\frac{5}{10}) * (\frac{0}{11}) * (\frac{5}{11}) * (\frac{1}{11})}} = $\\ \\
+$$\mathlarger{\mathlarger{\mathlarger{Solution = 0}}}$$\\
+\item[b) ]
+\textbf{If we were to apply Laplace smoothing, then $\mathlarger{\mathlarger{P(+\ |\ "great\ food\ served")}}$ will be larger}
+\item[c) ] Using Jet
+\end{itemize}
+\newpage
+
+\end{document}

@@ -1,15 +1,15 @@
 #include "Symbol.h"
 
 //Symbol Constructor
-Symbol::Symbol(std::string message, int address){
-    m_address_message = message;
+Symbol::Symbol(std::string name, int address){
+    m_name = name;
     m_address_int = address;
     m_error_message = "";
 }
 
 //Symbol Constructor
-Symbol::Symbol(std::string address_message, int address, std::string error_message){
-    m_address_message = address_message;
+Symbol::Symbol(std::string name, int address, std::string error_message){
+    m_name = name;
     m_address_int = address;
     m_error_message = error_message;
 }
@@ -17,12 +17,12 @@ Symbol::Symbol(std::string address_message, int address, std::string error_messa
 // Getters and Setters
 
 // Address Message
-void Symbol::SetAddressMessage(std::string message){
-    m_address_message = message;
+void Symbol::SetName(std::string name){
+    m_name = name;
 }
 
-std::string Symbol::GetAddressMessage() {
-    return m_address_message;
+std::string Symbol::GetName() {
+    return m_name;
 }
 
 // Error Message
@@ -45,5 +45,5 @@ int Symbol::GetAddress(){
 
 // Complete Message
 std::string Symbol::GetCompleteMessage() {
-    return m_address_message + m_error_message;
+    return m_name + m_error_message;
 }

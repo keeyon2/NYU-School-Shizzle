@@ -6,17 +6,17 @@
 class Symbol
 {
     private:
-        std::string m_address_message;
+        std::string m_name;
         std::string m_error_message;
         int m_address_int;
         
 
     public:
-        Symbol(std::string message, int address);
-        Symbol(std::string address_message, int address, std::string error_message);
+        Symbol(std::string name, int address);
+        Symbol(std::string name, int address, std::string error_message);
 
-        void SetAddressMessage(std::string message);
-        std::string GetAddressMessage();
+        void SetName(std::string name);
+        std::string GetName();
 
         void SetErrorMessage(std::string message);
         std::string GetErrorMessage();
