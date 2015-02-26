@@ -2,6 +2,7 @@
 #define Symbol_H
 
 #include <string>
+using std::count;
 
 class Symbol
 {
@@ -21,10 +22,13 @@ class Symbol
         void SetErrorMessage(std::string message);
         std::string GetErrorMessage();
 
-        std::string GetCompleteMessage();
 
         void SetAddress(int address);
         int GetAddress();
+
+        std::string GetCompleteMessage();
+
+        void PrintInfo();
 };
 
 #endif

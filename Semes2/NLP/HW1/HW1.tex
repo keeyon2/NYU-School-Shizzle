@@ -53,5 +53,55 @@ $$\mathlarger{\mathlarger{\mathlarger{Solution = 0}}}$$\\
 \item[c) ] Using Jet
 \end{itemize}
 \newpage
+\begin{verbatim}
+---------
+Sentence:                               Cats run with friends
+Seeking sentence                        +
+Seeking np                              +
+Seeking n                               +
+Found   n = Cats                        =====
+Found   np = Cats                       =====
+Seeking vp                                   +
+Seeking v                                    +
+Found   v = run                              ====
+Found   vp = run                             ====
+Found   sentence = Cats run             =========
+Seeking v                                    +
+Found   v = run                              ====
+Seeking np                                       +
+Seeking n                                        +
+Seeking art                                      +
+Seeking art                                      +
+Seeking art                             +
+Seeking art                             +
+0 parse(s) obtained
+---------
+Sentence:                               My young cat types with mice
+Seeking sentence                        +
+Seeking np                              +
+Seeking n                               +
+Seeking art                             +
+Found   art = My                        ===
+Seeking n                                  +
+Seeking art                             +
+Found   art = My                        ===
+Seeking adj                                +
+Found   adj = young                        ======
+Seeking n                                        +
+Found   n = cat                                  ====
+Found   np = My young cat               =============
+Seeking vp                                           +
+Seeking v                                            +
+Found   v = types                                    ======
+Found   vp = types                                   ======
+Found   sentence = My young cat types   ===================
+Seeking v                                            +
+Found   v = types                                    ======
+Seeking np                                                 +
+Seeking n                                                  +
+Seeking art                                                +
+Seeking art                                                +
+0 parse(s) obtained
 
+\end{verbatim}
 \end{document}

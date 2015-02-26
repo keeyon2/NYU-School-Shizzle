@@ -11,6 +11,7 @@ chases,,	cat = v;
 with,,	cat = p;
 relish,,	cat = n;
 runs,,  cat = v;
+run,, cat = v;
 friend,, cat = n;
 friends,, cat = n;
 types,, cat = v;

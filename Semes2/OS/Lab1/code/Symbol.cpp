@@ -47,3 +47,7 @@ int Symbol::GetAddress(){
 std::string Symbol::GetCompleteMessage() {
     return m_name + m_error_message;
 }
+
+void Symbol::PrintInfo(){
+    count << "Symbol Name: " << m_name << "Symbol Address: " << m_address_int << endl;
+}

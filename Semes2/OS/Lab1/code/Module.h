@@ -37,6 +37,8 @@ class Module
 
         void AddToDefList(Symbol indv_symbol);
         void AddToUseList(Symbol indv_symbol);
+        
+        void PrintCurrentStatus();
 };
 
 #endif

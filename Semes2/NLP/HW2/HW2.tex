@@ -1,0 +1,108 @@
+\documentclass[ruled]{article}
+\usepackage{relsize}
+
+\begin{document}
+\textbf{Keeyon Ebrahimi}\\
+\textbf{HW2}\\ \\ \\
+\textbf{Problem 1}
+\begin{itemize}
+\item[a) ] Show the airlines with fights to Boston.
+\begin{verbatim}
+[S	    [VP    [Verb   "Show"}
+                 [NP   [Det "The"]
+                         [Nominal   [Nominal  [Nominal  [Noun "airlines"]]
+                                         [PP   [Preposition "with"] 
+                                                 [NP	[Nominal [Noun "flights"]]]]
+                         [PP   [Prep  "to"]
+                                 [NP [Proper Noun "Boston"]]]]]]
+\end{verbatim}
+
+\item[b) ] Show the airlines that fly to Boston.
+\begin{verbatim}
+[S  [VP  [Verb  "Show"]
+     [NP  [Det  "the"]
+            [Nominal  [Nominal  [Noun  "airlines"]]
+                           [Nominal  [RelClause "that"
+                                          [VP [Verb "fly"]
+                                                [PP  [Prep "to"]
+                                                       [NP  [Nominal  [Noun "Boston"]
+                                                       ]]]]]]]]]]
+\end{verbatim}
+\item[c)  ]  I need to know the flight number.
+\begin{verbatim}
+[S  [NP  [Proper Noun  "I"]]
+     [VP  [Verb  "Need"]
+            [Nominal  [Nominal  [GerundVp
+                                          [Gerund V "to know"]
+                                          [NP  [Det "the"]
+                                          [AP  "number"]
+                                          [Nominal  [Noun "flight"]]]
+                                          ]]]]]
+\end{verbatim}
+\item[d)  ]  Do you prefer to go to Boston
+\begin{verbatim}
+[S  [Aux  "Do"]
+     [NP  [Pronoun "you"]]
+     [VP  [Verb  "prefer"]
+            [Nominal  [Nominal  [Gerund VP
+                                          [Gerund V "to go"]
+                                          [PP  [Preposition "to"]
+                                            [NP [Proper Noun "Boston"]
+                                            ]]]]]]]
+                                          
+\end{verbatim}
+Next problem on next page
+\newpage
+\end{itemize}
+
+\textbf{Problem 2}\\ \\
+
+\textbf{English Grammar}
+\begin{verbatim}
+sentence    :=  nomnp vp | vp | aux nomp vp | * Sing3rd singVerb | *nomPronoun pluralVerb;
+nomnp	    :=  nomPronoun | proper-noun | det nominal | nominal;
+acunp	    :=  accusPronoun | proper-noun | det nominal | nominal;
+nominal     :=  noun | nominal noun | nominal pp | nominal pp pp | nominal rel-clause;
+vp          :=  verb | verb acunp | verb acunp pp | verb pp | verb inf-marker vp;
+verb       :=  singVerb | plurVerb;
+rel-clause  :=  rel-pro vp;
+pp          :=  prep np;
+
+
+\end{verbatim}
+
+\textbf{English Lexicon}
+\begin{verbatim}
+a,,        cat=det;
+an,,       cat=det;
+dinner,,   cat=noun;
+do,,       cat=aux;
+does,,     cat=aux;
+eat,,      cat=singVerb;
+eats,,     cat=pluralVerb;
+Fred,,     cat=proper-noun;
+gave,,     cat= past verb;
+he,,       cat= Sing3rd;
+her,,      cat=accusPronoun;
+him,,      cat=accusPronoun;
+I,,        cat=nomPronoun;
+it,,       cat=Sing3rd;
+it,,       cat=accusPronoun ;
+letter,,   cat=noun;
+me,,       cat=accusPronoun;
+met,,      cat=past verb;
+she,,      cat=sing3rd;
+the,,      cat=det;
+them,,     cat=accusPronoun;
+they,,     cat=nomPronoun;
+that,,     cat=rel-pro;
+to,,       cat=inf-marker;
+to,,       cat=prep;
+waiter,,   cat=noun;
+waiters,,  cat=noun;
+want,,     cat=singVerb;
+wants,,    cat=plurVerb;
+with,,     cat=prep;
+you,,      cat=nomPronoun;
+\end{verbatim}
+\end{document}

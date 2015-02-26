@@ -42,6 +42,7 @@ int Module::GetNumberOfLines(){
     return m_number_of_lines;
 }
 
+// Add to Functionality
 void Module::AddToDefList(Symbol indv_symbol){
    m_def_list.push_back(indv_symbol); 
 }
@@ -50,3 +51,14 @@ void Module::AddToUseList(Symbol indv_symbol){
     m_use_list.push_back(indv_symbol);
 }
 
+//Print current Module Status for debugging
+void Module::PrintCurrentStatus(){
+    // for (auto &symbol : m_def_list)
+    // {
+    //     symbol->PrintInfo();
+    // }
+    for (std::vector<Symbol>::iterator it = m_def_list.begin(); it != m_def_list.end(); ++it)
+    {
+        it->PrintInfo();
+    }
+}

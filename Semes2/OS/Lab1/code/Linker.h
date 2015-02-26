@@ -16,6 +16,8 @@ using std::ifstream;
 #include "Module.h"
 #include <stdlib.h>
 
+using std::stoi;
+
 class Linker
 {
     private:
@@ -29,6 +31,8 @@ class Linker
         // Entry point with filename
         Linker(string filename);
 
+        void StartLinker(string filename);
+
         void SetDefList(vector<Symbol> def_list);
         vector<Symbol> GetDefList();
 
@@ -36,6 +40,17 @@ class Linker
         vector<Module> GetModList();
 
         string GetInputFileName();
+
+        // Functionality
+        void ParseModule(ifstream stream, int global_address);
+
+        bool IsNumber(char c);
+
+        int ExtractNumber(ifstream &stream);
+        string ExtractSymbolName(ifstream &stream);
+
+        void ParseDefList(ifstream &stream, int count, Module *ModPointer);
+        void ReadUntilCharacter(ifstream &stream);
 };
 
 #endif
