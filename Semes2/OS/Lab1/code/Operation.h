@@ -10,7 +10,7 @@ class Operation
         char m_type;
         int m_instruction;
         int m_absolute_address;
-    
+
     public:
         Operation();
         Operation(char type, int instruction, int absolute_address);

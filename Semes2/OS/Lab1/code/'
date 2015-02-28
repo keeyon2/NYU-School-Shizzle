@@ -51,7 +51,6 @@ void Linker::ParseOneSetUp(){
           m_modules_list.back().GetNumberOfLines(); 
         ParseOneModule(nextAddress);
     }
-    //Print Symbol Table and Start Parse two
 }
 
 void Linker::ParseOneModule(int global_address){

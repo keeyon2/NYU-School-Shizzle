@@ -46,14 +46,19 @@ class Linker
         char* GetInputFileName();
 
         // Functionality
-        void ParseModule(int global_address);
+        void ParseOneSetUp();
+        void ParseOneModule(int global_address);
 
         int ExtractNumber();
         string ExtractSymbolName();
+        char ExtractOpType();
 
-        void ParseDefList(int count, string first_symbol_name, Module *ModPointer);
-        void ParseUseList(int count, string first_symbol_name, Module *ModPointer);
+        void ParseOneDefList(int count, string first_symbol_name, Module *ModPointer);
+        void ParseOneUseList(int count, string first_symbol_name, Module *ModPointer);
+        void ParseOneOperationList(Module *ModPointer);
+
         void ReadUntilCharacter();
+        void ReadUntilModule();
 };
 
 #endif
