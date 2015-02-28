@@ -48,9 +48,8 @@ void Linker::ParseModule(int global_address){
     int count; 
     std::cout << "IN PARSE MODULE\n";
     // Set up Module
-    Module* TempModulePointer;
+    Module* TempModulePointer = new Module(global_address);
     TempModulePointer->SetGlobalAddress(global_address);
-
     //stream.peek(c);
     c = stream.peek();
 
@@ -79,8 +78,8 @@ void Linker::ParseModule(int global_address){
     {
         // return 1;  // This needs to be a number for defcount or usecount
     } 
-
-
+    std::cout << "Concluded coding section\n";
+    delete TempModulePointer;
 }
 
 // Determine if char is for a number

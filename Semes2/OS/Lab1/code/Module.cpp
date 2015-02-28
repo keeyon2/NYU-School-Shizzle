@@ -9,6 +9,13 @@ Module::Module(vector<Symbol> def_list, vector<Symbol> use_list,
 
 }
 
+Module::Module(int global_address){
+    vector<Symbol> defList =  m_def_list;
+    vector<Symbol> use_list = m_use_list;
+    m_global_address = global_address;
+    m_number_of_lines = 0;
+}
+
 // Getters and Setters
 void Module::SetDefList(vector<Symbol> def_list){
     m_def_list = def_list;

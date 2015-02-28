@@ -22,7 +22,9 @@ class Module
     public:
         Module(vector<Symbol> def_list, vector<Symbol> use_list, 
                 int global_address, int number_of_lines);
-        
+       
+        Module(int global_address); 
+
         void SetDefList(vector<Symbol> def_list);
         vector<Symbol> GetDefList();
 
