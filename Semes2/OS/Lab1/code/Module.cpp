@@ -1,17 +1,16 @@
 #include "Module.h"
 
 Module::Module(vector<Symbol> def_list, vector<Symbol> use_list,
-                int global_address, int number_of_lines){
+                vector<Operation> operation_list, int global_address, 
+                int number_of_lines){
     m_def_list = def_list;
     m_use_list = use_list;
+    m_operation_list = operation_list;
     m_global_address = global_address;
     m_number_of_lines = number_of_lines;
-
 }
 
 Module::Module(int global_address){
-    vector<Symbol> defList =  m_def_list;
-    vector<Symbol> use_list = m_use_list;
     m_global_address = global_address;
     m_number_of_lines = 0;
 }
@@ -31,6 +30,14 @@ void Module::SetUseList(vector<Symbol> use_list){
 
 vector<Symbol> Module::GetUseList(){
     return m_use_list;
+}
+
+void Module::SetOperationList(vector<Operation> operation_list){
+    m_operation_list = operation_list;
+}
+
+vector<Operation> Module::GetOperationList(){
+    return m_operation_list;
 }
 
 void Module::SetGlobalAddress(int address){
@@ -78,6 +85,15 @@ void Module::PrintCurrentStatus(){
     cout << "***********************************\n"; 
 
     for (std::vector<Symbol>::iterator it = m_use_list.begin(); it != m_use_list.end(); ++it)
+    {
+        it->PrintInfo();
+    }
+    
+    cout << "***********************************\n"; 
+    cout << "************ OP LIST **************\n";
+    cout << "***********************************\n"; 
+
+    for (std::vector<Operation>::iterator it = m_operation_list.begin(); it != m_operation_list.end(); ++it)
     {
         it->PrintInfo();
     }
