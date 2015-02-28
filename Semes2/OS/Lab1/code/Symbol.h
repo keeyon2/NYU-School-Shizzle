@@ -2,7 +2,7 @@
 #define Symbol_H
 
 #include <string>
-using std::count;
+#include <iostream>
 
 class Symbol
 {

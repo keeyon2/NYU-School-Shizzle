@@ -1,20 +1,22 @@
 #include "Linker.h"
 
-Linker::Linker(string filename){
+ifstream stream;
+
+Linker::Linker(char *filename){
         StartLinker(filename);
 }
 
-void Linker::StartLinker(string filename){
+void Linker::StartLinker(char *filename){
     m_input_file_name = filename;
     //ifstream fin = new ifstream();
-    ifstream fin;
-    fin.open(filename); //Open File
-    if (!fin.good())
+    //ifstream fin;
+    stream.open(filename); //Open File
+    if (!stream.good())
         //return 1; // Exit if file not found
         std::cout << "Could not open File: " << filename << std::endl;
 
      //Parse Module
-    ParseModule(fin, 0);
+    ParseModule(0);
 
 }
 
@@ -35,16 +37,16 @@ vector<Module> Linker::GetModList(){
   return m_modules_list;
 }
 
-string Linker::GetInputFileName(){
+char* Linker::GetInputFileName(){
     return m_input_file_name;
 }
 
 // Functionality
 
-void Linker::ParseModule(ifstream stream, int global_address){
+void Linker::ParseModule(int global_address){
     char c;
     int count; 
-
+    std::cout << "IN PARSE MODULE\n";
     // Set up Module
     Module* TempModulePointer;
     TempModulePointer->SetGlobalAddress(global_address);
@@ -56,7 +58,7 @@ void Linker::ParseModule(ifstream stream, int global_address){
     if (IsNumber(c))
     {
 
-        count = ExtractNumber(stream);
+        count = ExtractNumber();
         if (count > 16)
         {
             //return 1;  // Defcount or Usecount needs to be less that 16
@@ -67,9 +69,9 @@ void Linker::ParseModule(ifstream stream, int global_address){
         if (IsNumber(c))
         {
             // We now know this is a deflist 
-            ParseDefList(stream, count, TempModulePointer);
+            ParseDefList(count, TempModulePointer);
         }
-        //ParseUseList(stream, count, TempModule); 
+        //ParseUseList(count, TempModule); 
         // Print Module this far 
 
     }
@@ -89,7 +91,7 @@ bool Linker::IsNumber(char c){
     return false;
 }
 
-int Linker::ExtractNumber(ifstream &stream) {
+int Linker::ExtractNumber() {
     string number;
     char c;
 
@@ -100,16 +102,17 @@ int Linker::ExtractNumber(ifstream &stream) {
             number += c; 
         else
             // Need to do checks to make sure number is appropriate
-            return stoi(number);
+            //return std::stoi(number);
+            return atoi(number.c_str());
     }
 }
 
 //Extracts Symbol Name
-string Linker::ExtractSymbolName(ifstream &stream) {
+string Linker::ExtractSymbolName() {
     string SymbolName;
     char c;
     bool found_first_char = false;
-    ReadUntilCharacter(stream);
+    ReadUntilCharacter();
 
     while (true)
     {
@@ -125,15 +128,15 @@ string Linker::ExtractSymbolName(ifstream &stream) {
     }
 }
 
-void Linker::ParseDefList(ifstream &stream, int count, Module *ModPointer) {
+void Linker::ParseDefList(int count, Module *ModPointer) {
     string symbol_name;
     int relative_address;
     
     // For the amount of defcount
     for (int i = 0; i < count; i++)
     {
-        symbol_name = ExtractSymbolName(stream);
-        relative_address =  ExtractNumber(stream);
+        symbol_name = ExtractSymbolName();
+        relative_address =  ExtractNumber();
         //Symbol temp_symbol = new Symbol(symbol_name, relative_address);
         Symbol temp_symbol (symbol_name, relative_address);
         ModPointer->AddToDefList(temp_symbol);
@@ -141,7 +144,7 @@ void Linker::ParseDefList(ifstream &stream, int count, Module *ModPointer) {
     }
 }
 
-void Linker::ReadUntilCharacter(ifstream &stream){
+void Linker::ReadUntilCharacter(){
     char c;
     while(true)
     {

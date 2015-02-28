@@ -12,11 +12,11 @@ using std::vector;
 using std::ifstream;
 
 #include <sstream>
+#include <stdlib.h>
 #include "Symbol.h"
 #include "Module.h"
-#include <stdlib.h>
 
-using std::stoi;
+//using std::stoi;
 
 class Linker
 {
@@ -25,13 +25,13 @@ class Linker
         vector<Module> m_modules_list;
         string m_symbol_table;
         string m_memory_map;
-        string m_input_file_name;
+        char* m_input_file_name;
 
     public:
         // Entry point with filename
-        Linker(string filename);
+        Linker(char* filename);
 
-        void StartLinker(string filename);
+        void StartLinker(char* filename);
 
         void SetDefList(vector<Symbol> def_list);
         vector<Symbol> GetDefList();
@@ -39,18 +39,18 @@ class Linker
         void SetModulesList(vector<Module> modules_list);
         vector<Module> GetModList();
 
-        string GetInputFileName();
+        char* GetInputFileName();
 
         // Functionality
-        void ParseModule(ifstream stream, int global_address);
+        void ParseModule(int global_address);
 
         bool IsNumber(char c);
 
-        int ExtractNumber(ifstream &stream);
-        string ExtractSymbolName(ifstream &stream);
+        int ExtractNumber();
+        string ExtractSymbolName();
 
-        void ParseDefList(ifstream &stream, int count, Module *ModPointer);
-        void ReadUntilCharacter(ifstream &stream);
+        void ParseDefList(int count, Module *ModPointer);
+        void ReadUntilCharacter();
 };
 
 #endif
