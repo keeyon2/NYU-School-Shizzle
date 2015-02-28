@@ -47,6 +47,7 @@ void Linker::ParseModule(int global_address){
     char c;
     int count; 
     string first_symbol_name;
+
     // Set up Module
     Module* TempModulePointer = new Module(global_address);
     TempModulePointer->SetGlobalAddress(global_address);
@@ -65,11 +66,15 @@ void Linker::ParseModule(int global_address){
         {
             // We now know this is a deflist 
             ParseDefList(count, first_symbol_name, TempModulePointer);
-            TempModulePointer->PrintCurrentStatus();
-        }
-        //ParseUseList(count, TempModule); 
-        // Print Module this far 
 
+            // Set up Parse Use List
+            count = ExtractNumber();
+            first_symbol_name = ExtractSymbolName();
+        }
+        ParseUseList(count, first_symbol_name, TempModulePointer); 
+        
+        // Print Module this far 
+        TempModulePointer->PrintCurrentStatus();
     }
     else
     {
@@ -116,6 +121,7 @@ string Linker::ExtractSymbolName() {
     }
 }
 
+// Stream points after read first symbol name in DefList
 void Linker::ParseDefList(int count, string first_symbol_name, Module *ModPointer) {
     string symbol_name;
     int relative_address;
@@ -136,6 +142,27 @@ void Linker::ParseDefList(int count, string first_symbol_name, Module *ModPointe
         Symbol temp_symbol (symbol_name, relative_address);
         ModPointer->AddToDefList(temp_symbol);
         //delete temp_symbol;
+    }
+}
+
+// Stream points after read first symbol name in DefList
+void Linker::ParseUseList(int count, string first_symbol_name, Module *ModPointer) {
+    string symbol_name;
+    int relative_address;
+    
+    // For the amount of defcount
+    for (int i = 0; i < count; i++)
+    {
+        if (i == 0)
+        {
+            symbol_name = first_symbol_name;
+        }
+        else
+        {
+            symbol_name = ExtractSymbolName();
+        }
+        Symbol temp_symbol (symbol_name);
+        ModPointer->AddToUseList(temp_symbol);
     }
 }
 

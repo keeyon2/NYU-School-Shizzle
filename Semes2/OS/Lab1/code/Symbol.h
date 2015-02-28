@@ -15,6 +15,7 @@ class Symbol
     public:
         Symbol(std::string name, int address);
         Symbol(std::string name, int address, std::string error_message);
+        Symbol(std::string name);
 
         void SetName(std::string name);
         std::string GetName();

@@ -10,6 +10,8 @@ using std::vector;
 using std::ifstream;
 
 #include "Symbol.h"
+using std::cout;
+using std::endl;
 
 class Module
 {

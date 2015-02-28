@@ -64,8 +64,24 @@ void Module::PrintCurrentStatus(){
     // {
     //     symbol->PrintInfo();
     // }
+    cout << "***********************************\n"; 
+    cout << "************ DEF LIST *************\n";
+    cout << "***********************************\n"; 
+
     for (std::vector<Symbol>::iterator it = m_def_list.begin(); it != m_def_list.end(); ++it)
     {
         it->PrintInfo();
     }
+
+    cout << "***********************************\n"; 
+    cout << "************ USE LIST *************\n";
+    cout << "***********************************\n"; 
+
+    for (std::vector<Symbol>::iterator it = m_use_list.begin(); it != m_use_list.end(); ++it)
+    {
+        it->PrintInfo();
+    }
+
+    cout << "******** Global Address:  " << m_global_address << " *********\n";
+    cout << "******** Total Lines:  " << m_number_of_lines << " *********\n";
 }

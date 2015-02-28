@@ -8,6 +8,13 @@ Symbol::Symbol(std::string name, int address){
 }
 
 //Symbol Constructor
+Symbol::Symbol(std::string name){
+    m_name = name;
+    m_address_int = -1;
+    m_error_message = "";
+}
+
+//Symbol Constructor
 Symbol::Symbol(std::string name, int address, std::string error_message){
     m_name = name;
     m_address_int = address;

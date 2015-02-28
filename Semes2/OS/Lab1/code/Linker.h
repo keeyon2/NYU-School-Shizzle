@@ -51,7 +51,8 @@ class Linker
         int ExtractNumber();
         string ExtractSymbolName();
 
-        void ParseDefList(int count, string first_symbol_name,  Module *ModPointer);
+        void ParseDefList(int count, string first_symbol_name, Module *ModPointer);
+        void ParseUseList(int count, string first_symbol_name, Module *ModPointer);
         void ReadUntilCharacter();
 };
 
