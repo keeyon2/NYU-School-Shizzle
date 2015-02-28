@@ -13,6 +13,10 @@ using std::ifstream;
 
 #include <sstream>
 #include <stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
 #include "Symbol.h"
 #include "Module.h"
 
@@ -44,12 +48,10 @@ class Linker
         // Functionality
         void ParseModule(int global_address);
 
-        bool IsNumber(char c);
-
         int ExtractNumber();
         string ExtractSymbolName();
 
-        void ParseDefList(int count, Module *ModPointer);
+        void ParseDefList(int count, string first_symbol_name,  Module *ModPointer);
         void ReadUntilCharacter();
 };
 

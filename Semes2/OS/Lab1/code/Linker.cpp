@@ -46,29 +46,26 @@ char* Linker::GetInputFileName(){
 void Linker::ParseModule(int global_address){
     char c;
     int count; 
-    std::cout << "IN PARSE MODULE\n";
+    string first_symbol_name;
     // Set up Module
     Module* TempModulePointer = new Module(global_address);
     TempModulePointer->SetGlobalAddress(global_address);
-    //stream.peek(c);
     c = stream.peek();
-
-    // This will be the defcount or usecount
-    if (IsNumber(c))
+    if (isdigit(c))
     {
-
         count = ExtractNumber();
+        first_symbol_name = ExtractSymbolName();
         if (count > 16)
         {
             //return 1;  // Defcount or Usecount needs to be less that 16
         } 
          
-        //stream.peek(c);
         c = stream.peek(); 
-        if (IsNumber(c))
+        if (isdigit(c))
         {
             // We now know this is a deflist 
-            ParseDefList(count, TempModulePointer);
+            ParseDefList(count, first_symbol_name, TempModulePointer);
+            TempModulePointer->PrintCurrentStatus();
         }
         //ParseUseList(count, TempModule); 
         // Print Module this far 
@@ -82,17 +79,10 @@ void Linker::ParseModule(int global_address){
     delete TempModulePointer;
 }
 
-// Determine if char is for a number
-bool Linker::IsNumber(char c){
-    if ( (c >= '0') && (c <= '9'))
-        return true;
-
-    return false;
-}
-
 int Linker::ExtractNumber() {
     string number;
     char c;
+    ReadUntilCharacter();
 
     while (true)
     {
@@ -110,7 +100,6 @@ int Linker::ExtractNumber() {
 string Linker::ExtractSymbolName() {
     string SymbolName;
     char c;
-    bool found_first_char = false;
     ReadUntilCharacter();
 
     while (true)
@@ -127,14 +116,21 @@ string Linker::ExtractSymbolName() {
     }
 }
 
-void Linker::ParseDefList(int count, Module *ModPointer) {
+void Linker::ParseDefList(int count, string first_symbol_name, Module *ModPointer) {
     string symbol_name;
     int relative_address;
     
     // For the amount of defcount
     for (int i = 0; i < count; i++)
     {
-        symbol_name = ExtractSymbolName();
+        if (i == 0)
+        {
+            symbol_name = first_symbol_name;
+        }
+        else
+        {
+            symbol_name = ExtractSymbolName();
+        }
         relative_address =  ExtractNumber();
         //Symbol temp_symbol = new Symbol(symbol_name, relative_address);
         Symbol temp_symbol (symbol_name, relative_address);

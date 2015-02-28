@@ -49,5 +49,5 @@ std::string Symbol::GetCompleteMessage() {
 }
 
 void Symbol::PrintInfo(){
-    std::cout << "Symbol Name: " << m_name << "Symbol Address: " << m_address_int << "\n";
+    std::cout << "Symbol Name: " << m_name << " Symbol Address: " << m_address_int << "\n";
 }
