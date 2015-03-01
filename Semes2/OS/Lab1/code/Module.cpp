@@ -100,4 +100,5 @@ void Module::PrintCurrentStatus(){
 
     cout << "******** Global Address:  " << m_global_address << " *********\n";
     cout << "******** Total Lines:  " << m_number_of_lines << " *********\n";
+    cout << "\n\n\n\n\n";
 }

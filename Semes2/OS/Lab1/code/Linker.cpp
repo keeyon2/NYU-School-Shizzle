@@ -43,10 +43,10 @@ char* Linker::GetInputFileName(){
 // Functionality
 void Linker::ParseOneSetUp(){
     ParseOneModule(0);
+
     int nextAddress;
     while(!stream.eof())
     {
-        ReadUntilModule();
         nextAddress = 1 + m_modules_list.back().GetGlobalAddress() + 
           m_modules_list.back().GetNumberOfLines(); 
         ParseOneModule(nextAddress);
@@ -62,38 +62,16 @@ void Linker::ParseOneModule(int global_address){
     // Set up Module
     Module* TempModulePointer = new Module(global_address);
     TempModulePointer->SetGlobalAddress(global_address);
-    c = stream.peek();
-    if (isdigit(c))
-    {
-        count = ExtractNumber();
-        first_symbol_name = ExtractSymbolName();
-        if (count > 16)
-        {
-            //return 1;  // Defcount or Usecount needs to be less that 16
-        } 
-         
-        c = stream.peek(); 
-        if (isdigit(c))
-        {
-            // We now know this is a deflist 
-            ParseOneDefList(count, first_symbol_name, TempModulePointer);
-
-            // Set up Parse Use List
-            count = ExtractNumber();
-            first_symbol_name = ExtractSymbolName();
-        }
-        ParseOneUseList(count, first_symbol_name, TempModulePointer); 
-        ParseOneOperationList(TempModulePointer); 
-        // Print Module this far 
-        TempModulePointer->PrintCurrentStatus();
-    }
-    else
-    {
-        // return 1;  // This needs to be a number for defcount or usecount
-    } 
+    ParseOneDefList(TempModulePointer);
+    ParseOneUseList(TempModulePointer);
+    ParseOneOperationList(TempModulePointer); 
+   
+    // Print Module this far 
+    TempModulePointer->PrintCurrentStatus();
 
     // We have now finished module
     m_modules_list.push_back(*TempModulePointer);
+    ReadUntilCharacter();
     delete TempModulePointer;
 }
 
@@ -102,7 +80,7 @@ int Linker::ExtractNumber() {
     char c;
     ReadUntilCharacter();
 
-    while (true)
+    while (!stream.eof())
     {
         stream.get(c);
         if ((c != ' ') && (c != '\t') && (c != '\n'))
@@ -120,7 +98,7 @@ string Linker::ExtractSymbolName() {
     char c;
     ReadUntilCharacter();
 
-    while (true)
+    while (!stream.eof())
     {
         stream.get(c);
         if ((c != ' ') && (c != '\t') && (c != '\n'))
@@ -144,57 +122,57 @@ char Linker::ExtractOpType(){
     }
     return type;
 }
+
 // Stream points after read first symbol name in DefList
-void Linker::ParseOneDefList(int count, string first_symbol_name, Module *ModPointer) {
+void Linker::ParseOneDefList(Module *ModPointer) {
     string symbol_name;
     int relative_address;
     int symbol_absolute_address; 
-    // For the amount of defcount
+
+    ReadUntilCharacter();
+    int count = ExtractNumber();
+
     for (int i = 0; i < count; i++)
     {
-        if (i == 0)
-        {
-            symbol_name = first_symbol_name;
-        }
-        else
-        {
-            symbol_name = ExtractSymbolName();
-        }
+        symbol_name = ExtractSymbolName();
+
         // Give Exact Address based on Module address
         relative_address =  ExtractNumber();
         symbol_absolute_address = relative_address + ModPointer->GetGlobalAddress();
         Symbol temp_symbol (symbol_name, symbol_absolute_address);
+
+        // Add completed symbols to lists
+        m_entire_def_list.push_back(temp_symbol);
         ModPointer->AddToDefList(temp_symbol);
     }
 }
 
 // Stream points after read first symbol name in DefList
-void Linker::ParseOneUseList(int count, string first_symbol_name, Module *ModPointer) {
+void Linker::ParseOneUseList(Module *ModPointer) {
     string symbol_name;
     int relative_address;
     
+    ReadUntilCharacter();
+    int count = ExtractNumber();
     // For the amount of defcount
     for (int i = 0; i < count; i++)
     {
-        if (i == 0)
-        {
-            symbol_name = first_symbol_name;
-        }
-        else
-        {
-            symbol_name = ExtractSymbolName();
-        }
+        symbol_name = ExtractSymbolName();
+    }  
         
         //Need to add these for parse 2, not parse 1
         //Symbol temp_symbol (symbol_name);
         //ModPointer->AddToUseList(temp_symbol);
-    }
+    
 }
 
 void Linker::ParseOneOperationList(Module *ModPointer) {
-    int codecount = ExtractNumber();
+    int codecount;
     char type;
     int instruction;
+
+    ReadUntilCharacter();
+    codecount = ExtractNumber();
     ModPointer->SetNumberOfLines(codecount);
     for (int i = 0; i < codecount; i++)
     {
@@ -205,7 +183,7 @@ void Linker::ParseOneOperationList(Module *ModPointer) {
 
 void Linker::ReadUntilCharacter(){
     char c;
-    while(true)
+    while(!stream.eof())
     {
         c = stream.peek();
         if ((c == ' ') || (c == '\t') || (c == '\n'))
@@ -217,16 +195,3 @@ void Linker::ReadUntilCharacter(){
     }
 }
 
-void Linker::ReadUntilModule(){
-    char c;
-    while(true)
-    {
-        c = stream.peek();
-        if ((c == ' ') || (c == '\t') || (c == '\n') || (c == '0'))
-        {
-            stream.get(c);
-        }
-        else
-            return;
-    }
-}
