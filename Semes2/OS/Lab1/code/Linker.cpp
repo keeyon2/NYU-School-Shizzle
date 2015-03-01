@@ -101,8 +101,17 @@ int Linker::ExtractNumber() {
     while (!stream.eof())
     {
         c = StreamGet();
+
         if ((c != ' ') && (c != '\t') && (c != '\n'))
+        {
+            // Error Check
+            if (!isdigit(c))
+            {
+                PrintParseError(1);
+            }
+
             number += c; 
+        }
         else
             // Need to do checks to make sure number is appropriate
             //return std::stoi(number);
@@ -225,4 +234,5 @@ void Linker::PrintParseError(int errcode){
     };
     cout << "Parse Error line " << m_stream_line_number << " offset " 
         << m_stream_offset_number << ": " << errstr[errcode] << endl;
+    exit(1);
 }
