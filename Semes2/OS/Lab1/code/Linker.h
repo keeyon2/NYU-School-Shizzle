@@ -30,7 +30,10 @@ class Linker
         string m_symbol_table;
         string m_memory_map;
         char* m_input_file_name;
-
+        int m_stream_line_number;
+        int m_stream_offset_number;
+        
+        char StreamGet();
     public:
         // Entry point with filename
         Linker(char* filename);

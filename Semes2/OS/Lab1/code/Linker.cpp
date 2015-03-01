@@ -41,6 +41,24 @@ char* Linker::GetInputFileName(){
 }
 
 // Functionality
+
+
+char Linker::StreamGet(){
+    char c;
+    stream.get(c);
+    
+    // Ensure we keep track of Streams current 
+    // Line and Offset Number
+    if (c == '\n')
+    {
+        m_stream_line_number += 1;
+        m_stream_offset_number = 0;;
+    }
+    else
+        m_stream_offset_number =+ 1;
+
+    return c;
+}
 void Linker::ParseOneSetUp(){
     ParseOneModule(0);
 
@@ -82,7 +100,7 @@ int Linker::ExtractNumber() {
 
     while (!stream.eof())
     {
-        stream.get(c);
+        c = StreamGet();
         if ((c != ' ') && (c != '\t') && (c != '\n'))
             number += c; 
         else
@@ -100,7 +118,7 @@ string Linker::ExtractSymbolName() {
 
     while (!stream.eof())
     {
-        stream.get(c);
+        c = StreamGet();
         if ((c != ' ') && (c != '\t') && (c != '\n'))
         {    
             SymbolName += c; 
@@ -115,7 +133,7 @@ string Linker::ExtractSymbolName() {
 char Linker::ExtractOpType(){
     char type;
     ReadUntilCharacter();
-    stream.get(type);
+    type = StreamGet();
     if ((type != 'I') || (type != 'A') || (type != 'R') || (type != 'E'))
     {
         //Error with Type Extraction
@@ -188,7 +206,7 @@ void Linker::ReadUntilCharacter(){
         c = stream.peek();
         if ((c == ' ') || (c == '\t') || (c == '\n'))
         {
-            stream.get(c);
+            c = StreamGet();
         }
         else
             return;
