@@ -61,6 +61,7 @@ class Linker
         void ParseOneOperationList(Module *ModPointer);
 
         void ReadUntilCharacter();
+        void PrintParseError(int errcode);
 };
 
 #endif

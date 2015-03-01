@@ -3,7 +3,7 @@
 ifstream stream;
 
 Linker::Linker(char *filename){
-        StartLinker(filename);
+    StartLinker(filename);
 }
 
 void Linker::StartLinker(char *filename){
@@ -17,6 +17,7 @@ void Linker::StartLinker(char *filename){
 
      //Parse Module
     ParseOneSetUp();
+
 }
 
 //Getters and Setters
@@ -41,8 +42,6 @@ char* Linker::GetInputFileName(){
 }
 
 // Functionality
-
-
 char Linker::StreamGet(){
     char c;
     stream.get(c);
@@ -60,6 +59,7 @@ char Linker::StreamGet(){
     return c;
 }
 void Linker::ParseOneSetUp(){
+   
     ParseOneModule(0);
 
     int nextAddress;
@@ -213,3 +213,16 @@ void Linker::ReadUntilCharacter(){
     }
 }
 
+void Linker::PrintParseError(int errcode){
+    const string errstr[] = {
+        "NUM_EXPECTED",
+        "SYM_EXPECTED",
+        "ADDR_EXPECTED",
+        "SYM_TOLONG",
+        "TO_MANY_DEF_IN_MODULE",
+        "TO_MANY_USE_IN_MODULE",
+        "TO_MANY_INSTR",
+    };
+    cout << "Parse Error line " << m_stream_line_number << " offset " 
+        << m_stream_offset_number << ": " << errstr[errcode] << endl;
+}
