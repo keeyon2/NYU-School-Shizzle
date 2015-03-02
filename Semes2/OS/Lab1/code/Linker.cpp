@@ -111,11 +111,11 @@ void Linker::ParseOneSetUp(){
 
     // Print off Memory Map
     cout<< "Memory Map" << endl;
-    int inst; 
+    int op_address; 
     for (int i = 0; i < m_operation_list.size(); i++)
     {
-        inst = m_operation_list[i].GetInstruction();
-        cout << std::setfill('0') << std::setw(3) << i << ": " << inst << endl;
+        op_address = m_operation_list[i].GetAbsoluteAddress();
+        cout << std::setfill('0') << std::setw(3) << i << ": " << op_address << endl;
     } 
 }
 
@@ -350,12 +350,14 @@ void Linker::ParseTwoOperationList(Module &Mod){
     int codecount = ExtractNumber();
     char type;
     int instruction;
+    int address;
         
     for (int i = 0; i < codecount; i++)
     {
         type = ExtractOpType();
         instruction = ExtractNumber();
-        Operation *temp_op = new Operation(type, instruction, Mod.GetGlobalAddress());
+        address = instruction;
+        //
         // Handle E Type
         if (type == 'E')
         {
@@ -378,12 +380,17 @@ void Linker::ParseTwoOperationList(Module &Mod){
                     desired_operation_address = it->GetAddress();
                 }
             }
-            instruction = instruction - relative_e_location;
-            instruction = instruction + desired_operation_address;
-            temp_op->SetInstruction(instruction);
+            address = instruction - relative_e_location;
+            address = address + desired_operation_address;
+            // temp_op->SetInstruction(instruction);
+        }
+        if (type == 'R')
+        {
+            address = instruction + Mod.GetGlobalAddress();
         }
 
         // Place op on the operation list
+        Operation *temp_op = new Operation(type, instruction, address);
         m_operation_list.push_back(*temp_op);
     }    
 }

@@ -6,14 +6,12 @@ Operation::Operation(){
     m_absolute_address = -1;
 }
 
-Operation::Operation(char type, int instruction, int module_address){
+Operation::Operation(char type, int instruction, int address){
     m_type = type;
     m_instruction = instruction;
-
-    if (m_type == 'R')
-       m_absolute_address = m_instruction + module_address; 
-    else
-       m_absolute_address = instruction;
+    m_absolute_address = address;
+    // if (m_type == 'R')
+    //    m_absolute_address = m_instruction + module_address; 
 }
 
 void Operation::SetType(char type){
