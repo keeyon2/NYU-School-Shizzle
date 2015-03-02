@@ -3,6 +3,8 @@
 ifstream stream;
 
 Linker::Linker(char *filename){
+    m_stream_prev_line_last_offset = 0;
+    m_stream_prev_line_last_offset_2 = 0;
     StartLinker(filename);
 }
 
@@ -14,7 +16,11 @@ void Linker::StartLinker(char *filename){
     if (!stream.good())
         //return 1; // Exit if file not found
         std::cout << "Could not open File: " << filename << std::endl;
-
+    
+    if (StreamLastCharNewline())
+        m_last_line_newline = true;
+    else
+        m_last_line_newline = false;
      //Parse Module
     ParseOneSetUp();
 
@@ -51,13 +57,16 @@ char Linker::StreamGet(){
     if (c == '\n')
     {
         m_stream_line_number += 1;
-        m_stream_offset_number = 0;;
+        m_stream_prev_line_last_offset_2 = m_stream_prev_line_last_offset;
+        m_stream_prev_line_last_offset = m_stream_offset_number;
+        m_stream_offset_number = 0;
     }
     else
-        m_stream_offset_number =+ 1;
+        m_stream_offset_number += 1;
 
     return c;
 }
+
 void Linker::ParseOneSetUp(){
    
     ParseOneModule(0);
@@ -98,6 +107,12 @@ int Linker::ExtractNumber() {
     char c;
     ReadUntilCharacter();
 
+    //We have reached End of file Expect Number
+    if (stream.eof())
+    {
+        PrintEOFParseError(0);
+    } 
+
     while (!stream.eof())
     {
         c = StreamGet();
@@ -107,16 +122,17 @@ int Linker::ExtractNumber() {
             // Error Check
             if (!isdigit(c))
             {
-                PrintParseError(1);
+                PrintParseError(0);
             }
 
             number += c; 
         }
         else
-            // Need to do checks to make sure number is appropriate
-            //return std::stoi(number);
-            return atoi(number.c_str());
+            break;
     }
+    return atoi(number.c_str());
+    // Number error at end of file
+
 }
 
 //Extracts Symbol Name
@@ -124,7 +140,17 @@ string Linker::ExtractSymbolName() {
     string SymbolName;
     char c;
     ReadUntilCharacter();
-
+    
+    // Error Check
+    c = stream.peek();
+    if (!isalpha(c))
+    {
+        // This get is so we update the cursor pos correctly
+        c = StreamGet();
+        PrintParseError(1);
+    }
+    
+    // Extract Symbol
     while (!stream.eof())
     {
         c = StreamGet();
@@ -222,6 +248,22 @@ void Linker::ReadUntilCharacter(){
     }
 }
 
+void Linker::PrintEOFParseError(int errcode) {
+    // Check if the last char is a "\n"
+    // If so, update some data and send to reg Pars Error
+    if (m_last_line_newline)
+    {
+        m_stream_line_number -= 1;
+        m_stream_offset_number = m_stream_prev_line_last_offset_2;
+    }
+    else
+    {
+        m_stream_offset_number = m_stream_prev_line_last_offset;
+    }
+
+    PrintParseError(errcode);
+}
+
 void Linker::PrintParseError(int errcode){
     const string errstr[] = {
         "NUM_EXPECTED",
@@ -235,4 +277,20 @@ void Linker::PrintParseError(int errcode){
     cout << "Parse Error line " << m_stream_line_number << " offset " 
         << m_stream_offset_number << ": " << errstr[errcode] << endl;
     exit(1);
+}
+
+bool Linker::StreamLastCharNewline(){
+    char c;
+    int current_position = stream.tellg();
+
+    // Get Last Char
+    stream.seekg(0, stream.end);
+    int length = stream.tellg();
+    stream.seekg(length-2, stream.beg);
+    stream.get(c);
+    // Set back to original Pos
+    stream.seekg(current_position, stream.beg);
+    if (c == '\n')
+        return true;
+    return false;
 }

@@ -32,6 +32,9 @@ class Linker
         char* m_input_file_name;
         int m_stream_line_number;
         int m_stream_offset_number;
+        int m_stream_prev_line_last_offset;
+        int m_stream_prev_line_last_offset_2;
+        bool m_last_line_newline;
         
         char StreamGet();
     public:
@@ -61,7 +64,10 @@ class Linker
         void ParseOneOperationList(Module *ModPointer);
 
         void ReadUntilCharacter();
+        void PrintEOFParseError(int errcode);
         void PrintParseError(int errcode);
+
+        bool StreamLastCharNewline();
 };
 
 #endif
