@@ -282,11 +282,9 @@ void Linker::ParseOneUseList(Module *ModPointer) {
     for (int i = 0; i < count; i++)
     {
         symbol_name = ExtractSymbolName();
+        Symbol temp_symbol (symbol_name);
+        ModPointer->AddToUseList(temp_symbol);
     }  
-        
-    //Need to add these for parse 2, not parse 1
-    Symbol temp_symbol (symbol_name);
-    ModPointer->AddToUseList(temp_symbol);
 }
 
 void Linker::ParseOneOperationList(Module *ModPointer) {
