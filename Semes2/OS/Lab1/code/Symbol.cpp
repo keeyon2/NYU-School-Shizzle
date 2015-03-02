@@ -58,3 +58,7 @@ std::string Symbol::GetCompleteMessage() {
 void Symbol::PrintInfo(){
     std::cout << "Symbol Name: " << m_name << " Symbol Address: " << m_address_int << "\n";
 }
+
+void Symbol::PrintForTable(){
+    std::cout << m_name << "=" << m_address_int << "\n";
+}

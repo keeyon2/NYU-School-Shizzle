@@ -5,6 +5,9 @@ ifstream stream;
 Linker::Linker(char *filename){
     m_stream_prev_line_last_offset = 0;
     m_stream_prev_line_last_offset_2 = 0;
+    m_stream_line_number = 1;
+    m_last_line_newline = false;
+    m_last_line_and_prev_newline = false;
     StartLinker(filename);
 }
 
@@ -17,11 +20,18 @@ void Linker::StartLinker(char *filename){
         //return 1; // Exit if file not found
         std::cout << "Could not open File: " << filename << std::endl;
     
-    if (StreamLastCharNewline())
-        m_last_line_newline = true;
-    else
-        m_last_line_newline = false;
-     //Parse Module
+    char c;
+    c = stream.peek();
+    StreamLastCharNewline();
+
+    stream.close();
+    stream.open(filename); //Open File
+    if (!stream.good())
+        //return 1; // Exit if file not found
+        std::cout << "Could not open File: " << filename << std::endl;
+
+
+    //Parse Module
     ParseOneSetUp();
 
 }
@@ -72,13 +82,24 @@ void Linker::ParseOneSetUp(){
     ParseOneModule(0);
 
     int nextAddress;
-    while(!stream.eof())
+    while(!PeekEnd())
     {
-        nextAddress = 1 + m_modules_list.back().GetGlobalAddress() + 
+        nextAddress = m_modules_list.back().GetGlobalAddress() + 
           m_modules_list.back().GetNumberOfLines(); 
         ParseOneModule(nextAddress);
     }
+
     //Print Symbol Table and Start Parse two
+    cout << "Symbol Table" << endl;
+    
+    for (vector<Symbol>::iterator it = m_entire_def_list.begin(); 
+            it != m_entire_def_list.end(); ++it)
+    {
+        it->PrintForTable();
+    }
+    cout << "\n";
+
+    //Start Parse 2
 }
 
 void Linker::ParseOneModule(int global_address){
@@ -94,7 +115,7 @@ void Linker::ParseOneModule(int global_address){
     ParseOneOperationList(TempModulePointer); 
    
     // Print Module this far 
-    TempModulePointer->PrintCurrentStatus();
+    //TempModulePointer->PrintCurrentStatus();
 
     // We have now finished module
     m_modules_list.push_back(*TempModulePointer);
@@ -108,12 +129,12 @@ int Linker::ExtractNumber() {
     ReadUntilCharacter();
 
     //We have reached End of file Expect Number
-    if (stream.eof())
+    if (PeekEnd())
     {
         PrintEOFParseError(0);
     } 
 
-    while (!stream.eof())
+    while (!PeekEnd())
     {
         c = StreamGet();
 
@@ -141,6 +162,12 @@ string Linker::ExtractSymbolName() {
     char c;
     ReadUntilCharacter();
     
+    //We have reached End of file Expect Number
+    if (stream.eof())
+    {
+        PrintEOFParseError(1);
+    } 
+
     // Error Check
     c = stream.peek();
     if (!isalpha(c))
@@ -149,9 +176,10 @@ string Linker::ExtractSymbolName() {
         c = StreamGet();
         PrintParseError(1);
     }
-    
+     
+    int temp_offset = m_stream_offset_number;
     // Extract Symbol
-    while (!stream.eof())
+    while (!PeekEnd())
     {
         c = StreamGet();
         if ((c != ' ') && (c != '\t') && (c != '\n'))
@@ -160,6 +188,11 @@ string Linker::ExtractSymbolName() {
         }
         else
         {
+            if (SymbolName.length() > 16)
+            {
+                m_stream_offset_number = temp_offset + 1;
+                PrintParseError(3);
+            }
             return SymbolName;
         }
     }
@@ -168,11 +201,17 @@ string Linker::ExtractSymbolName() {
 char Linker::ExtractOpType(){
     char type;
     ReadUntilCharacter();
-    type = StreamGet();
-    if ((type != 'I') || (type != 'A') || (type != 'R') || (type != 'E'))
+    if (stream.eof())
     {
-        //Error with Type Extraction
+        PrintEOFParseError(2);
     }
+    type = StreamGet();
+    if ((type == 'I') || (type == 'A') || (type == 'R') || (type == 'E'))
+    {
+        return type;
+    }
+    // Error Occurred
+    PrintParseError(2);
     return type;
 }
 
@@ -183,7 +222,13 @@ void Linker::ParseOneDefList(Module *ModPointer) {
     int symbol_absolute_address; 
 
     ReadUntilCharacter();
+    int temp_offset = m_stream_offset_number;
     int count = ExtractNumber();
+    if (count > 16)
+    {
+        m_stream_offset_number = temp_offset + 1;
+        PrintParseError(4);
+    }
 
     for (int i = 0; i < count; i++)
     {
@@ -206,7 +251,14 @@ void Linker::ParseOneUseList(Module *ModPointer) {
     int relative_address;
     
     ReadUntilCharacter();
+    int temp_offset = m_stream_offset_number;
     int count = ExtractNumber();
+    
+    if (count > 16)
+    {
+        m_stream_offset_number = temp_offset + 1;
+        PrintParseError(5);
+    }
     // For the amount of defcount
     for (int i = 0; i < count; i++)
     {
@@ -225,8 +277,17 @@ void Linker::ParseOneOperationList(Module *ModPointer) {
     int instruction;
 
     ReadUntilCharacter();
+    int temp_offset = m_stream_offset_number;
     codecount = ExtractNumber();
     ModPointer->SetNumberOfLines(codecount);
+
+    m_total_instructions += codecount;
+    if (m_total_instructions > 512)
+    {
+        m_stream_offset_number = temp_offset + 1;
+        PrintParseError(6);
+    }
+
     for (int i = 0; i < codecount; i++)
     {
         type = ExtractOpType();
@@ -236,7 +297,7 @@ void Linker::ParseOneOperationList(Module *ModPointer) {
 
 void Linker::ReadUntilCharacter(){
     char c;
-    while(!stream.eof())
+    while(!PeekEnd())
     {
         c = stream.peek();
         if ((c == ' ') || (c == '\t') || (c == '\n'))
@@ -251,14 +312,17 @@ void Linker::ReadUntilCharacter(){
 void Linker::PrintEOFParseError(int errcode) {
     // Check if the last char is a "\n"
     // If so, update some data and send to reg Pars Error
-    if (m_last_line_newline)
+    //
+    m_stream_line_number -= 1;
+    if (m_last_line_newline && !m_last_line_and_prev_newline)
     {
         m_stream_line_number -= 1;
-        m_stream_offset_number = m_stream_prev_line_last_offset_2;
+        m_stream_offset_number = m_stream_prev_line_last_offset_2 + 1;
+        // 1 or 2, must check
     }
     else
     {
-        m_stream_offset_number = m_stream_prev_line_last_offset;
+        m_stream_offset_number = m_stream_prev_line_last_offset + 1;
     }
 
     PrintParseError(errcode);
@@ -279,18 +343,28 @@ void Linker::PrintParseError(int errcode){
     exit(1);
 }
 
-bool Linker::StreamLastCharNewline(){
-    char c;
+void Linker::StreamLastCharNewline(){
+    char c, d;
     int current_position = stream.tellg();
 
     // Get Last Char
     stream.seekg(0, stream.end);
     int length = stream.tellg();
-    stream.seekg(length-2, stream.beg);
+    stream.seekg(length-3, stream.beg);
     stream.get(c);
+    stream.get(d);
     // Set back to original Pos
     stream.seekg(current_position, stream.beg);
-    if (c == '\n')
-        return true;
-    return false;
+    if (d == '\n')
+        m_last_line_newline = true;
+    if ((c == '\n') && (d == '\n'))
+        m_last_line_and_prev_newline = true;
+}
+
+bool Linker::PeekEnd(){
+    // int c = stream.peek();
+    // if (c == EOF)
+    //     return true;
+    // return false;
+    return (stream.peek(), stream.eof());
 }

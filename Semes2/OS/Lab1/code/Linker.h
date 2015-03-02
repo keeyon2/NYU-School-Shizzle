@@ -29,13 +29,15 @@ class Linker
         vector<Module> m_modules_list;
         string m_symbol_table;
         string m_memory_map;
+        int m_total_instructions;
+
         char* m_input_file_name;
         int m_stream_line_number;
         int m_stream_offset_number;
         int m_stream_prev_line_last_offset;
         int m_stream_prev_line_last_offset_2;
         bool m_last_line_newline;
-        
+        bool m_last_line_and_prev_newline; 
         char StreamGet();
     public:
         // Entry point with filename
@@ -67,7 +69,8 @@ class Linker
         void PrintEOFParseError(int errcode);
         void PrintParseError(int errcode);
 
-        bool StreamLastCharNewline();
+        void StreamLastCharNewline();
+        bool PeekEnd();
 };
 
 #endif

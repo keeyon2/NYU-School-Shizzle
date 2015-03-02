@@ -30,6 +30,7 @@ class Symbol
         std::string GetCompleteMessage();
 
         void PrintInfo();
+        void PrintForTable();
 };
 
 #endif
