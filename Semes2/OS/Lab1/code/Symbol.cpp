@@ -5,6 +5,7 @@ Symbol::Symbol(std::string name, int address){
     m_name = name;
     m_address_int = address;
     m_error_message = "";
+    m_times_used = 0;
 }
 
 //Symbol Constructor
@@ -12,6 +13,7 @@ Symbol::Symbol(std::string name){
     m_name = name;
     m_address_int = -1;
     m_error_message = "";
+    m_times_used = 0;
 }
 
 //Symbol Constructor
@@ -19,6 +21,7 @@ Symbol::Symbol(std::string name, int address, std::string error_message){
     m_name = name;
     m_address_int = address;
     m_error_message = error_message;
+    m_times_used = 0;
 }
 
 // Getters and Setters
@@ -48,6 +51,14 @@ void Symbol::SetAddress(int address){
 
 int Symbol::GetAddress(){
     return m_address_int;
+}
+
+void Symbol::SymbolUsed(){
+    m_times_used += 1;
+}
+
+int Symbol::GetTimesUsed(){
+    return m_times_used;
 }
 
 // Complete Message

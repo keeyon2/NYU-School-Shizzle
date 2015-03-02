@@ -100,6 +100,23 @@ void Linker::ParseOneSetUp(){
     cout << "\n";
 
     //Start Parse 2
+    //Reset Stream
+    stream.close();
+    stream.open(m_input_file_name); //Open File
+    if (!stream.good())
+        //return 1; // Exit if file not found
+        std::cout << "Could not open File: " << m_input_file_name << std::endl;
+
+    ParseTwoSetUp();
+
+    // Print off Memory Map
+    cout<< "Memory Map" << endl;
+    int inst; 
+    for (int i = 0; i < m_operation_list.size(); i++)
+    {
+        inst = m_operation_list[i].GetInstruction();
+        cout << std::setfill('0') << std::setw(3) << i << ": " << inst << endl;
+    } 
 }
 
 void Linker::ParseOneModule(int global_address){
@@ -196,6 +213,8 @@ string Linker::ExtractSymbolName() {
             return SymbolName;
         }
     }
+    // Should never get here
+    return SymbolName;
 }
 
 char Linker::ExtractOpType(){
@@ -265,10 +284,9 @@ void Linker::ParseOneUseList(Module *ModPointer) {
         symbol_name = ExtractSymbolName();
     }  
         
-        //Need to add these for parse 2, not parse 1
-        //Symbol temp_symbol (symbol_name);
-        //ModPointer->AddToUseList(temp_symbol);
-    
+    //Need to add these for parse 2, not parse 1
+    Symbol temp_symbol (symbol_name);
+    ModPointer->AddToUseList(temp_symbol);
 }
 
 void Linker::ParseOneOperationList(Module *ModPointer) {
@@ -293,6 +311,83 @@ void Linker::ParseOneOperationList(Module *ModPointer) {
         type = ExtractOpType();
         instruction = ExtractNumber();
     } 
+}
+
+void Linker::ParseTwoSetUp(){
+    // Make sure we get into each Module the right mod
+   for (int i = 0; i < m_modules_list.size(); i++)
+   {
+       ParseTwoDefList(m_modules_list[i]);
+       ParseTwoUseList(m_modules_list[i]);
+       ParseTwoOperationList(m_modules_list[i]);
+   }  
+}
+
+void Linker::ParseTwoDefList(Module &Mod) {
+    ReadUntilCharacter();
+    int count = ExtractNumber();
+    string symbol_name;
+    int relative_address;
+    for (int i = 0; i < count; i++)
+    {
+        symbol_name = ExtractSymbolName();
+        relative_address = ExtractNumber();
+    }
+}
+
+void Linker::ParseTwoUseList(Module &Mod) {
+    string symbol_name;
+    int relative_address;
+
+    ReadUntilCharacter();
+    int count = ExtractNumber();
+    for (int i = 0; i < count; i++)
+    {
+        symbol_name = ExtractSymbolName();
+    }
+}
+
+void Linker::ParseTwoOperationList(Module &Mod){
+    ReadUntilCharacter();
+    int codecount = ExtractNumber();
+    char type;
+    int instruction;
+        
+    for (int i = 0; i < codecount; i++)
+    {
+        type = ExtractOpType();
+        instruction = ExtractNumber();
+        Operation *temp_op = new Operation(type, instruction, Mod.GetGlobalAddress());
+        // Handle E Type
+        if (type == 'E')
+        {
+            int desired_operation_address;
+            int relative_e_location = instruction % 1000; 
+            vector<Symbol> use_list = Mod.GetUseList(); 
+            Symbol correct_symbol = use_list[relative_e_location];
+            string symbol_name = correct_symbol.GetName(); 
+            string temp_symbol_name;
+            int temp_compare_int;
+            // Grab from our Def list
+            
+            for (vector<Symbol>::iterator it = m_entire_def_list.begin(); 
+                    it != m_entire_def_list.end(); ++it)
+            {
+                temp_symbol_name = it->GetName();
+                temp_compare_int = symbol_name.compare(temp_symbol_name);
+                if (temp_compare_int == 0)
+                {
+                    desired_operation_address = it->GetAddress();
+                }
+            }
+            instruction = instruction - relative_e_location;
+            instruction = instruction + desired_operation_address;
+            temp_op->SetInstruction(instruction);
+        }
+
+        // Place op on the operation list
+        m_operation_list.push_back(*temp_op);
+    }    
 }
 
 void Linker::ReadUntilCharacter(){

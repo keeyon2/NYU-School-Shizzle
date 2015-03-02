@@ -8,6 +8,7 @@ using std::string;
 using std::vector;
 
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 using std::ifstream;
 
@@ -27,6 +28,7 @@ class Linker
     private:
         vector<Symbol> m_entire_def_list;
         vector<Module> m_modules_list;
+        vector<Operation> m_operation_list;
         string m_symbol_table;
         string m_memory_map;
         int m_total_instructions;
@@ -64,6 +66,11 @@ class Linker
         void ParseOneDefList(Module *ModPointer);
         void ParseOneUseList(Module *ModPointer);
         void ParseOneOperationList(Module *ModPointer);
+
+        void ParseTwoSetUp();
+        void ParseTwoDefList(Module &Mod);
+        void ParseTwoUseList(Module &Mod);
+        void ParseTwoOperationList(Module &Mod);
 
         void ReadUntilCharacter();
         void PrintEOFParseError(int errcode);

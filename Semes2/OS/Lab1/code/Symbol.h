@@ -10,7 +10,7 @@ class Symbol
         std::string m_name;
         std::string m_error_message;
         int m_address_int;
-        
+        int m_times_used;        
 
     public:
         Symbol(std::string name, int address);
@@ -26,6 +26,9 @@ class Symbol
 
         void SetAddress(int address);
         int GetAddress();
+
+        void SymbolUsed();
+        int GetTimesUsed();
 
         std::string GetCompleteMessage();
 
