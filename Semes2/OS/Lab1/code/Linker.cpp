@@ -13,8 +13,6 @@ Linker::Linker(char *filename){
 
 void Linker::StartLinker(char *filename){
     m_input_file_name = filename;
-    //ifstream fin = new ifstream();
-    //ifstream fin;
     stream.open(filename); //Open File
     if (!stream.good())
         //return 1; // Exit if file not found
@@ -137,17 +135,43 @@ void Linker::ParseOneSetUp(){
         }
     }
 
-    // for (int i = 0; i < m_operation_list.size(); i++)
-    // {
-    //     op_address = m_operation_list[i].GetAbsoluteAddress();
-    //     cout << std::setfill('0') << std::setw(3) << i << ": " << op_address << endl;
-    // } 
+    cout << "\n";
+    int tmp_cmp_use_int; 
+    int module_number = -1;
+    string tmp_cmp_use_name, correct_name;
+    for (int i = 0; i < m_entire_def_list.size(); i++)
+    {
+        for (int j = 0; j < m_modules_list.size(); j++)
+        {
+            vector<Symbol> temp_use_list = m_modules_list[j].GetUseList();
+            for (int k = 0; k < temp_use_list.size(); k++)
+            {
+                tmp_cmp_use_name = temp_use_list[k].GetName();
+                correct_name = m_entire_def_list[i].GetName();
+                tmp_cmp_use_int = tmp_cmp_use_name.compare(correct_name);
+                module_number = j + 1;
+                if (tmp_cmp_use_int == 0)
+                {
+                    m_entire_def_list[i].SetUsed(true);
+        //            cout << "Warning: Module " << module_number << " " << correct_name << " was defined but never used\n";
+                }
+            }
+        } 
+    }
 
-    // Print Post Mem Warnings
+    for (int i = 0; i < m_entire_def_list.size(); i++)
+    {
+        if (!m_entire_def_list[i].GetUsed())
+        {
+            cout << "Warning: Module blank " << " " << m_entire_def_list[i].GetName() << " was defined but never used\n";
+        }
+    }
+
     for (int i = 0; i < m_post_mem_warns.size(); i++)
     {
         cout << m_post_mem_warns[i];
     }
+    cout << "\n";
 }
 
 void Linker::ParseOneModule(int global_address){
@@ -271,6 +295,7 @@ void Linker::ParseOneDefList(Module *ModPointer) {
     int relative_address;
     int symbol_absolute_address; 
     bool can_add_def = true;
+
 
     ReadUntilCharacter();
     int temp_offset = m_stream_offset_number;
@@ -409,8 +434,11 @@ void Linker::ParseOneOperationList(Module *ModPointer) {
                 {
                     int compare_sym_names = 
                         temp_symbol_name.compare(m_entire_def_list[j].GetName());
-                    if (compare_sym_names == 0)
-                        m_entire_def_list[j].SetUsed(true);
+                    // RULE 4 Might need later
+                    // if (compare_sym_names == 0)
+                    // {
+                    //     m_entire_def_list[j].SetUsed(true);
+                    // }
                 }
             }
         }
@@ -419,18 +447,6 @@ void Linker::ParseOneOperationList(Module *ModPointer) {
     //printing Error
     string warning_string; 
     int mod_number = m_modules_list.size() + 1;
-    // Rule 4
-    // NEED TO WORK ON
-    // Need to do this after entire module
-    // for (int i = 0; i < temp_def_list.size(); i++)
-    // {
-    //     if (!temp_def_list[i].GetUsed())
-    //     {
-    //         warning_string = "Warning: Module " + to_string(mod_number) +
-    //             ": " + temp_def_list[i].GetName() + " was defined but never used\n";
-    //         m_post_mem_warns.push_back(warning_string);
-    //     }
-    // }
 
     // Rule 7
     for (int i = 0; i < temp_use_list.size(); i++)
@@ -494,6 +510,7 @@ void Linker::ParseTwoOperationList(Module &Mod){
         instruction = ExtractNumber();
         address = instruction;
         //
+        // Error 11
         // Handle E Type
         if (type == 'E')
         {
@@ -571,6 +588,14 @@ void Linker::ParseTwoOperationList(Module &Mod){
                 address = 9999;
             }
         } 
+        else
+        {
+            if (instruction > 9999)
+            {
+                error_message = "Error: Illegal opcode; treated as 9999";
+                address = 9999;
+            }
+        }
         // Place op on the operation list
         Operation *temp_op = new Operation(type, instruction, address);
         temp_op->SetErrorMessage(error_message);
