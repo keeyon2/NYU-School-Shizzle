@@ -508,7 +508,17 @@ void Linker::ParseTwoOperationList(Module &Mod){
         }
         if (type == 'R')
         {
-            address = instruction + Mod.GetGlobalAddress();
+            // Check for error 9
+            int address_spot = instruction % 1000;
+            int mod_size = Mod.GetNumberOfLines();
+            if (address_spot > mod_size)
+            {
+                // ERROR
+                address = instruction - address_spot + Mod.GetGlobalAddress();
+                error_message = "Error: Relative address exceeds module size; zero used";
+            }
+            else
+                address = instruction + Mod.GetGlobalAddress();
         }
 
         if (type == 'A')
