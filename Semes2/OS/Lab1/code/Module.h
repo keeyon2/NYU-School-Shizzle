@@ -11,7 +11,7 @@ using std::ifstream;
 
 #include "Symbol.h"
 #include "Operation.h"
-
+using std::string;
 using std::cout;
 using std::endl;
 
@@ -25,6 +25,7 @@ class Module
         int m_number_of_lines;
 
     public:
+        vector<string> m_warning_list;
         Module(vector<Symbol> def_list, vector<Symbol> use_list, 
                 vector<Operation> operation_list,
                 int global_address, int number_of_lines);

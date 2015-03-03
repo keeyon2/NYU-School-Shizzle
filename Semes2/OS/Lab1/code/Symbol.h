@@ -11,6 +11,7 @@ class Symbol
         std::string m_error_message;
         int m_address_int;
         int m_times_used;        
+        bool m_used;
 
     public:
         Symbol(std::string name, int address);
@@ -23,7 +24,6 @@ class Symbol
         void SetErrorMessage(std::string message);
         std::string GetErrorMessage();
 
-
         void SetAddress(int address);
         int GetAddress();
 
@@ -34,6 +34,9 @@ class Symbol
 
         void PrintInfo();
         void PrintForTable();
+
+        void SetUsed(bool used);
+        bool GetUsed();
 };
 
 #endif

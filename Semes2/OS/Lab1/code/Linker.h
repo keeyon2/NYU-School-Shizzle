@@ -3,6 +3,7 @@
 
 #include <string>
 using std::string;
+using std::to_string;
 
 #include <vector>
 using std::vector;
@@ -29,6 +30,8 @@ class Linker
         vector<Symbol> m_entire_def_list;
         vector<Module> m_modules_list;
         vector<Operation> m_operation_list;
+        vector<string> m_pre_symb_warns;
+        vector<string> m_post_mem_warns;
         string m_symbol_table;
         string m_memory_map;
         int m_total_instructions;
@@ -76,6 +79,7 @@ class Linker
         void PrintEOFParseError(int errcode);
         void PrintParseError(int errcode);
 
+        int FindWhichModWithAddress(Module *mod);
         void StreamLastCharNewline();
         bool PeekEnd();
 };

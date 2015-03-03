@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+using std::string;
 
 class Operation
 {
@@ -10,6 +11,7 @@ class Operation
         char m_type;
         int m_instruction;
         int m_absolute_address;
+        string m_error_message;
 
     public:
         Operation();
@@ -25,6 +27,9 @@ class Operation
         int GetAbsoluteAddress();
 
         void PrintInfo();
+
+        void SetErrorMessage(string error_message);
+        string GetErrorMessage();
 };
 
 #endif

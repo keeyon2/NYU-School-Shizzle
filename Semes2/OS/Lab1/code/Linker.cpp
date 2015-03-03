@@ -88,6 +88,12 @@ void Linker::ParseOneSetUp(){
           m_modules_list.back().GetNumberOfLines(); 
         ParseOneModule(nextAddress);
     }
+    
+    //Print Pre Symbol warnings
+    for (int i = 0; i < m_pre_symb_warns.size(); i++)
+    {
+        cout << m_pre_symb_warns[i];
+    }
 
     //Print Symbol Table and Start Parse two
     cout << "Symbol Table" << endl;
@@ -112,11 +118,34 @@ void Linker::ParseOneSetUp(){
     // Print off Memory Map
     cout<< "Memory Map" << endl;
     int op_address; 
-    for (int i = 0; i < m_operation_list.size(); i++)
+    int mem_count = 0;
+    for (int i = 0; i < m_modules_list.size(); i++)
     {
-        op_address = m_operation_list[i].GetAbsoluteAddress();
-        cout << std::setfill('0') << std::setw(3) << i << ": " << op_address << endl;
-    } 
+        vector<Operation> temp_op_list = m_modules_list[i].GetOperationList();
+        for (int j = 0; j < temp_op_list.size(); j++)
+        {
+            op_address = temp_op_list[j].GetAbsoluteAddress();
+            cout << std::setfill('0') << std::setw(3) << mem_count << ": " << op_address << endl;
+            mem_count = mem_count + 1;
+        }
+        // Print out Warnings
+        for (int k = 0; k < m_modules_list[i].m_warning_list.size(); k++)
+        {
+            cout << m_modules_list[i].m_warning_list[k];
+        }
+    }
+
+    // for (int i = 0; i < m_operation_list.size(); i++)
+    // {
+    //     op_address = m_operation_list[i].GetAbsoluteAddress();
+    //     cout << std::setfill('0') << std::setw(3) << i << ": " << op_address << endl;
+    // } 
+
+    // Print Post Mem Warnings
+    for (int i = 0; i < m_post_mem_warns.size(); i++)
+    {
+        cout << m_post_mem_warns[i];
+    }
 }
 
 void Linker::ParseOneModule(int global_address){
@@ -255,6 +284,7 @@ void Linker::ParseOneDefList(Module *ModPointer) {
 
         // Give Exact Address based on Module address
         relative_address =  ExtractNumber();
+
         symbol_absolute_address = relative_address + ModPointer->GetGlobalAddress();
         Symbol temp_symbol (symbol_name, symbol_absolute_address);
 
@@ -296,19 +326,98 @@ void Linker::ParseOneOperationList(Module *ModPointer) {
     int temp_offset = m_stream_offset_number;
     codecount = ExtractNumber();
     ModPointer->SetNumberOfLines(codecount);
+    
+    // Check for Rule 5
+    vector<Symbol> temp_def_list = ModPointer->GetDefList(); 
+    vector<Symbol> temp_use_list = ModPointer->GetUseList();
+    int relative_address;
+    string symbol_name;
+    for (int i = 0; i < temp_def_list.size(); i++)
+    {
+        relative_address = temp_def_list[i].GetAddress();
+        symbol_name = temp_def_list[i].GetName();
+        if (relative_address > codecount)
+        {
+            //Add Error
+            //Set to 0
+            //int mod_number = FindWhichModWithAddress(ModPointer);
+            int mod_number = m_modules_list.size() + 1;
+            string rule_5_error = "Warning: Module " + to_string(mod_number) +
+               ": " + symbol_name + " to big " + to_string(relative_address) + 
+               " (max=" + to_string(codecount-1) + ") assume zero relative\n"; 
+            m_pre_symb_warns.push_back(rule_5_error);
+            relative_address = 0;
+        }
+    }
 
+    // Continue after rule 5 check
     m_total_instructions += codecount;
     if (m_total_instructions > 512)
     {
         m_stream_offset_number = temp_offset + 1;
         PrintParseError(6);
     }
-
+    
+    // Checking for rule 4 7
+    // While incrementing stream
     for (int i = 0; i < codecount; i++)
     {
         type = ExtractOpType();
         instruction = ExtractNumber();
+        if (type == 'E')
+        {
+            /// Logic for rule 4/7
+            string temp_symbol_name; 
+            int temp_inst = instruction;
+            temp_inst = temp_inst % 1000;
+            // Check for rule 6
+            if (temp_inst >= temp_use_list.size())
+            {
+                //This means we have Rule 6 going down
+            }
+            else
+            {
+                temp_use_list[temp_inst].SetUsed(true);
+                temp_symbol_name = temp_use_list[temp_inst].GetName(); 
+                for (int j = 0; j < m_entire_def_list.size(); j++)
+                {
+                    int compare_sym_names = 
+                        temp_symbol_name.compare(m_entire_def_list[j].GetName());
+                    if (compare_sym_names == 0)
+                        m_entire_def_list[j].SetUsed(true);
+                }
+            }
+        }
     } 
+
+    //printing Error
+    string warning_string; 
+    int mod_number = m_modules_list.size() + 1;
+    // Rule 4
+    // NEED TO WORK ON
+    // Need to do this after entire module
+    // for (int i = 0; i < temp_def_list.size(); i++)
+    // {
+    //     if (!temp_def_list[i].GetUsed())
+    //     {
+    //         warning_string = "Warning: Module " + to_string(mod_number) +
+    //             ": " + temp_def_list[i].GetName() + " was defined but never used\n";
+    //         m_post_mem_warns.push_back(warning_string);
+    //     }
+    // }
+
+    // Rule 7
+    for (int i = 0; i < temp_use_list.size(); i++)
+    {
+        if (!temp_use_list[i].GetUsed())
+        {
+            warning_string = "Warning: Module " + to_string(mod_number) +
+                ": " + temp_use_list[i].GetName() +
+                " appeared in the uselist but was not actually used\n"; 
+            //m_post_mem_warns.push_back(warning_string);
+            ModPointer->m_warning_list.push_back(warning_string);
+        }
+    }
 }
 
 void Linker::ParseTwoSetUp(){
@@ -364,25 +473,32 @@ void Linker::ParseTwoOperationList(Module &Mod){
             int desired_operation_address;
             int relative_e_location = instruction % 1000; 
             vector<Symbol> use_list = Mod.GetUseList(); 
-            Symbol correct_symbol = use_list[relative_e_location];
-            string symbol_name = correct_symbol.GetName(); 
-            string temp_symbol_name;
-            int temp_compare_int;
-            // Grab from our Def list
-            
-            for (vector<Symbol>::iterator it = m_entire_def_list.begin(); 
-                    it != m_entire_def_list.end(); ++it)
+            if (relative_e_location >= use_list.size())
             {
-                temp_symbol_name = it->GetName();
-                temp_compare_int = symbol_name.compare(temp_symbol_name);
-                if (temp_compare_int == 0)
-                {
-                    desired_operation_address = it->GetAddress();
-                }
+                // ERROR 4 DONT CHANGE ADDRESS TREATING AS IM
             }
-            address = instruction - relative_e_location;
-            address = address + desired_operation_address;
-            // temp_op->SetInstruction(instruction);
+            else
+            {
+                Symbol correct_symbol = use_list[relative_e_location];
+                string symbol_name = correct_symbol.GetName(); 
+                string temp_symbol_name;
+                int temp_compare_int;
+                // Grab from our Def list
+                
+                for (vector<Symbol>::iterator it = m_entire_def_list.begin(); 
+                        it != m_entire_def_list.end(); ++it)
+                {
+                    temp_symbol_name = it->GetName();
+                    temp_compare_int = symbol_name.compare(temp_symbol_name);
+                    if (temp_compare_int == 0)
+                    {
+                        desired_operation_address = it->GetAddress();
+                    }
+                }
+                address = instruction - relative_e_location;
+                address = address + desired_operation_address;
+                // temp_op->SetInstruction(instruction);
+            }
         }
         if (type == 'R')
         {
@@ -392,6 +508,12 @@ void Linker::ParseTwoOperationList(Module &Mod){
         // Place op on the operation list
         Operation *temp_op = new Operation(type, instruction, address);
         m_operation_list.push_back(*temp_op);
+        
+        // Add to Models Operation List
+        vector<Operation> temp_op_list = Mod.GetOperationList();
+        temp_op_list.push_back(*temp_op);
+        Mod.SetOperationList(temp_op_list);
+
     }    
 }
 
@@ -443,6 +565,21 @@ void Linker::PrintParseError(int errcode){
     exit(1);
 }
 
+int Linker::FindWhichModWithAddress(Module *mod){
+    int mod_address, temp_mod_address;
+    mod_address = mod->GetGlobalAddress(); 
+    for (int i = 0; i < m_modules_list.size(); i++)
+    {
+        temp_mod_address = m_modules_list[i].GetGlobalAddress();
+        if (temp_mod_address == mod_address)
+        {
+            return i + 1;
+        }  
+    }
+    
+    // Failure
+    return -1;
+}
 void Linker::StreamLastCharNewline(){
     char c, d;
     int current_position = stream.tellg();
