@@ -284,9 +284,10 @@ void Linker::ParseOneDefList(Module *ModPointer) {
 
         // Give Exact Address based on Module address
         relative_address =  ExtractNumber();
-
+        
         symbol_absolute_address = relative_address + ModPointer->GetGlobalAddress();
         Symbol temp_symbol (symbol_name, symbol_absolute_address);
+        temp_symbol.m_relative_address = relative_address;
 
         // Add completed symbols to lists
         m_entire_def_list.push_back(temp_symbol);
@@ -334,7 +335,8 @@ void Linker::ParseOneOperationList(Module *ModPointer) {
     string symbol_name;
     for (int i = 0; i < temp_def_list.size(); i++)
     {
-        relative_address = temp_def_list[i].GetAddress();
+        //relative_address = temp_def_list[i].GetAddress();
+        relative_address = temp_def_list[i].m_relative_address;
         symbol_name = temp_def_list[i].GetName();
         if (relative_address > codecount)
         {

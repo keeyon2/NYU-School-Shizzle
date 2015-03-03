@@ -14,6 +14,7 @@ class Symbol
         bool m_used;
 
     public:
+        int m_relative_address;
         Symbol(std::string name, int address);
         Symbol(std::string name, int address, std::string error_message);
         Symbol(std::string name);
