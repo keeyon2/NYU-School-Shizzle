@@ -163,7 +163,23 @@ void Linker::ParseOneSetUp(){
     {
         if (!m_entire_def_list[i].GetUsed())
         {
-            cout << "Warning: Module blank " << " " << m_entire_def_list[i].GetName() << " was defined but never used\n";
+            int test_number, module_address, def_symb_address;
+            bool found = false;
+            for(int j = m_modules_list.size(); j > 0; j--)
+            {
+                test_number = j - 1; 
+                module_address = m_modules_list[test_number].GetGlobalAddress();
+                def_symb_address = m_entire_def_list[i].GetAddress();  
+               if (module_address > def_symb_address)
+               {
+                    found = true;
+                    cout << "Warning: Module " << j << ": " << m_entire_def_list[i].GetName() << " was defined but never used\n";
+               }
+            }
+            if (!found)
+            {
+                    cout << "Warning: Module " << m_modules_list.size() << ": " << m_entire_def_list[i].GetName() << " was defined but never used\n";
+            }
         }
     }
 
