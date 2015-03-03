@@ -74,7 +74,7 @@ void Symbol::PrintInfo(){
 }
 
 void Symbol::PrintForTable(){
-    std::cout << m_name << "=" << m_address_int << "\n";
+    std::cout << m_name << "=" << m_address_int << m_error_message << "\n";
 }
 
 void Symbol::SetUsed(bool used){

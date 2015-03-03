@@ -269,6 +269,7 @@ void Linker::ParseOneDefList(Module *ModPointer) {
     string symbol_name;
     int relative_address;
     int symbol_absolute_address; 
+    bool can_add_def = true;
 
     ReadUntilCharacter();
     int temp_offset = m_stream_offset_number;
@@ -289,10 +290,31 @@ void Linker::ParseOneDefList(Module *ModPointer) {
         symbol_absolute_address = relative_address + ModPointer->GetGlobalAddress();
         Symbol temp_symbol (symbol_name, symbol_absolute_address);
         temp_symbol.m_relative_address = relative_address;
+        
+        // Check if the element has already been defined
+        // ERROR 2
+        int temp_compare;
+        string def_compare_string;
+        for (int j = 0; j < m_entire_def_list.size(); j++)
+        {
+            def_compare_string = m_entire_def_list[j].GetName();
+            temp_compare = def_compare_string.compare(symbol_name);
+            
+            // Already defined
+            if (temp_compare == 0)
+            {
+                string error_msg = " Error: This variable is multiple times defined; first value used";
+                m_entire_def_list[j].SetErrorMessage(error_msg); 
+                can_add_def = false;
+            }
+        }
 
         // Add completed symbols to lists
-        m_entire_def_list.push_back(temp_symbol);
-        ModPointer->AddToDefList(temp_symbol);
+        if (can_add_def)
+        {
+            m_entire_def_list.push_back(temp_symbol);
+            ModPointer->AddToDefList(temp_symbol);
+        }
     }
 }
 
