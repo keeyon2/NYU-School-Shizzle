@@ -30,10 +30,8 @@ void Linker::StartLinker(char *filename){
         //return 1; // Exit if file not found
         std::cout << "Could not open File: " << filename << std::endl;
 
-
     //Parse Module
     ParseOneSetUp();
-
 }
 
 //Getters and Setters
@@ -481,7 +479,8 @@ void Linker::ParseTwoOperationList(Module &Mod){
             vector<Symbol> use_list = Mod.GetUseList(); 
             if (relative_e_location >= use_list.size())
             {
-                // ERROR 4 DONT CHANGE ADDRESS TREATING AS IM
+                // ERROR 6 DONT CHANGE ADDRESS TREATING AS IM
+                error_message = "Error: External address exceeds length of uselist; treated as immediate";
             }
             else
             {
