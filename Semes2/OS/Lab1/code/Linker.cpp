@@ -474,7 +474,7 @@ void Linker::ParseTwoOperationList(Module &Mod){
         // Handle E Type
         if (type == 'E')
         {
-            int desired_operation_address;
+            int desired_operation_address = -1;
             int relative_e_location = instruction % 1000; 
             vector<Symbol> use_list = Mod.GetUseList(); 
             if (relative_e_location >= use_list.size())
@@ -497,8 +497,17 @@ void Linker::ParseTwoOperationList(Module &Mod){
                     temp_compare_int = symbol_name.compare(temp_symbol_name);
                     if (temp_compare_int == 0)
                     {
+                        // If we never hit this, this E has not been defined
+                        // We check to see if desired_operation is not negative
                         desired_operation_address = it->GetAddress();
                     }
+                }
+                if (desired_operation_address == -1)
+                {
+                    // We never updated desired address, so it was not defined
+                    // Error 3
+                    error_message = "Error: " + symbol_name + " is not defined; zero used"; 
+                    desired_operation_address = 0;
                 }
                 address = instruction - relative_e_location;
                 address = address + desired_operation_address;
