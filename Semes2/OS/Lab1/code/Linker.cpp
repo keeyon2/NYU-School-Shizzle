@@ -119,13 +119,16 @@ void Linker::ParseOneSetUp(){
     cout<< "Memory Map" << endl;
     int op_address; 
     int mem_count = 0;
+    string error_message;
     for (int i = 0; i < m_modules_list.size(); i++)
     {
         vector<Operation> temp_op_list = m_modules_list[i].GetOperationList();
         for (int j = 0; j < temp_op_list.size(); j++)
         {
             op_address = temp_op_list[j].GetAbsoluteAddress();
-            cout << std::setfill('0') << std::setw(3) << mem_count << ": " << op_address << endl;
+            error_message = temp_op_list[j].GetErrorMessage();
+            cout << std::setfill('0') << std::setw(3) << mem_count << ": " << 
+                op_address << " " << error_message << endl;
             mem_count = mem_count + 1;
         }
         // Print out Warnings
@@ -462,7 +465,8 @@ void Linker::ParseTwoOperationList(Module &Mod){
     char type;
     int instruction;
     int address;
-        
+    string error_message;
+
     for (int i = 0; i < codecount; i++)
     {
         type = ExtractOpType();
@@ -507,8 +511,19 @@ void Linker::ParseTwoOperationList(Module &Mod){
             address = instruction + Mod.GetGlobalAddress();
         }
 
+        if (type == 'A')
+        {
+            int address_spot = instruction % 1000;
+            // Rule 8
+            if (address_spot > 511)
+            {
+                error_message = "Error: Absolute address exceeds machine size; zero used";
+                address = instruction - address_spot;
+            } 
+        }
         // Place op on the operation list
         Operation *temp_op = new Operation(type, instruction, address);
+        temp_op->SetErrorMessage(error_message);
         m_operation_list.push_back(*temp_op);
         
         // Add to Models Operation List

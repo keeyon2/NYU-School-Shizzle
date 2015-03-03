@@ -36,6 +36,14 @@ int Operation::GetAbsoluteAddress(){
     return m_absolute_address;
 }
 
+void Operation::SetErrorMessage(string error_message){
+    m_error_message = error_message;
+}
+
+string Operation::GetErrorMessage(){
+    return m_error_message;
+}
+
 void Operation::PrintInfo(){
     std::cout << "Op Type: " << m_type << " Op Inst: " << m_instruction 
         << " Op Addr: " << m_absolute_address << std::endl;
