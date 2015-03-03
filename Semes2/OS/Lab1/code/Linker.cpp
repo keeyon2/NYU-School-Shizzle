@@ -126,7 +126,8 @@ void Linker::ParseOneSetUp(){
             op_address = temp_op_list[j].GetAbsoluteAddress();
             error_message = temp_op_list[j].GetErrorMessage();
             cout << std::setfill('0') << std::setw(3) << mem_count << ": " << 
-                op_address << " " << error_message << endl;
+                std::setfill('0') << std::setw(4) << op_address << " " << 
+                error_message << endl;
             mem_count = mem_count + 1;
         }
         // Print out Warnings
@@ -561,6 +562,15 @@ void Linker::ParseTwoOperationList(Module &Mod){
                 address = instruction - address_spot;
             } 
         }
+
+        if (type == 'I')
+        {
+            if (instruction > 9999)
+            {
+                error_message = "Error: Illegal immediate value; treated as 9999";
+                address = 9999;
+            }
+        } 
         // Place op on the operation list
         Operation *temp_op = new Operation(type, instruction, address);
         temp_op->SetErrorMessage(error_message);
@@ -570,7 +580,7 @@ void Linker::ParseTwoOperationList(Module &Mod){
         vector<Operation> temp_op_list = Mod.GetOperationList();
         temp_op_list.push_back(*temp_op);
         Mod.SetOperationList(temp_op_list);
-
+        error_message = "";
     }    
 }
 
