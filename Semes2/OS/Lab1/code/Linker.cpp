@@ -414,6 +414,15 @@ void Linker::ParseOneOperationList(Module *ModPointer) {
                " (max=" + to_string(codecount-1) + ") assume zero relative\n"; 
             m_pre_symb_warns.push_back(rule_5_error);
             relative_address = 0;
+            int foo_compare;
+            for (int j = 0; j < m_entire_def_list.size(); j++)
+            {
+                foo_compare = symbol_name.compare(m_entire_def_list[j].GetName());
+                if (foo_compare == 0)
+                {
+                    m_entire_def_list[j].SetAddress(0);
+                }
+            }
         }
     }
 
