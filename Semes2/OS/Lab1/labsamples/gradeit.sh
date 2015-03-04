@@ -73,7 +73,8 @@ for f in ${INS}; do
 
 	OUTLINE=`printf "%s %1d" "${OUTLINE}" "${COUNT}"`
 #	echo `expr ${counters[$x]} + ${COUNT}`
-	let counters[$x]=`expr ${counters[$x]} + ${COUNT}`
+	#let counters[$x]=`expr ${counters[$x]} + ${COUNT}`
+    let counters[$x]=`expr ${counters[$x]}+${COUNT}`
 	let x=$x+1
 	let correct=$correct+${COUNT}
 done

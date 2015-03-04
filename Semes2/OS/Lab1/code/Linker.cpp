@@ -410,9 +410,13 @@ void Linker::ParseOneOperationList(Module *ModPointer) {
             //Set to 0
             //int mod_number = FindWhichModWithAddress(ModPointer);
             int mod_number = m_modules_list.size() + 1;
-            string rule_5_error = "Warning: Module " + to_string(mod_number) +
-               ": " + symbol_name + " to big " + to_string(relative_address) + 
-               " (max=" + to_string(codecount-1) + ") assume zero relative\n"; 
+            std::stringstream ss;
+
+             ss << "Warning: Module " << mod_number << 
+               ": " << symbol_name << " to big " << relative_address << 
+               " (max=" << codecount-1 << ") assume zero relative\n"; 
+
+            string rule_5_error = ss.str();
             m_pre_symb_warns.push_back(rule_5_error);
             relative_address = 0;
             int foo_compare;
@@ -479,9 +483,12 @@ void Linker::ParseOneOperationList(Module *ModPointer) {
     {
         if (!temp_use_list[i].GetUsed())
         {
-            warning_string = "Warning: Module " + to_string(mod_number) +
-                ": " + temp_use_list[i].GetName() +
+            std::stringstream ss2;
+            ss2 << "Warning: Module " << mod_number <<
+                ": " << temp_use_list[i].GetName() <<
                 " appeared in the uselist but was not actually used\n"; 
+
+            warning_string = ss2.str();
             //m_post_mem_warns.push_back(warning_string);
             ModPointer->m_warning_list.push_back(warning_string);
         }
