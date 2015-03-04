@@ -170,10 +170,11 @@ void Linker::ParseOneSetUp(){
                 test_number = j - 1; 
                 module_address = m_modules_list[test_number].GetGlobalAddress();
                 def_symb_address = m_entire_def_list[i].GetAddress();  
-               if (module_address > def_symb_address)
+               if (module_address <= def_symb_address)
                {
                     found = true;
                     cout << "Warning: Module " << j << ": " << m_entire_def_list[i].GetName() << " was defined but never used\n";
+                    break;
                }
             }
             if (!found)
