@@ -8,6 +8,7 @@ Linker::Linker(char *filename){
     m_stream_line_number = 1;
     m_last_line_newline = false;
     m_last_line_and_prev_newline = false;
+    m_total_instructions = 0;
     StartLinker(filename);
 }
 
