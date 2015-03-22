@@ -1,0 +1,181 @@
+\documentclass{article}
+\usepackage[english]{babel}
+
+\begin{document}
+\textbf{Keeyon Ebrahimi}\\
+\textbf{HW4}
+\\ \\
+\textbf{Sentence 1: } \\
+Mr. Cotton said the terms of the emerging deal made it too risky and noted that a Republican president succeeding Mr. Obama could decide not to honor it.
+\begin{verbatim}
+Sentence:                               Mr. Cotton said the terms of the emerging deal made it too risky and noted that a Republican president succeeding Mr. Obama could decide not to honor it
+Annotating Mr. Cotton  as constit cat=np
+Annotating said  as constit cat=vgroup
+Annotating the terms  as constit cat=np
+Annotating deal  as constit cat=np
+Annotating made  as constit cat=vgroup
+Annotating it  as constit cat=np
+Annotating noted  as constit cat=vgroup
+Annotating a Republican president  as constit cat=np
+Annotating Mr. Obama  as constit cat=np
+Annotating could decide  as constit cat=vgroup
+Annotating honor  as constit cat=vgroup-inf
+Annotating it as constit cat=np
+
+\end{verbatim}
+In this sentence we have 11 correct phrases, 2 missed phrases and 1 Wrongly identified group.
+\\ \\
+It incorrectly broke up Republican president succeeding Mr. Obama as two different noun groups instead of one.
+\\
+\\
+\textbf{Sentence 2: }\\
+ The basics of the Apple Watch have been known since September, but now, a few weeks before the watch’s arrival in stores, Apple has finally revealed how much it will cost.
+\begin{verbatim}
+Sentence:                                The basics of the Apple Watch have been known since September, but now, a few weeks before the watch’s arrival in stores, Apple has finally revealed how much it will cost.
+Annotating The basics  as constit cat=np
+Annotating Apple Watch  as constit cat=np
+Annotating have  as constit cat=vgroup
+Annotating September as constit cat=np
+Annotating a few weeks  as constit cat=np
+Annotating the watch as constit cat=np
+Annotating ’ as constit cat=np
+Annotating s  as constit cat=vgroup
+Annotating stores as constit cat=np
+Annotating Apple  as constit cat=np
+Annotating has  as constit cat=vgroup
+Annotating it  as constit cat=np
+Annotating will cost as constit cat=vgroup
+\end{verbatim}
+
+In this sentence we have correctly labeled 8 groups, missed 5 labels, and got 1 label incorrect.
+\\
+\\
+\textbf{Sentence 3: }\\
+The cheapest model is the Apple Watch Sport, the one tailored to athletes, which starts at \$349
+
+\begin{verbatim}
+Sentence:                               The cheapest model is the Apple Watch Sport, the one tailored to athletes, which starts at $349
+Annotating The cheapest model  as constit cat=np
+Annotating is  as constit cat=vgroup
+Annotating Apple Watch Sport as constit cat=np
+Annotating the one  as constit cat=np
+Annotating athletes as constit cat=np
+Annotating starts  as constit cat=vgroup
+\end{verbatim}
+
+This sentence has correctly labeled 6 different groups, and has missed 3 groups.
+\\
+\\
+\textbf{Sentence 4:  }\\
+The MacBook also includes a trackpad with sensors that can detect how hard a user is clicking.
+\begin{verbatim}
+Sentence:                               The MacBook also includes a trackpad with sensors that can detect how hard a user is clicking.
+Annotating MacBook  as constit cat=np
+Annotating includes  as constit cat=vgroup
+Annotating a trackpad  as constit cat=np
+Annotating sensors  as constit cat=np
+Annotating can detect  as constit cat=vgroup
+Annotating a user  as constit cat=np
+Annotating is clicking as constit cat=vgroup-pass
+\end{verbatim}
+
+This sentence had 7 correct groups and has also missed 2 groups.
+\\
+\newpage
+\textbf{Problem 2: }
+Here is the new chunkPatterns.txt used in order to accept perfect tenses, quantifiers, and pre-nomial nouns.
+
+\begin{verbatim}
+//  pattern set for noun and verb groups
+
+pattern set chunks;
+
+//  patterns for noun groups
+
+ng := 		det-pos? [constit cat=q]? [constit cat=adj]* [constit cat=n]+ |
+		proper-noun |
+		[constit cat=pro];
+
+det-pos	    :=	[constit cat=det] |
+		[constit cat=det]? [constit cat=n number=singular] "'s";
+
+proper-noun :=	([token case=cap] | [undefinedCap])+;
+
+when ng		add [constit cat=np];
+
+//  patterns for active verb groups
+
+vg :=		[constit cat=tv] |
+		[constit cat=w] vg-inf |
+		tv-vbe vg-ving;
+
+vg-inf :=	[constit cat=v] |
+		"be" vg-ving;
+
+vg-ving :=	[constit cat=ving];
+
+tv-vbe :=	"is" | "are" | "was" | "were" | "have" | "has";
+
+vg-ven :=	[constit cat=ven] | tv-vbe?
+		"been" vg-ving;
+
+when vg		add [constit cat=vgroup];
+
+//  patterns for passive verb groups
+
+vg-pass :=	tv-vbe [constit cat=ven]+ vg-ving? |
+		[constit cat=w] "be" [constit cat=ven];
+
+when vg-pass	add [constit cat=vgroup-pass];
+
+//  pattern for infinitival verb groups
+
+to-vg :=	vg-inf;
+
+when to-vg	add [constit cat=vgroup-inf];
+
+
+\end{verbatim}
+\newpage
+\textbf{Problem 3. }
+\\
+1.  No improvement on sentence one.
+\\
+\\
+2.  Improvement on sentence two.  We now correctly identify "have been known"
+
+\begin{verbatim}
+Sentence:                               The basics of the Apple Watch have been known since September, but now, a few weeks before the watch’s arrival in stores, Apple has finally revealed how much it will cost.
+Annotating The basics  as constit cat=np
+Annotating Apple Watch  as constit cat=np
+Annotating have been known  as constit cat=vgroup-pass
+Annotating September as constit cat=np
+Annotating a few weeks  as constit cat=np
+Annotating the watch’ as constit cat=np
+Annotating s  as constit cat=vgroup
+Annotating stores as constit cat=np
+Annotating Apple  as constit cat=np
+Annotating has  as constit cat=vgroup
+Annotating it  as constit cat=np
+Annotating will cost as constit cat=vgroup
+
+\end{verbatim}
+3.  No improvement on sentence 3.
+\\ 
+\\
+4.  No improvement on sentence 4.
+\newpage
+\textbf{Problem 4.}
+These were found with Google ngram viewer. \\ \\
+\textbf{Example 1}:
+\\ "Traditionally, legislation \textbf{ has rarely been passed } by a vote strictly along party lines."
+\\
+American Government and Politics Today: The Essentials 2008 Pg 267. 
+\\ \\
+\textbf{Example 2}: 
+\\ "Respiratory arrest \textbf{has rarely been} seen in children and adolescents."
+\\ \\
+Advanced Therapy in Epilepsy pg 287.
+
+\end{document}
+
