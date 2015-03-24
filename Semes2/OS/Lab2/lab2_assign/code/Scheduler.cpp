@@ -31,7 +31,7 @@ void Scheduler::CreateProcesses()
         bc = ExtractNumber();
         io = ExtractNumber();
         static_prio = MrRandom->myrandom(4);
-        Process p (at, tc, bc, io, static_prio, "CREATED"); 
+        Process p (at, tc, bc, io, static_prio, "CREATED", process_counter); 
         p.remaining_time = tc;
         p.State = "CREATED";
         all_processes.push_back(p); 
@@ -184,12 +184,14 @@ void Scheduler::StartAnalyze() {
 
         if (e.targetstate == "BLOCKED")
         {
-            if (e.timestap == current_time)
+            if (e.timestamp == current_time)
             {
                 // Change process state to BLOCKED
                 all_processes[e.process_effected].State = "BLOCKED";
 
                 // Create a new ready event at time 
+                int next_ib = MrRandom->mrrandom(all_processes[e.process_effected].IO);
+                all_processes[e.process_effected].current_ib = next_ib;
                 int next_ready_time = current_time + all_processes[e.process_effected].current_ib;
                  
                 Event e2 (next_ready_time, "READY", e.process_effected);
@@ -212,6 +214,53 @@ void Scheduler::StartAnalyze() {
             }
         }
 
+        if (e.targetstate == "RUNNING")
+        {
+            if (e.timestamp == current_time)
+            {
+                // Change process state to Running
+                all_processes[e.process_effected].State = "RUNNING"; 
+                all_processes[e.process_effected].current_cb = MrRandom->myrandom(p.CB)
+                Process p = all_processes[e.process_effected];
+                // Find out if we go to Blocked with expired cb 
+                // 1. Remaining Time
+                // 2. cb -> Block
+                // 3. quantum expiration 
+
+                // Termination
+                if ((p.remaining_time <= p.current_cb) && (p.remaining_time <= quantum))
+                {
+                    Event e2 (current_time + p.remaining_time, "DONE", p.id);
+                    put_event(e2);
+                }
+
+                // Goes to block
+                else if(p.current_cb <= quantum)
+                {
+                    all_processes[e.process_effected].current_ib = MrRandom->myrandom(p.IO);
+                    all_processes[e.process_effected].remaining_time -= p.current_cb;
+                    Event e2 (current_time + p.current_cb, "BLOCKED", p.id);
+                    put_event(e2);
+                }
+
+                // Goes to ready with cb adjusted
+                else
+                {
+                    // Change Priority
+                    // Adjust cb
+                    // Place in Ready
+                    
+                }
+                total_values = event_queue.size();
+                current_counter = 0;   
+            }
+            
+            else
+            {
+                put_event(e);
+                current_counter = current_counter + 1;
+            }
+        }
 
         //Need to take care of Ready to Running
         bool any_process_running = false;
@@ -227,17 +276,25 @@ void Scheduler::StartAnalyze() {
 
         if (!any_process_running)
         {
-           Process p = 
-        }
+            if (ready_queue.size() > 0)
+            {
+                Process p = get_ready_process();
+                all_processes[p.id].State = "RUNNING";
+                all_processes[p.id].current_cb = MrRandom->myrandom(p.CB);
+                Event e2 (current_time, "RUNNING", p.id);
 
+                // NEED to calculate remaning time
+                if (verbose)
+                {
+                    // Can implement time placed in ready if needed
+                    cout << current_time << " " << p.id << " ?" << 
+                       current_state_time << ": READY -> RUNNG " << endl; 
+                }
+            }
+        }
+        
 
     }
- //
-    // On Same Process!! 
-    // Order goes 
-    //  1. Termination
-    //  2. IO Burst
-    //  3. Inturrupt on Quantum Expiration
 }
 
 void Scheduler::IncrementTime(){
