@@ -26,11 +26,14 @@ class Scheduler
         ifstream stream;
         int current_time;
         bool verbose;
+        int current_running_count;
+        int current_io_count;
+        int quantum;
 
-        Scheduler(char* input_file, char* random_file, bool verb);
+        Scheduler(char* input_file, char* random_file, bool verb, int quant);
         void put_event(Event e);
         Event get_event();
-        void put_ready_process(Process p);
+        virtual void put_ready_process(Process p);
         virtual Process get_ready_process() = 0;
         
         void CreateProcesses();

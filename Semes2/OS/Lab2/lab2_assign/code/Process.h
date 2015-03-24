@@ -22,11 +22,11 @@ class Process
         int IO; // IO Burst
         int CW; // Time in Ready State
         string State;
+        int id;
         int static_priority;
         int dynamic_priority;
-        int quantrum;
-
-        Process(int at, int tc, int cb, int io, int static_prio);
+        int current_cb, current_ib, remaining_time, current_prio;
+        Process(int at, int tc, int cb, int io, int static_prio, string state, int id);
 };
 
 #endif

@@ -1,11 +1,15 @@
 #include "Scheduler.h"
 
-Scheduler::Scheduler(char* input_file, char* random_file, bool verb){
+Scheduler::Scheduler(char* input_file, char* random_file, bool verb, int quant){
     // Whatever
     MrRandom = new RandomNumberGrabber(random_file);
     stream.open(input_file);
     verbose = verb;
+    quantum = quant;
     current_time = 0;
+    current_running_count = 0;
+    current_io_count = 0;
+
     //Create Processes
     CreateProcesses();
 
@@ -27,7 +31,9 @@ void Scheduler::CreateProcesses()
         bc = ExtractNumber();
         io = ExtractNumber();
         static_prio = MrRandom->myrandom(4);
-        Process p (at, tc, bc, io, static_prio); 
+        Process p (at, tc, bc, io, static_prio, "CREATED"); 
+        p.remaining_time = tc;
+        p.State = "CREATED";
         all_processes.push_back(p); 
         cout << "Created a Process!!!" << endl;
 
@@ -51,8 +57,9 @@ Event Scheduler::get_event()
     return e;
 }
 
-void Scheduler::put_ready_process(Process p)
+virtual void Scheduler::put_ready_process(Process p)
 {
+    p.dynamic_priority = p.static_priority - 1;
     ready_queue.push_back(p);
 }
 
@@ -119,6 +126,10 @@ void Scheduler::StartAnalyze() {
     {
         if (current_counter > event_queue.size())
         {
+            // This is where we need 
+            // to check if thigns are running,
+            // update states, and move things from running and not 
+            // running 
             IncrementTime();
         }
 
@@ -137,8 +148,9 @@ void Scheduler::StartAnalyze() {
                        current_state_time << ": CREATED -> READY" << endl; 
                 }
                 // Place this process in the ready_queue
-
-                put_ready_process(all_processes[e.process_effected]);
+                all_processes[e.process_effected].State = "READY";
+                Process p (all_processes[e.process_effected]);
+                put_ready_process(p);
 
                 total_values = event_queue.size();
                 current_counter = 0;
@@ -150,18 +162,77 @@ void Scheduler::StartAnalyze() {
             }
         }
 
-        // if (e.targetstate == "READY")
-        // {
-        //     // Time that it is ready
-        //     if (all_processes[e.process_effected].AT == current_time)
-        //     {
-        //         //Time to move process to running queue
-        //         Process p = all_processes[ 
-        //     }
+        if (e.targetstate == "READY")
+        {
+            // Time that it is ready
+            if (e.timestamp == current_time)
+            {
+                // Place this process in the ready_queue
+                all_processes[e.process_effected].State = "READY";
+                Process p (all_processes[e.process_effected]);
+                put_ready_process(p);
 
-        // }
+                total_values = event_queue.size();
+                current_counter = 0;
+            }
+            else
+            {
+                put_event(e);
+                current_counter = current_counter + 1;
+            }
+        }
+
+        if (e.targetstate == "BLOCKED")
+        {
+            if (e.timestap == current_time)
+            {
+                // Change process state to BLOCKED
+                all_processes[e.process_effected].State = "BLOCKED";
+
+                // Create a new ready event at time 
+                int next_ready_time = current_time + all_processes[e.process_effected].current_ib;
+                 
+                Event e2 (next_ready_time, "READY", e.process_effected);
+                put_event(e2);
+
+                if (verbose)
+                {
+                    int current_state_time = next_ready_time - current_time; 
+                    cout << next_ready_time << " " << e.process_effected << " " << 
+                       current_state_time << ": BLOCK -> READY" << endl; 
+                }
+
+                total_values = event_queue.size();
+                current_counter = 0;
+            }
+            else
+            {
+                put_event(e);
+                current_counter = current_counter + 1;
+            }
+        }
+
+
+        //Need to take care of Ready to Running
+        bool any_process_running = false;
+        int process_running = 0;
+        for (int i = 0; i < all_processes.size(); i++)
+        {
+            if (all_processes[i].State == "RUNNING")
+            {
+                any_process_running = true;
+                break;
+            }
+        }
+
+        if (!any_process_running)
+        {
+           Process p = 
+        }
+
+
     }
-    //
+ //
     // On Same Process!! 
     // Order goes 
     //  1. Termination
