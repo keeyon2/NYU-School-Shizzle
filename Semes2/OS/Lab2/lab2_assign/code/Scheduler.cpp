@@ -239,8 +239,19 @@ void Scheduler::StartAnalyze() {
                 {
                     all_processes[e.process_effected].current_ib = MrRandom->myrandom(p.IO);
                     all_processes[e.process_effected].remaining_time -= p.current_cb;
+                    all_processes[e.process_effected].current_cb -= p.current_cb;
                     Event e2 (current_time + p.current_cb, "BLOCKED", p.id);
                     put_event(e2);
+
+                    if (verbose)
+                    {
+                        cout << current_time + p.current_cb << " " << e.process_effected << 
+                            " " << p.current_cb << ": RUNNG -> BLOCK" << "  ib=" <<  
+                            all_processes[e.process_effected].current_ib <<
+                            " rem= " << all_processes[e.process_effected].remaining_time <<
+                            endl; 
+                    } 
+
                 }
 
                 // Goes to ready with cb adjusted
@@ -249,12 +260,52 @@ void Scheduler::StartAnalyze() {
                     // Change Priority
                     // Adjust cb
                     // Place in Ready
-                    
+                    all_processes[e.process_effected].current_cb -= quantum;
+                    all_processes[e.process_effected].dynamic_priority -= 1;
+
+                    if (all_processes[e.process_effected].dynamic_priority == -1)
+                    {
+                        all_processes[e.process_effected].dynamic_priority = 
+                            all_processes[e.process_effected.static_priority] - 1;
+                    }
+                    Event e2 (current_time + quantum, "READY", p.id); 
+
+                    if (verbose)
+                    {
+                        cout << current_time + quantum << " " << e.process_effected << 
+                            " " << quantum << ": RUNNG -> READY" << "  cb=" <<  
+                            all_processes[e.process_effected].current_cb <<
+                            " rem= " << all_processes[e.process_effected].remaining_time <<
+                            " prio= " << all_processes[e.process_effected].dynamic_priority
+                            << endl; 
+                    } 
                 }
+
                 total_values = event_queue.size();
                 current_counter = 0;   
             }
             
+            else
+            {
+                put_event(e);
+                current_counter = current_counter + 1;
+            }
+        }
+
+        if (e.targetstate == "DONE")
+        {
+            if (e.timestamp == current_time)
+            {
+                if (verbose)
+                {
+                    cout << current_time << " " << e.process_effected << 
+                        "  ?: Done" << endl;
+                }
+
+                total_values = event_queue.size();
+                current_counter = 0;
+            }
+
             else
             {
                 put_event(e);
@@ -283,7 +334,6 @@ void Scheduler::StartAnalyze() {
                 all_processes[p.id].current_cb = MrRandom->myrandom(p.CB);
                 Event e2 (current_time, "RUNNING", p.id);
 
-                // NEED to calculate remaning time
                 if (verbose)
                 {
                     // Can implement time placed in ready if needed
@@ -292,8 +342,6 @@ void Scheduler::StartAnalyze() {
                 }
             }
         }
-        
-
     }
 }
 
