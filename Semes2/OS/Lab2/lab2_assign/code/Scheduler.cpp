@@ -57,7 +57,7 @@ Event Scheduler::get_event()
     return e;
 }
 
-virtual void Scheduler::put_ready_process(Process p)
+void Scheduler::put_ready_process(Process p)
 {
     p.dynamic_priority = p.static_priority - 1;
     ready_queue.push_back(p);
@@ -190,7 +190,7 @@ void Scheduler::StartAnalyze() {
                 all_processes[e.process_effected].State = "BLOCKED";
 
                 // Create a new ready event at time 
-                int next_ib = MrRandom->mrrandom(all_processes[e.process_effected].IO);
+                int next_ib = MrRandom->myrandom(all_processes[e.process_effected].IO);
                 all_processes[e.process_effected].current_ib = next_ib;
                 int next_ready_time = current_time + all_processes[e.process_effected].current_ib;
                  
@@ -220,7 +220,8 @@ void Scheduler::StartAnalyze() {
             {
                 // Change process state to Running
                 all_processes[e.process_effected].State = "RUNNING"; 
-                all_processes[e.process_effected].current_cb = MrRandom->myrandom(p.CB)
+                all_processes[e.process_effected].current_cb = 
+                    MrRandom->myrandom(all_processes[e.process_effected].CB);
                 Process p = all_processes[e.process_effected];
                 // Find out if we go to Blocked with expired cb 
                 // 1. Remaining Time
@@ -266,7 +267,7 @@ void Scheduler::StartAnalyze() {
                     if (all_processes[e.process_effected].dynamic_priority == -1)
                     {
                         all_processes[e.process_effected].dynamic_priority = 
-                            all_processes[e.process_effected.static_priority] - 1;
+                            all_processes[e.process_effected].static_priority - 1;
                     }
                     Event e2 (current_time + quantum, "READY", p.id); 
 
@@ -338,7 +339,7 @@ void Scheduler::StartAnalyze() {
                 {
                     // Can implement time placed in ready if needed
                     cout << current_time << " " << p.id << " ?" << 
-                       current_state_time << ": READY -> RUNNG " << endl; 
+                       ": READY -> RUNNG " << endl; 
                 }
             }
         }
