@@ -1,0 +1,85 @@
+\documentclass[ruled]{article}
+\usepackage{relsize}
+
+\begin{document}
+\textbf{Keeyon Ebrahimi}\\
+\textbf{Social Networks}\\
+\textbf{HW1}\\ \\ \\
+\textbf{Problem 1}
+
+\begin{itemize}
+\item[Q1] 
+\begin{verbatim}
+
+3. When we think about a single aggregate measure to summarize
+the distances between the nodes in a given graph, there are two
+natural quantities that come to mind. One is the diameter, which
+we define to be the maximum distance between any pair of nodes
+in the graph. Another is the average distance, which Ñ as the term
+suggests Ñ is the average distance over all pairs of nodes in the
+graph. In many graphs, these two quantities are close to each other
+in value. But there are graphs where they can be very different.
+(a) Describe an example of a graph where the diameter is more
+than three times as large as the average distance. (b) Describe how
+you could extend your construction to produce graphs in which
+the diameter exceeds the average distance by as large a factor as
+youÕd like. (That is, for every number c, can you produce a graph
+in which the diameter is more than c times as large as the average
+distance?)
+
+
+\end{verbatim}
+\textbf{Solution: }\\
+\begin{itemize}
+\item[(a)]  An example of this graph would be a graph with a total of 6 nodes.  This means that we would have 5 different distances to node $X$.\\
+We will label these 5 distances as $D_1$, $D_2$, $D_3$, $D_4$, $D_5$
+\\
+If the distances went like this, we would have the diameter be more than $3$ times more than the average distance to node $X$.
+
+\textit{Distance to Node $X$}
+\\
+$D_1 = 1$ \\
+$D_2 = 1$ \\
+$D_3 = 1$ \\
+$D_4 = 1$ \\
+$D_5 = 60$ \\
+\\
+
+Now the average distance is $\frac{64}{5}$ and the diameter is $60$.  
+\\ 
+This fits problem a's condition because \\ \\ \\
+{\LARGE $\frac{64}{5} * 3 < 60$ }
+\\
+\item[(b)]  Here is an equation to construct these graphs.  Lets label $n$ as the number of distances and $D_n$ will be the last distance, which we will assume is the diameter.  If this condition is true, we will have a graph that is larger than by at least a factor of $c$.
+\\
+\\
+{\LARGE $\frac{D_n}{c} > \frac{D_1 + D_2 + D_3 + .... + D_n}{n}$ }
+\\\\
+\end{itemize}
+\end{itemize}
+
+\textbf{Problem 2}
+\begin{itemize}
+\item[Q2]
+\begin{verbatim}
+
+4. In the social network depicted in Figure 3.23 with each edge
+labeled as either a strong or weak tie, which two nodes violate the
+Strong Triadic Closure Property? Provide an explanation for your
+answer.
+
+\end{verbatim}
+Node $B$ and node $E$ violate this structure.  Because Node $C$ has a strong tie to node $B$ and also, node $C$ has a strong tie to node to node $E$.  Because $B$ and $E$ are strongly tied to node $C$, yet they have no tie with each other, they violate the Strong Triadic Closure Property
+\\ 
+\begin{verbatim}
+
+5. In the social network depicted in Figure 3.24, with each edge
+labeled as either a strong or weak tie, which nodes satisfy the
+Strong Triadic Closure Property from Chapter 3, and which do
+not? Provide an explanation for your answer.
+
+\end{verbatim}
+Node $A$ and node $E$ violate the strong triadic closure property.  Node $C$ has a strong tie with Node $A$ and node $E$.  To follow the Strong Triadic Closure Property, $A$ and $E$ would then need to have a tie, but they do not in this figure.
+\end{itemize}
+
+\end{document}
