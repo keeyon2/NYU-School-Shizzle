@@ -1,0 +1,8 @@
+# JET properties file
+#   apply chunkPatterns to article.txt
+Jet.dataPath         = data
+Tags.fileName        = pos_hmm.txt
+Pattern.fileName1    = chunkPatternsOrigResp.txt
+JetTest.fileName1    = article2.txt
+processSentence      = tokenize, tagJet, pat(chunks), shrink(ngroup)
+WriteSGML.type       = ngroup
