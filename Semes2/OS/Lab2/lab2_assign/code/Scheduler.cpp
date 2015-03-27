@@ -125,7 +125,7 @@ void Scheduler::StartAnalyze() {
             break;
         }
 
-        if (current_counter > event_queue.size())
+        if (current_counter >= event_queue.size())
         {
             // This is where we need 
             // to check if thigns are running,
