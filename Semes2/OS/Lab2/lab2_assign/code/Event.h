@@ -20,6 +20,7 @@ class Event
         string targetstate;
         int process_effected;
         Event(int time, string state, int process);
+        friend std::ostream& operator <<(std::ostream&, const Event&);
 };
 
 #endif

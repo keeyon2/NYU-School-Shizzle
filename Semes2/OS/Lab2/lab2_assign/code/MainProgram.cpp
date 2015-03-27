@@ -67,6 +67,7 @@ int main(int argc, char **argv)
     RandomNumberGrabber* RandomNumberObject = new RandomNumberGrabber(char_random_file_name);
     //FCFSScheduler* Scheduler = new FCFSScheduler(char_input_file_name, char_random_file_name);
     FCFSScheduler Scheduler (char_input_file_name, char_random_file_name, verbose);
+    Scheduler.InitializeProcess();
 
 
 

@@ -9,14 +9,7 @@ Scheduler::Scheduler(char* input_file, char* random_file, bool verb, int quant){
     current_time = 0;
     current_running_count = 0;
     current_io_count = 0;
-
-    //Create Processes
-    CreateProcesses();
-
-    // Run Scheduler Events
-    StartAnalyze();
-    
-    // Print end of game summary 
+    //t();
 }
 
 void Scheduler::CreateProcesses()
@@ -122,8 +115,15 @@ void Scheduler::StartAnalyze() {
     int total_values = event_queue.size();
     int current_counter = 0;
     // Only ends once the event queue is empty 
-    while (!event_queue.empty())
+    while (true)
     {
+        bool event_Q_empty = event_queue.empty();
+        bool ready_Q_empty = ready_queue.empty();
+        if (event_Q_empty && ready_Q_empty)
+        {
+            break;
+        }
+
         if (current_counter > event_queue.size())
         {
             // This is where we need 
@@ -131,6 +131,7 @@ void Scheduler::StartAnalyze() {
             // update states, and move things from running and not 
             // running 
             IncrementTime();
+            current_counter = 0;
         }
 
         Event e = get_event();
@@ -148,9 +149,9 @@ void Scheduler::StartAnalyze() {
                        current_state_time << ": CREATED -> READY" << endl; 
                 }
                 // Place this process in the ready_queue
-                all_processes[e.process_effected].State = "READY";
-                Process p (all_processes[e.process_effected]);
-                put_ready_process(p);
+                // all_processes[e.process_effected].State = "READY";
+                // Process p (all_processes[e.process_effected]);
+                // put_ready_process(p);
 
                 total_values = event_queue.size();
                 current_counter = 0;
@@ -190,8 +191,8 @@ void Scheduler::StartAnalyze() {
                 all_processes[e.process_effected].State = "BLOCKED";
 
                 // Create a new ready event at time 
-                int next_ib = MrRandom->myrandom(all_processes[e.process_effected].IO);
-                all_processes[e.process_effected].current_ib = next_ib;
+                //int next_ib = MrRandom->myrandom(all_processes[e.process_effected].IO);
+                //all_processes[e.process_effected].current_ib = next_ib;
                 int next_ready_time = current_time + all_processes[e.process_effected].current_ib;
                  
                 Event e2 (next_ready_time, "READY", e.process_effected);
@@ -223,6 +224,15 @@ void Scheduler::StartAnalyze() {
                 all_processes[e.process_effected].current_cb = 
                     MrRandom->myrandom(all_processes[e.process_effected].CB);
                 Process p = all_processes[e.process_effected];
+                
+                if (verbose)
+                {
+                    // Can implement time placed in ready if needed
+                    cout << current_time << " " << p.id << " ?" << 
+                       ": READY -> RUNNG cd=" << all_processes[p.id].current_cb << 
+                       " rem=" << all_processes[p.id].remaining_time << " prio=" << 
+                       all_processes[p.id].dynamic_priority << endl;
+                }
                 // Find out if we go to Blocked with expired cb 
                 // 1. Remaining Time
                 // 2. cb -> Block
@@ -240,7 +250,7 @@ void Scheduler::StartAnalyze() {
                 {
                     all_processes[e.process_effected].current_ib = MrRandom->myrandom(p.IO);
                     all_processes[e.process_effected].remaining_time -= p.current_cb;
-                    all_processes[e.process_effected].current_cb -= p.current_cb;
+                    // all_processes[e.process_effected].current_cb -= p.current_cb;
                     Event e2 (current_time + p.current_cb, "BLOCKED", p.id);
                     put_event(e2);
 
@@ -249,7 +259,7 @@ void Scheduler::StartAnalyze() {
                         cout << current_time + p.current_cb << " " << e.process_effected << 
                             " " << p.current_cb << ": RUNNG -> BLOCK" << "  ib=" <<  
                             all_processes[e.process_effected].current_ib <<
-                            " rem= " << all_processes[e.process_effected].remaining_time <<
+                            " rem=" << all_processes[e.process_effected].remaining_time <<
                             endl; 
                     } 
 
@@ -270,7 +280,7 @@ void Scheduler::StartAnalyze() {
                             all_processes[e.process_effected].static_priority - 1;
                     }
                     Event e2 (current_time + quantum, "READY", p.id); 
-
+                    put_event(e2);
                     if (verbose)
                     {
                         cout << current_time + quantum << " " << e.process_effected << 
@@ -297,6 +307,9 @@ void Scheduler::StartAnalyze() {
         {
             if (e.timestamp == current_time)
             {
+
+                all_processes[e.process_effected].State = "DONE";
+
                 if (verbose)
                 {
                     cout << current_time << " " << e.process_effected << 
@@ -328,19 +341,27 @@ void Scheduler::StartAnalyze() {
 
         if (!any_process_running)
         {
+
             if (ready_queue.size() > 0)
             {
                 Process p = get_ready_process();
-                all_processes[p.id].State = "RUNNING";
-                all_processes[p.id].current_cb = MrRandom->myrandom(p.CB);
+                // all_processes[p.id].State = "RUNNING";
+                // all_processes[p.id].current_cb = MrRandom->myrandom(p.CB);
                 Event e2 (current_time, "RUNNING", p.id);
+                put_event(e2);
 
-                if (verbose)
-                {
-                    // Can implement time placed in ready if needed
-                    cout << current_time << " " << p.id << " ?" << 
-                       ": READY -> RUNNG " << endl; 
-                }
+                // if (verbose)
+                // {
+                //     // Can implement time placed in ready if needed
+                //     cout << current_time << " " << p.id << " ?" << 
+                //        ": READY -> RUNNG cd=" << all_processes[p.id].current_cb << 
+                //        " rem=" << all_processes[p.id].remaining_time << " prio=" << 
+                //        all_processes[p.id].dynamic_priority << endl;
+                // }
+
+                total_values = event_queue.size();
+                current_counter = 0;
+
             }
         }
     }
@@ -350,3 +371,76 @@ void Scheduler::IncrementTime(){
     current_time = current_time + 1;
 }
 
+void Scheduler::InitializeProcess()
+{
+    //Create Processes
+    CreateProcesses();
+
+    // Run Scheduler Events
+    StartAnalyze();
+    
+    // Print end of game summary 
+
+}
+
+void Scheduler::PrintEventQueue()
+{
+    for (int i = 0; i < event_queue.size(); i++)
+    {
+        Event e(event_queue[i]);
+        cout << "------------------------" << endl;
+        cout << "Event: " << i << endl;
+        cout << "Event Time: " << e.timestamp << endl;
+        cout << "Event State: " << e.targetstate << endl;
+        cout << "Event Process: " << e.process_effected<< endl;
+        cout << "------------------------" << endl;
+
+        // cout << "Event Time: " << event_queue[i].timestamp << "State: " << event_queue[i].targetstate 
+        //<< "Process: " << event_queue[i].process_effected;
+    }
+}
+
+void Scheduler::PrintProcessQueue()
+{
+    for (int i = 0; i < all_processes.size(); i++)
+    {
+        Process p(all_processes[i]);
+        cout << "------------------------" << endl;
+        cout << "Process: " << i << endl;
+        cout << "AT: " << p.AT << endl;
+        cout << "TC: " << p.TC << endl;
+        cout << "CB: " << p.CB << endl;
+        cout << "IO: " << p.IO << endl;
+        cout << "State: " << p.State << endl;
+        cout << "id: " << p.id << endl;
+        cout << "static_priority: " << p.static_priority << endl;
+        cout << "dynamic_priority: " << p.dynamic_priority << endl;
+        cout << "current_cb: " << p.current_cb << endl;
+        cout << "current_ib: " << p.current_ib << endl;
+        cout << "remaning_time: " << p.remaining_time << endl;
+        cout << "------------------------" << endl;
+
+    }
+} 
+
+void Scheduler::PrintReadyQueue()
+{
+    for (int i = 0; i < ready_queue.size(); i++)
+    {
+        Process p(ready_queue[i]);
+        cout << "------------------------" << endl;
+        cout << "Process: " << i << endl;
+        cout << "AT: " << p.AT << endl;
+        cout << "TC: " << p.TC << endl;
+        cout << "CB: " << p.CB << endl;
+        cout << "IO: " << p.IO << endl;
+        cout << "State: " << p.State << endl;
+        cout << "id: " << p.id << endl;
+        cout << "static_priority: " << p.static_priority << endl;
+        cout << "dynamic_priority: " << p.dynamic_priority << endl;
+        cout << "current_cb: " << p.current_cb << endl;
+        cout << "current_ib: " << p.current_ib << endl;
+        cout << "remaning_time: " << p.remaining_time << endl;
+        cout << "------------------------" << endl;
+    }
+}

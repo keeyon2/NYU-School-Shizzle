@@ -24,6 +24,7 @@ class Scheduler
         vector<Process> ready_queue;
         vector<Process> all_processes;
         ifstream stream;
+        
         int current_time;
         bool verbose;
         int current_running_count;
@@ -42,6 +43,10 @@ class Scheduler
         bool PeekEnd();
         void StartAnalyze();
         void IncrementTime();
+        void InitializeProcess();
+        void PrintEventQueue();
+        void PrintProcessQueue();
+        void PrintReadyQueue();
 };
 
 #endif
