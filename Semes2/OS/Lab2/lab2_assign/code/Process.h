@@ -21,6 +21,8 @@ class Process
         int CB; // CPU Burst
         int IO; // IO Burst
         int CW; // Time in Ready State
+        int FT; // Finish Time
+        int IT; // Time in Blocked State
         string State;
         int id;
         int static_priority;

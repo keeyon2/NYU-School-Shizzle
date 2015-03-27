@@ -2,6 +2,7 @@
 #define Scheduler_H
 
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <stdlib.h>
 #include <stdio.h>
@@ -15,6 +16,10 @@ using std::endl;
 using std::string;
 using std::ifstream;
 using std::vector;
+using std::setw;
+using std::setfill;
+using std::setprecision;
+using std::fixed;
 
 class Scheduler
 {
@@ -30,6 +35,9 @@ class Scheduler
         int current_running_count;
         int current_io_count;
         int quantum;
+        string scheduler_type;
+        int one_proc_running;
+        int one_proc_blocked;
 
         Scheduler(char* input_file, char* random_file, bool verb, int quant);
         void put_event(Event e);
@@ -44,9 +52,11 @@ class Scheduler
         void StartAnalyze();
         void IncrementTime();
         void InitializeProcess();
+        void PrintEndSummary();
         void PrintEventQueue();
         void PrintProcessQueue();
         void PrintReadyQueue();
+
 };
 
 #endif

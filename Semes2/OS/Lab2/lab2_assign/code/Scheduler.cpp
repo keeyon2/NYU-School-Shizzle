@@ -9,6 +9,8 @@ Scheduler::Scheduler(char* input_file, char* random_file, bool verb, int quant){
     current_time = 0;
     current_running_count = 0;
     current_io_count = 0;
+    one_proc_running = 0;
+    one_proc_blocked = 0;
     //t();
 }
 
@@ -28,7 +30,6 @@ void Scheduler::CreateProcesses()
         p.remaining_time = tc;
         p.State = "CREATED";
         all_processes.push_back(p); 
-        cout << "Created a Process!!!" << endl;
 
         // Create Event
         Event e (at, "CREATED", process_counter);
@@ -309,6 +310,7 @@ void Scheduler::StartAnalyze() {
             {
 
                 all_processes[e.process_effected].State = "DONE";
+                all_processes[e.process_effected].FT = current_time;
 
                 if (verbose)
                 {
@@ -368,6 +370,34 @@ void Scheduler::StartAnalyze() {
 }
 
 void Scheduler::IncrementTime(){
+    bool one_blocked = false, one_running = false;
+    for (int i = 0; i < all_processes.size(); i++)
+    {
+        if (all_processes[i].State == "READY")
+        {
+           all_processes[i].CW = all_processes[i].CW + 1; 
+        }
+        else if (all_processes[i].State == "BLOCKED")
+        {
+            all_processes[i].IT = all_processes[i].IT + 1;
+            one_blocked = true;
+        }
+        else if(all_processes[i].State == "RUNNING")
+        {
+            one_running = true;
+        }
+    }
+
+    if (one_running)
+    {
+        one_proc_running += 1;
+    }
+
+    if (one_blocked)
+    {
+        one_proc_blocked += 1;
+    } 
+
     current_time = current_time + 1;
 }
 
@@ -380,6 +410,68 @@ void Scheduler::InitializeProcess()
     StartAnalyze();
     
     // Print end of game summary 
+    PrintEndSummary();
+}
+
+void Scheduler::PrintEndSummary()
+{
+
+    cout << scheduler_type << endl;
+    int total_finishing_time = 0; 
+    double average_turnaround = 0.0, average_cpuwaiting = 0.0, total_proc = 0.0;
+    total_proc = (double) all_processes.size();
+    // Print all Processes Info
+    for (int i = 0; i < all_processes.size(); i++)
+    {
+        int TT = all_processes[i].FT - all_processes[i].AT;
+        cout << setw(4) << setfill('0') << all_processes[i].id << ":";
+        cout << setw(5) << setfill(' ') << all_processes[i].AT;
+        cout << setw(5) << setfill(' ') << all_processes[i].TC;
+        cout << setw(5) << setfill(' ') << all_processes[i].CB;
+        cout << setw(5) << setfill(' ') << all_processes[i].IO;
+        cout << setw(2) << setfill(' ') << all_processes[i].static_priority;
+        cout << " |";
+        cout << setw(6) << setfill(' ') << all_processes[i].FT;
+        cout << setw(6) << setfill(' ') << TT;
+        cout << setw(6) << setfill(' ') << all_processes[i].IT;
+        cout << setw(6) << setfill(' ') << all_processes[i].CW << endl;
+
+        if (all_processes[i].FT > total_finishing_time)
+        {
+            total_finishing_time = all_processes[i].FT;
+        }
+
+        average_turnaround += (double) TT;
+        average_cpuwaiting += (double) all_processes[i].CW;
+    }
+
+   average_turnaround = average_turnaround / total_proc; 
+   average_cpuwaiting = average_cpuwaiting / total_proc;
+
+    // Print Total Summary
+    double CPU_util = 0, IO_util = 0;
+    double total_time = (double) total_finishing_time;
+    double proc_running = (double) one_proc_running;
+    double proc_blocked = (double) one_proc_blocked;
+    double throughput = total_proc / (total_time / 100.0);
+
+    CPU_util = (proc_running / total_time) * 100.0;
+    IO_util = (proc_blocked / total_time) * 100.0;
+    cout << "SUM: " << total_finishing_time << " ";  
+    cout << fixed;
+    cout << setprecision(2) << CPU_util << " ";
+    cout << setprecision(2) << IO_util << " ";
+    cout << setprecision(2) << average_turnaround << " "; 
+    cout << setprecision(2) << average_cpuwaiting << " ";
+    cout << setprecision(3) << throughput;
+    // Need to find Average turnaround and average cpu waiting
+
+    // double a,b;
+    // a = 1.0/3.0;
+    // b = 2.0/3.0;
+    // cout << setprecision(2) << a << " " << b << endl;
+    // cout << setprecision(3) << a << " " << b << endl;
+    
 
 }
 
@@ -394,9 +486,6 @@ void Scheduler::PrintEventQueue()
         cout << "Event State: " << e.targetstate << endl;
         cout << "Event Process: " << e.process_effected<< endl;
         cout << "------------------------" << endl;
-
-        // cout << "Event Time: " << event_queue[i].timestamp << "State: " << event_queue[i].targetstate 
-        //<< "Process: " << event_queue[i].process_effected;
     }
 }
 

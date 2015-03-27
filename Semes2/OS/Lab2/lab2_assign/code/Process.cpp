@@ -13,4 +13,7 @@ Process::Process(int at, int tc, int cb, int io, int static_prio, string state, 
     current_cb = 0;
     current_ib = 0;
     remaining_time = 0;
+    CW = 0;
+    FT = 0;
+    IT = 0;
 }
