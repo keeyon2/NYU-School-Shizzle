@@ -57,6 +57,7 @@ class Scheduler
         void PrintProcessQueue();
         void PrintReadyQueue();
 
+        void ChangeProcessState(int process_number, string state);
 };
 
 #endif

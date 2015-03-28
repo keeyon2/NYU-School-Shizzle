@@ -27,7 +27,7 @@ class Process
         int id;
         int static_priority;
         int dynamic_priority;
-        int current_cb, current_ib, remaining_time;
+        int current_cb, current_ib, remaining_time, current_inst_time;
         Process(int at, int tc, int cb, int io, int static_prio, string state, int id);
 };
 
