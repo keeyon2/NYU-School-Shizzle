@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <ctype.h>
 #include <stdio.h>
@@ -13,6 +14,7 @@
 #include "FCFSScheduler.h"
 #include "LCFSScheduler.h"
 #include "SJFScheduler.h"
+#include "RRScheduler.h"
 
 using std::cout;
 using std::endl;
@@ -96,8 +98,12 @@ int main(int argc, char **argv)
         // Delete first letter
         string_svalue.erase(string_svalue.begin());
         int quantum_number = atoi(string_svalue.c_str());
+        
+        RRScheduler Scheduler (char_input_file_name, char_random_file_name, verbose, quantum_number);
+        Scheduler.InitializeProcess();
     }
-    
+   
+    // Priority Queue 
     else if(string_svalue[0] == 'P')
     {
         // Delete first letter

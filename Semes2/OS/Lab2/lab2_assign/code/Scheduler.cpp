@@ -256,8 +256,11 @@ void Scheduler::StartAnalyze() {
             {
                 // Change process state to Running
                 //all_processes[e.process_effected].State = "RUNNING"; 
-                all_processes[e.process_effected].current_cb = 
-                    MrRandom->myrandom(all_processes[e.process_effected].CB);
+                if (all_processes[e.process_effected].current_cb == 0)
+                {
+                    all_processes[e.process_effected].current_cb = 
+                        MrRandom->myrandom(all_processes[e.process_effected].CB);
+                }
                 Process p = all_processes[e.process_effected];
                 
                 if (verbose)
@@ -288,7 +291,7 @@ void Scheduler::StartAnalyze() {
                 {
                     all_processes[e.process_effected].current_ib = MrRandom->myrandom(p.IO);
                     all_processes[e.process_effected].remaining_time -= p.current_cb;
-                    // all_processes[e.process_effected].current_cb -= p.current_cb;
+                    all_processes[e.process_effected].current_cb -= p.current_cb;
                     Event e2 (current_time + p.current_cb, "BLOCKED", p.id);
                     put_event_new(e2);
                 }
@@ -299,6 +302,7 @@ void Scheduler::StartAnalyze() {
                     // Change Priority
                     // Adjust cb
                     // Place in Ready
+                    all_processes[e.process_effected].remaining_time -= quantum;
                     all_processes[e.process_effected].current_cb -= quantum;
                     all_processes[e.process_effected].dynamic_priority -= 1;
 

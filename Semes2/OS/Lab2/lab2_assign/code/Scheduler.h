@@ -2,6 +2,7 @@
 #define Scheduler_H
 
 #include <iostream>
+#include <sstream>
 #include <iomanip>
 #include <string>
 #include <stdlib.h>
