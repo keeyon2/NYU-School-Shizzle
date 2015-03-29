@@ -8,9 +8,11 @@
 
 // Include .h 's with " "
 #include "RandomNumberGrabber.h"
+
 #include "Event.h"
 #include "FCFSScheduler.h"
 #include "LCFSScheduler.h"
+#include "SJFScheduler.h"
 
 using std::cout;
 using std::endl;
@@ -60,25 +62,47 @@ int main(int argc, char **argv)
          }
     }
 
+    string string_svalue(svalue);
     input_file_name = argv[argc - 2];
     random_file_name = argv[argc - 1];
     char* char_random_file_name = argv[argc - 1]; 
     char* char_input_file_name = argv[argc - 2];
     RandomNumberGrabber* RandomNumberObject = new RandomNumberGrabber(char_random_file_name);
     //FCFSScheduler* Scheduler = new FCFSScheduler(char_input_file_name, char_random_file_name);
+    // First come First Serve
     if (strcmp (svalue, "F") == 0)
     {
         FCFSScheduler Scheduler (char_input_file_name, char_random_file_name, verbose);
         Scheduler.InitializeProcess();
     }
 
+    // Last come first serve
     else if(strcmp (svalue, "L") == 0)
     {
         LCFSScheduler Scheduler (char_input_file_name, char_random_file_name, verbose);
         Scheduler.InitializeProcess(); 
     }
 
+    //Shortest Job First
+    else if(strcmp (svalue, "S") == 0)
+    {
+        SJFScheduler Scheduler (char_input_file_name, char_random_file_name, verbose);
+        Scheduler.InitializeProcess(); 
+    }
 
-
+    // Round Robin
+    else if(string_svalue[0] == 'R')
+    {
+        // Delete first letter
+        string_svalue.erase(string_svalue.begin());
+        int quantum_number = atoi(string_svalue.c_str());
+    }
+    
+    else if(string_svalue[0] == 'P')
+    {
+        // Delete first letter
+        string_svalue.erase(string_svalue.begin());
+        int quantum_number = atoi(string_svalue.c_str());
+    }
     return 0;
 }
