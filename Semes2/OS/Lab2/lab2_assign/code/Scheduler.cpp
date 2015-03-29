@@ -67,8 +67,9 @@ bool Scheduler::Event_Head_Visited()
 
 void Scheduler::put_ready_process(Process p)
 {
-    p.dynamic_priority = p.static_priority - 1;
-    ready_queue.push_back(p);
+    all_processes[p.id].dynamic_priority = 
+        all_processes[p.id].static_priority - 1;
+    ready_queue.push_back(all_processes[p.id]);
 }
 
 int Scheduler::ExtractNumber() {
@@ -163,8 +164,13 @@ void Scheduler::StartAnalyze() {
             // Time to Create to Run
             if (all_processes[e.process_effected].AT == current_time)
             {
-                Event e2 (current_time, "READY", e.process_effected);
-                put_event_new(e2);
+                // Place this process in the ready_queue
+                ChangeProcessState(e.process_effected, "READY");
+                Process p (all_processes[e.process_effected]);
+                put_ready_process(p);
+
+                //Event e2 (current_time, "READY", e.process_effected);
+                //put_event_new(e2);
 
                 if (verbose)
                 {
@@ -186,30 +192,54 @@ void Scheduler::StartAnalyze() {
                 // Take care of verbose
                 if (verbose)
                 {
+                    int correct_time = current_time - 
+                            all_processes[e.process_effected].current_inst_time;
+
                     if (all_processes[e.process_effected].State == "RUNNING")
                     {
+                        // Place this process in the ready_queue
+                        ChangeProcessState(e.process_effected, "READY");
+                        Process p (all_processes[e.process_effected]);
+                        put_ready_process(p);
+
                         cout << current_time << " " << e.process_effected << 
-                            " " << current_time - 
-                            all_processes[e.process_effected].current_inst_time << 
-                            ": RUNNG -> READY" << "  cb=" <<  
+                            " " << correct_time << ": RUNNG -> READY" << "  cb=" <<  
                             all_processes[e.process_effected].current_cb <<
-                            " rem= " << all_processes[e.process_effected].remaining_time <<
-                            " prio= " << all_processes[e.process_effected].dynamic_priority
+                            " rem=" << all_processes[e.process_effected].remaining_time <<
+                            " prio=" << all_processes[e.process_effected].dynamic_priority
                             << endl; 
                     }
 
                     else if(all_processes[e.process_effected].State == "BLOCKED")
                     {
+                        // Place this process in the ready_queue
+                        ChangeProcessState(e.process_effected, "READY");
+                        Process p (all_processes[e.process_effected]);
+                        put_ready_process(p);
+
                         cout << current_time << " " << e.process_effected << " " <<
-                            current_time - all_processes[e.process_effected].current_inst_time
-                            << ": BLOCK -> READY" << endl;
+                            correct_time << ": BLOCK -> READY" << endl;
+                    }
+
+                    // This is if the previous state was Created
+                    else
+                    {
+                        // Place this process in the ready_queue
+                        ChangeProcessState(e.process_effected, "READY");
+                        Process p (all_processes[e.process_effected]);
+                        put_ready_process(p);
+
                     }
                 } 
                 
-                // Place this process in the ready_queue
-                ChangeProcessState(e.process_effected, "READY");
-                Process p (all_processes[e.process_effected]);
-                put_ready_process(p);
+                // If we are not in verbose
+                else
+                {
+                    // Place this process in the ready_queue
+                    ChangeProcessState(e.process_effected, "READY");
+                    Process p (all_processes[e.process_effected]);
+                    put_ready_process(p);
+                } 
             }
             else
             {
