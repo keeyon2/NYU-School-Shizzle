@@ -40,8 +40,11 @@ class Scheduler
         int one_proc_blocked;
 
         Scheduler(char* input_file, char* random_file, bool verb, int quant);
-        void put_event(Event e);
+        void put_event_old(Event e);
+        void put_event_new(Event e);
         Event get_event();
+        bool Event_Head_Visited();
+        void Mark_All_Events_Not_Visited();
         virtual void put_ready_process(Process p);
         virtual Process get_ready_process() = 0;
         

@@ -33,19 +33,22 @@ void Scheduler::CreateProcesses()
 
         // Create Event
         Event e (at, "CREATED", process_counter);
-        put_event(e);
+        put_event_new(e);
         process_counter += 1;
         ReadUntilCharacter();
     }
 }
 
-void Scheduler::put_event(Event e)
+void Scheduler::put_event_old(Event e)
+{
+    e.visited = true;
+    event_queue.push_back(e);
+}
+
+void Scheduler::put_event_new(Event e)
 {
     event_queue.push_back(e);
-    for (int i = 0; i < event_queue.size(); i++)
-    {
-        event_queue[i].visited = false;
-    }
+    Mark_All_Events_Not_Visited();
 }
 
 Event Scheduler::get_event()
@@ -53,6 +56,13 @@ Event Scheduler::get_event()
     Event e = event_queue[0];
     event_queue.erase(event_queue.begin());
     return e;
+}
+
+bool Scheduler::Event_Head_Visited()
+{
+    if (event_queue.size() > 0)
+        return event_queue[0].visited;
+    return true;
 }
 
 void Scheduler::put_ready_process(Process p)
@@ -113,12 +123,18 @@ bool Scheduler::PeekEnd() {
     return (stream.peek(), stream.eof());
 }
 
+void Scheduler::Mark_All_Events_Not_Visited()
+{
+    for (int i = 0; i < event_queue.size(); i++)
+    {
+        event_queue[i].visited = false;
+    }
+}
+
 void Scheduler::StartAnalyze() {
     // Check Event by Event
     //
    
-    int total_values = event_queue.size();
-    int current_counter = 0;
     // Only ends once the event queue is empty 
     while (true)
     {
@@ -129,17 +145,16 @@ void Scheduler::StartAnalyze() {
             break;
         }
 
-        if (current_counter >= event_queue.size())
+        if (Event_Head_Visited())
         {
             //Need to take care of Ready to Running
             if (AddRunning()) 
             {
-                total_values = event_queue.size();
-                current_counter = 0;
+                Mark_All_Events_Not_Visited();
                 continue;
             }
             IncrementTime();
-            current_counter = 0;
+            Mark_All_Events_Not_Visited(); 
         }
 
         Event e = get_event();
@@ -149,27 +164,23 @@ void Scheduler::StartAnalyze() {
             if (all_processes[e.process_effected].AT == current_time)
             {
                 Event e2 (current_time, "READY", e.process_effected);
-                put_event(e2);
+                put_event_new(e2);
+
                 if (verbose)
                 {
                     int current_state_time = current_time - e.timestamp; 
                     cout << current_time << " " << e.process_effected << " " << 
                        current_state_time << ": CREATED -> READY" << endl; 
                 }
-
-                total_values = event_queue.size();
-                current_counter = 0;
             }
             else
             {
-                put_event(e);
-                current_counter = current_counter + 1;
+                put_event_old(e);
             }
         }
 
         if (e.targetstate == "READY")
         {
-            // Time that it is ready
             if (e.timestamp == current_time)
             {
                 // Take care of verbose
@@ -199,14 +210,10 @@ void Scheduler::StartAnalyze() {
                 ChangeProcessState(e.process_effected, "READY");
                 Process p (all_processes[e.process_effected]);
                 put_ready_process(p);
-
-                total_values = event_queue.size();
-                current_counter = 0;
             }
             else
             {
-                put_event(e);
-                current_counter = current_counter + 1;
+                put_event_old(e);
             }
         }
 
@@ -235,15 +242,11 @@ void Scheduler::StartAnalyze() {
                 int next_ready_time = current_time + all_processes[e.process_effected].current_ib;
                  
                 Event e2 (next_ready_time, "READY", e.process_effected);
-                put_event(e2);
-                
-                total_values = event_queue.size();
-                current_counter = 0;
+                put_event_new(e2);
             }
             else
             {
-                put_event(e);
-                current_counter = current_counter + 1;
+                put_event_old(e);
             }
         }
 
@@ -277,7 +280,7 @@ void Scheduler::StartAnalyze() {
                 if ((p.remaining_time <= p.current_cb) && (p.remaining_time <= quantum))
                 {
                     Event e2 (current_time + p.remaining_time, "DONE", p.id);
-                    put_event(e2);
+                    put_event_new(e2);
                 }
 
                 // Goes to block
@@ -287,7 +290,7 @@ void Scheduler::StartAnalyze() {
                     all_processes[e.process_effected].remaining_time -= p.current_cb;
                     // all_processes[e.process_effected].current_cb -= p.current_cb;
                     Event e2 (current_time + p.current_cb, "BLOCKED", p.id);
-                    put_event(e2);
+                    put_event_new(e2);
                 }
 
                 // Goes to ready with cb adjusted
@@ -305,17 +308,13 @@ void Scheduler::StartAnalyze() {
                             all_processes[e.process_effected].static_priority - 1;
                     }
                     Event e2 (current_time + quantum, "READY", p.id); 
-                    put_event(e2);
+                    put_event_new(e2);
                 }
-
-                total_values = event_queue.size();
-                current_counter = 0;   
             }
             
             else
             {
-                put_event(e);
-                current_counter = current_counter + 1;
+                put_event_old(e);
             }
         }
 
@@ -334,15 +333,12 @@ void Scheduler::StartAnalyze() {
                         " " << current_time - all_processes[e.process_effected].current_inst_time
                        << ": Done" << endl; 
                 }
-
-                total_values = event_queue.size();
-                current_counter = 0;
+                Mark_All_Events_Not_Visited();
             }
 
             else
             {
-                put_event(e);
-                current_counter = current_counter + 1;
+                put_event_old(e);
             }
         }
     }
@@ -457,6 +453,7 @@ void Scheduler::PrintEventQueue()
         cout << "Event Time: " << e.timestamp << endl;
         cout << "Event State: " << e.targetstate << endl;
         cout << "Event Process: " << e.process_effected<< endl;
+        cout << "Event Visited: " << e.visited << endl;
         cout << "------------------------" << endl;
     }
 }
@@ -541,7 +538,7 @@ bool Scheduler::AddRunning()
         {
             Process p = get_ready_process();
             Event e2 (current_time, "RUNNING", p.id);
-            put_event(e2);
+            put_event_new(e2);
 
             return true;
         }
