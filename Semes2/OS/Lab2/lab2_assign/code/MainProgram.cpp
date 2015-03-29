@@ -10,7 +10,7 @@
 #include "RandomNumberGrabber.h"
 #include "Event.h"
 #include "FCFSScheduler.h"
-
+#include "LCFSScheduler.h"
 
 using std::cout;
 using std::endl;
@@ -66,11 +66,19 @@ int main(int argc, char **argv)
     char* char_input_file_name = argv[argc - 2];
     RandomNumberGrabber* RandomNumberObject = new RandomNumberGrabber(char_random_file_name);
     //FCFSScheduler* Scheduler = new FCFSScheduler(char_input_file_name, char_random_file_name);
-    FCFSScheduler Scheduler (char_input_file_name, char_random_file_name, verbose);
-    Scheduler.InitializeProcess();
+    if (strcmp (svalue, "F") == 0)
+    {
+        FCFSScheduler Scheduler (char_input_file_name, char_random_file_name, verbose);
+        Scheduler.InitializeProcess();
+    }
+
+    else if(strcmp (svalue, "L") == 0)
+    {
+        LCFSScheduler Scheduler (char_input_file_name, char_random_file_name, verbose);
+        Scheduler.InitializeProcess(); 
+    }
 
 
 
     return 0;
 }
-
