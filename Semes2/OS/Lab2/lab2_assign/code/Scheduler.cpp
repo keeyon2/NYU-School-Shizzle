@@ -42,6 +42,10 @@ void Scheduler::CreateProcesses()
 void Scheduler::put_event(Event e)
 {
     event_queue.push_back(e);
+    for (int i = 0; i < event_queue.size(); i++)
+    {
+        event_queue[i].visited = false;
+    }
 }
 
 Event Scheduler::get_event()
@@ -220,7 +224,7 @@ void Scheduler::StartAnalyze() {
                             << current_time - 
                             all_processes[e.process_effected].current_inst_time << 
                             ": RUNNG -> BLOCK" << " ib=" <<
-                           all_processes[e.process_effected].current_ib << "rem="
+                           all_processes[e.process_effected].current_ib << " rem="
                           << all_processes[e.process_effected].remaining_time
                          << endl; 
                     }
@@ -249,7 +253,6 @@ void Scheduler::StartAnalyze() {
             {
                 // Change process state to Running
                 //all_processes[e.process_effected].State = "RUNNING"; 
-                ChangeProcessState(e.process_effected, "RUNNING");
                 all_processes[e.process_effected].current_cb = 
                     MrRandom->myrandom(all_processes[e.process_effected].CB);
                 Process p = all_processes[e.process_effected];
@@ -263,6 +266,8 @@ void Scheduler::StartAnalyze() {
                        " rem=" << all_processes[p.id].remaining_time << " prio=" << 
                        all_processes[p.id].dynamic_priority << endl;
                 }
+
+                ChangeProcessState(e.process_effected, "RUNNING");
                 // Find out if we go to Blocked with expired cb 
                 // 1. Remaining Time
                 // 2. cb -> Block
