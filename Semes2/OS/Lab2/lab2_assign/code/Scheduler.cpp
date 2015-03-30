@@ -244,10 +244,40 @@ void Scheduler::StartAnalyze() {
                 // If we are not in verbose
                 else
                 {
+                    if (all_processes[e.process_effected].State == "RUNNING")
+                    {
+                        // Place this process in the ready_queue
+                        ChangeProcessState(e.process_effected, "READY");
+                        Process p (all_processes[e.process_effected]);
+                        put_ready_process(p);
+                        all_processes[e.process_effected].dynamic_priority -= 1;
+                    }
+
+                    else if(all_processes[e.process_effected].State == "BLOCKED")
+                    {
+                        // Place this process in the ready_queue
+                        ChangeProcessState(e.process_effected, "READY");
+
+                        // Reset Priority
+                        all_processes[e.process_effected].dynamic_priority =
+                            all_processes[e.process_effected].static_priority - 1;
+
+                        Process p (all_processes[e.process_effected]);
+                        put_ready_process(p);
+                    }
+
+                    // In Created
+                    else
+                    {
+                        // Place this process in the ready_queue
+                        ChangeProcessState(e.process_effected, "READY");
+                        Process p (all_processes[e.process_effected]);
+                        put_ready_process(p);
+                    }
                     // Place this process in the ready_queue
-                    ChangeProcessState(e.process_effected, "READY");
-                    Process p (all_processes[e.process_effected]);
-                    put_ready_process(p);
+                    // ChangeProcessState(e.process_effected, "READY");
+                    // Process p (all_processes[e.process_effected]);
+                    // put_ready_process(p);
                 } 
             }
             else
@@ -488,7 +518,7 @@ void Scheduler::PrintEndSummary()
     cout << setprecision(2) << average_cpuwaiting << " ";
     cout << setprecision(3) << throughput;
     // Need to find Average turnaround and average cpu waiting
-
+    cout << endl;
 }
 
 void Scheduler::PrintEventQueue()
