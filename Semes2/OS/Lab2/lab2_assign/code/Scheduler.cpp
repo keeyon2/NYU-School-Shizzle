@@ -169,9 +169,6 @@ void Scheduler::StartAnalyze() {
                 Process p (all_processes[e.process_effected]);
                 put_ready_process(p);
 
-                //Event e2 (current_time, "READY", e.process_effected);
-                //put_event_new(e2);
-
                 if (verbose)
                 {
                     int current_state_time = current_time - e.timestamp; 
@@ -201,19 +198,31 @@ void Scheduler::StartAnalyze() {
                         ChangeProcessState(e.process_effected, "READY");
                         Process p (all_processes[e.process_effected]);
                         put_ready_process(p);
-
                         cout << current_time << " " << e.process_effected << 
                             " " << correct_time << ": RUNNG -> READY" << "  cb=" <<  
                             all_processes[e.process_effected].current_cb <<
                             " rem=" << all_processes[e.process_effected].remaining_time <<
                             " prio=" << all_processes[e.process_effected].dynamic_priority
                             << endl; 
+
+                        //Now place Priority Decreaser
+                        all_processes[e.process_effected].dynamic_priority -= 1;
+                        // if (all_processes[e.process_effected].dynamic_priority == -1)
+                        // {
+                        //     all_processes[e.process_effected].dynamic_priority = 
+                        //         all_processes[e.process_effected].static_priority - 1;
+                        // }
                     }
 
                     else if(all_processes[e.process_effected].State == "BLOCKED")
                     {
                         // Place this process in the ready_queue
                         ChangeProcessState(e.process_effected, "READY");
+
+                        // Reset Priority
+                        all_processes[e.process_effected].dynamic_priority =
+                            all_processes[e.process_effected].static_priority - 1;
+
                         Process p (all_processes[e.process_effected]);
                         put_ready_process(p);
 
@@ -252,7 +261,6 @@ void Scheduler::StartAnalyze() {
             if (e.timestamp == current_time)
             {
                 // Change process state to BLOCKED
-                //all_processes[e.process_effected].State = "BLOCKED";
                 if (verbose)
                 {
                     if (all_processes[e.process_effected].State == "RUNNING")
@@ -291,6 +299,17 @@ void Scheduler::StartAnalyze() {
                     all_processes[e.process_effected].current_cb = 
                         MrRandom->myrandom(all_processes[e.process_effected].CB);
                 }
+
+                // else
+                // {
+                //     all_processes[e.process_effected].dynamic_priority -= 1;
+                //     if (all_processes[e.process_effected].dynamic_priority == -1)
+                //     {
+                //         all_processes[e.process_effected].dynamic_priority = 
+                //             all_processes[e.process_effected].static_priority - 1;
+                //     }
+                // }
+
                 Process p = all_processes[e.process_effected];
                 
                 if (verbose)
@@ -334,13 +353,8 @@ void Scheduler::StartAnalyze() {
                     // Place in Ready
                     all_processes[e.process_effected].remaining_time -= quantum;
                     all_processes[e.process_effected].current_cb -= quantum;
-                    all_processes[e.process_effected].dynamic_priority -= 1;
+                    // all_processes[e.process_effected].dynamic_priority -= 1;
 
-                    if (all_processes[e.process_effected].dynamic_priority == -1)
-                    {
-                        all_processes[e.process_effected].dynamic_priority = 
-                            all_processes[e.process_effected].static_priority - 1;
-                    }
                     Event e2 (current_time + quantum, "READY", p.id); 
                     put_event_new(e2);
                 }

@@ -15,6 +15,7 @@
 #include "LCFSScheduler.h"
 #include "SJFScheduler.h"
 #include "RRScheduler.h"
+#include "PRIOScheduler.h"
 
 using std::cout;
 using std::endl;
@@ -109,6 +110,9 @@ int main(int argc, char **argv)
         // Delete first letter
         string_svalue.erase(string_svalue.begin());
         int quantum_number = atoi(string_svalue.c_str());
+        
+        PRIOScheduler Scheduler (char_input_file_name, char_random_file_name, verbose, quantum_number);
+        Scheduler.InitializeProcess();
     }
     return 0;
 }
