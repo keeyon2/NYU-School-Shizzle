@@ -5,6 +5,7 @@ RandomNumberGrabber::RandomNumberGrabber(char* filename)
     m_input_file = filename;
     stream.open(filename); 
     total_numbers = ExtractNumber();
+    ofc = 0;
 
     for (int i = 0; i < total_numbers; i++)
     {
