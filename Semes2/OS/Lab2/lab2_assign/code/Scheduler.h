@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <vector>
+#include <limits>
 #include "Event.h"
 #include "Process.h"
 #include "RandomNumberGrabber.h"

@@ -3,7 +3,7 @@
 RandomNumberGrabber::RandomNumberGrabber(char* filename)
 {
     m_input_file = filename;
-    stream.open(m_input_file); 
+    stream.open(filename); 
     total_numbers = ExtractNumber();
 
     for (int i = 0; i < total_numbers; i++)
