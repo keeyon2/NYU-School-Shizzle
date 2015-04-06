@@ -1,0 +1,106 @@
+\documentclass[ruled]{article}
+\usepackage{relsize}
+
+\begin{document}
+\textbf{Keeyon Ebrahimi}\\
+\textbf{NLP}\\
+\textbf{HW6}\\ \\ \\
+
+
+\large{\textit{I have printed all the data required to demonstrate these claims below.}} \\\\   
+\large{\textit{This data includes tag accuracy and NP precision/recall/F-measure.}} \\\\   
+We first want to compare if the feature of the word is better or worse than the feature of the current Pos.  When looking at just the word, we get an F-Measure of $0.74476$ whereas when we look at the Pos by itself we get an F-Measure of $0.8106$ roughly.  This shows us that individually, Pos is much more important that the word we are dealing with.
+\\ \\
+Next we will look at the combination of the two.  If we are looking at both the word and also the part of speech, we see that we have an F-Measure of $0.83412$.  This is a better measurement than when we are dealing with either the word or the Pos individually.  The two together is better than one.  \\ \\
+\\ \\
+So how can we get the best possible result?  I have tried different features and combinations of them all, the best I have found thus far is if we have a feature for the Current Word, The current part of speech, the previous part of speech, and if we are at the start of a sentence. With these 4 tags, i am able to get an F-Measure of roughly 0.88376, which I have found to be fairly good.  
+\\ \\ \\
+\large{\textit{Data Below on next pages}}
+\newpage
+Tags and results:
+\begin{itemize}
+\item[(a)] Current Word
+\item[(b)] Current Part of Speech
+\item[(c)] Previous Part of Speech
+\item[(d)] If we are at a start of a sentence
+\end{itemize}
+\large{
+\textbf{Total Tags: $9610$} \\
+\textbf{Correct Tags: $9290$} \\
+\\
+\textbf{Accuracy: $96.67\%$} \\
+\\
+\textbf{Total Key Groups: $2501$} \\
+\textbf{Total Response Groups: $2609$} \\
+\textbf{Total Same Groups: $2258$} \\
+\\
+\textbf{Precision: $0.865465695669$} \\
+\textbf{Recall: $0.902838864454$} \\
+\textbf{F-measure: $0.883757338552$} \\
+}
+
+\noindent\rule{15cm}{0.4pt}
+\\
+Tags and results:
+\begin{itemize}
+\item[(a)] Current Word
+\item[(b)] Current Part of Speech
+\end{itemize}
+\large{
+\textbf{Total Tags: $9610$} \\
+\textbf{Correct Tags: $9189$} \\
+\\
+\textbf{Accuracy: $95.619\%$} \\
+\\
+\textbf{Total Key Groups: $2501$} \\
+\textbf{Total Response Groups: $2575$} \\
+\textbf{Total Same Groups: $2117$} \\
+\\
+\textbf{Precision: $0.82213592233$} \\
+\textbf{Recall: $0.846461415434$} \\
+\textbf{F-measure: $0.834121355398$} \\
+}
+
+\noindent\rule{15cm}{0.4pt}
+
+Tags and results:
+\begin{itemize}
+\item[(a)] Current Word
+\end{itemize}
+\large{
+\textbf{Total Tags: $9610$} \\
+\textbf{Correct Tags: $8873$} \\
+\\
+\textbf{Accuracy: $92.33\%$} \\
+\\
+\textbf{Total Key Groups: $2501$} \\
+\textbf{Total Response Groups: $2604$} \\
+\textbf{Total Same Groups: $1901$} \\
+\\
+\textbf{Precision: $0.730030721966$} \\
+\textbf{Recall: $0.760095961615$} \\
+\textbf{F-measure: $0.744760039177$} \\
+}
+
+\noindent\rule{15cm}{0.4pt}
+Tags and results:
+\begin{itemize}
+\item[(a)] Current Pos
+\end{itemize}
+\large{
+\textbf{Total Tags: $9610$} \\
+\textbf{Correct Tags: $9136$} \\
+\\
+\textbf{Accuracy: $95.0676\%$} \\
+\\
+\textbf{Total Key Groups: $2501$} \\
+\textbf{Total Response Groups: $2594$} \\
+\textbf{Total Same Groups: $2065$} \\
+\\
+\textbf{Precision: $0.796067848882$} \\
+\textbf{Recall: $0.825669732107$} \\
+\textbf{F-measure: $0.810598626104$} \\
+}
+
+\noindent\rule{15cm}{0.4pt}
+\end{document}
