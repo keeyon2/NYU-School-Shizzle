@@ -1,0 +1,81 @@
+\documentclass[ruled]{article}
+\usepackage{relsize}
+
+\begin{document}
+\textbf{Keeyon Ebrahimi}\\
+\textbf{NLP}\\
+\textbf{HW7}\\ \\ \\
+
+\textbf{Q1:} \\
+Appointed Robert A. Niblock  as senior  vice president\\ 
+Appointed Akbar Naderi  as vice chairman\\ \\ \\
+
+\begin{verbatim}
+
+These two are correct, but we are missing many many more classifications.
+All other positions are not detected.  This is mostly because we are not 
+correctly grabbing entire Noun groups, or also because the appointment patterns 
+are also missing.  We do not have the feature of <Person>, <Position>.  
+We also didn't have "Appointed <person> <position>".  
+Also didn't have pattern for <Person> is appointed  <position>.
+
+
+\end{verbatim}
+
+\textbf{Q2: } \\  \\
+Improvements made, detected more patterns\\
+A few of the good patterns detected are:
+\\ \\ 
+Appointed Robert A. Niblock  as senior  vice president
+Appointed Akbar Naderi  as vice chairman
+Appointed Sellers  as directors
+Appointed Jeff Bartlett as a veteran TV broadcaster
+Appointed James R. Wilson as chairman
+\\ \\
+\textbf{Q3: }
+\\ \\
+\begin{verbatim}
+Beinortiene as an agent
+Geoffrey Lipman as president
+Bob D. Sessoms as president
+George Tzoanos as a Greek Official
+ascal Chatillon as a French official
+Bentsen as a former chairman
+Jeffrey Diskin as vice president
+Tammi Scheetz as research director
+Jane Costello as editor
+Will Fastie as an industry consultant
+Gordon Eubanks as chief executive officer
+Fred Breimyer as chief economist
+Dennis Hipp as president
+Louis Raymond as a garden designer
+Chrisse MacFadyen Genga as a gardener
+Barbara Gallup as author
+Michael Englund as chief  economist
+Cunningham as a quarterback
+Tony Kornheiser  as a columnist
+Kris Chellam as chief executive officer
+Albert E. Haines  as senior vice  president
+Beverly Bassett  as Securities Commissioner
+David Watkins as political adviser
+Bassett Schaffer as wife
+Archie Schaffer as director of media
+David Edwards as the  elusive currency trader
+Ira Magaziner as later health czar
+Vivian Balanikas as an administrative assistant
+and Wilson as a  union spokesman
+Vivian Balanikas as an administrative assistant
+Helen Russo as mailroom manager
+Andy Sozzi as a spokesman
+Stephen L. Johnson  as senior vice president
+Lord  Rivers as a womanizer
+Appointed Edward Lannion as master
+Appointed Marian  Berran as the lovely protegee
+Benet Barnell as master
+\end{verbatim}
+
+These were all from the first half of the document.  There are more but too many to type out.  I am detecting a lot of incorrect patterns as well.  I have many more correct and also incorrect appointments found.  I believe it is because of my "coma" pattern that I created, but I am having troubles changing it so it has more accuracy in its detection.  With this assignment, I have learned that the appointment problem is a quite difficult process to automate.
+\\ \\ 
+I know you don't have to, but now that this assignment is submitted, I would love to see some more accurate patterns, for mine doesn't feel as accurate as it should be, but maybe that is just because this is a hard problem.
+
+\end{document}
