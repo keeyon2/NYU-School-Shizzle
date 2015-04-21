@@ -1,0 +1,114 @@
+\documentclass[ruled]{article}
+\usepackage{relsize}
+
+\begin{document}
+\textbf{Keeyon Ebrahimi}\\
+\textbf{Social Networks}\\
+\textbf{HW3}\\ \\ \\
+\textbf{Problem 1}
+
+\begin{itemize}
+\item[Q1] 
+\begin{verbatim}
+
+1. 
+    (a) Show by direct calculation that the expected degree is np.
+    (b) Where is the mode of the binomial distribution?
+    (c) Compute directly the variance of the distribution
+
+\end{verbatim}
+\textbf{Solution: }\\
+\begin{itemize}
+\item[(a)] Expected Degree: \\
+
+ {\Large $E(K) = \sum\limits_{k=1}^n k* \frac{n!}{k! (n - k)!} * p^k * (1-p)^{n - k}$   } \\ \\ \\
+ {\Large $= \sum\limits_{k=1}^n \frac{n * (n-1)!}{(k-1)! (n - k)!} * p * p^{k-1} * (1-p)^{n - k}$   } \\ \\ \\
+ {\Large $= np * \sum\limits_{k=1}^n k* \frac{(n-1)!}{(k-1)! (n - k)!} * p^{k-1} * (1-p)^{n - k}$   } \\ \\ \\
+
+Use substitution with $a$ and $b$.  $a = k-1$ and $b = n-1$\\ \\
+
+{\Large $E(K) = np * \sum\limits_{a=0}^b \frac{b!}{a! (b - a)!} * p^a * (1-p)^{b - a}$   } \\ \\ \\
+
+{\Large We now see that \\ \\ $ \sum\limits_{a=0}^b \frac{b!}{a! (b - a)!} * p^a * (1-p)^{b - a}$ \\ \\ \\ is just another binomial distribution that will sum to 1, because probability of random variables sum to one.  Now we can deduce } 
+\\ \\ \\ 
+
+{\Large $E(K) = np * \sum\limits_{a=0}^b \frac{b!}{a! (b - a)!} * p^a * (1-p)^{b - a}$   } \\ \\ \\
+
+{\Large $ = np * 1$   } \\ \\ \\
+\textbf{Solution: }\\ \\
+{\Large $ E(k) = np$} \\ \\ \\
+\item[(b)]  Mode of the distribution:  We will find the mode of the Binomial distribution at \\ \\  {\Large $(n+1)p$ } \\ \\
+
+\item[(c)]  Variance of the distribution:  \\ \\ \\ 
+$Variance\ K = E(K^2) - (E(K))^2$
+\\ \\ 
+$(E(K))^2 = n^2 p^2$       We know this from part (a).
+\\ 
+\\
+$E(K^2) = n^2 p^2 + np(1-p) $
+\\ \\ \\
+When we subtract the two, we get \\ \\
+$Variance\ K = E(K^2) - (E(K))^2$ \\ \\
+$ = n^2 p^2 + np(1-p) - n^2 p^2$ \\ \\
+{\Large $ = np(1-p)$}\\ \\
+
+\textbf{Solution: } \\ 
+{\Large $ = np(1-p)$}\\ \\
+\end{itemize}
+\end{itemize}
+
+\textbf{Problem 2}
+\begin{itemize}
+\item[Q2]
+\begin{verbatim}
+
+ In G(n, 1/n) what is the probability that there is a vertex of
+degree log n? Give an exact formula; also derive simple approximations.
+
+\end{verbatim}
+The exact formula is: \\\\ \\ 
+{\LARGE $ { n \choose \log(n)} (\frac{1}{n})^ {\log n} (1 - \frac{1}{n})^{n - \log n}$}
+\\ \\ \\ \\ 
+
+Here are a couple of examples.  If $n = 3$, we get 
+\\ \\
+{\LARGE $ { 3 \choose \log(3)} (\frac{1}{3})^ {\log 3} (1 - \frac{1}{3})^{3 - \log 3} \approx 0.4338765$}
+\\ \\ \\
+If $n = 5$, we get
+\\ \\
+{\LARGE $ { 5 \choose \log(5)} (\frac{1}{5})^ {\log 5} (1 - \frac{1}{5})^{5 - \log 5} \approx 0.2931279$} \\ \\ \\
+
+
+
+\end{itemize}
+\newpage
+\textbf{Problem 3}
+\begin{itemize}
+\item[Q3]
+\begin{verbatim}
+
+ (a)  What is the expected number of triangles in G(n,d/n)
+ (b)  What is the expected number of squares in G(n,d/n)
+ (c)  What is the expected number of 4-cliques in G(n,d/n)
+
+\end{verbatim}
+
+\item[(a)] Probability that there is a cycle of 3, means that three nodes have to have a certain edge, which is a probability of $p^3$.  We know, $p = \frac{d}{n}$.  The total amount of possible node triangle possibilities is $n \choose 3$.  When we multiply these two, we get \\ \\
+\textbf{Solution: }\\ \\
+{\LARGE $(\frac{d}{n}) ^3 * {n \choose 3}$ }\\
+\\ \\
+\item[(b)] With the same logic as part a, we can deduce the expected number of squares with \\ \\
+\textbf{Solution: } \\ \\
+{\LARGE $(\frac{d}{n}) ^4 * {n \choose 4}$ }\\
+\\ \\
+\item[(c)]   Probability of 4 nodes being in a clique in this graph is \\ \\
+
+{\LARGE $4 * (\frac{d}{n})^{3} $ }
+\\ \\
+Now the expected value of this means we have to see how many possible times this can happen, which we know is {\Large $n \choose 4$}.  To find our solution, we multiply these two together and we get \\ 
+
+\textbf{Solution: } \\ \\
+{\LARGE $4 * (\frac{d}{n})^{3} *{n \choose 4}$}
+\end{itemize}
+
+\end{document}
