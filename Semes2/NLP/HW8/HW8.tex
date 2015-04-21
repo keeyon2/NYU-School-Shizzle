@@ -1,0 +1,137 @@
+\documentclass[ruled]{article}
+\usepackage{relsize}
+
+\begin{document}
+\textbf{Keeyon Ebrahimi}\\
+\textbf{NLP}\\
+\textbf{HW7}\\ \\ \\
+
+\textbf{Q1:} \\
+Training with these five sentences, we see that we have to find the odds of \\
+$np = n$ and $np = n\ pp$\\
+\\
+We also have to find the odds of $vp = v\ np\ pp$ and $vp = v\ np$\\ \\
+
+We have a total of 15 $np$'s.  12 are $np = n$ and 3 are $np = n\ pp$.  This means that 
+$$np = n \rightarrow 0.8$$  
+\begin{center}
+and 
+\end{center} 
+ $$np = n\ pp \rightarrow 0.2$$ 
+\\ \\
+For $vp$'s, we have 5 total $vp$'s.  2 are $v = v\ np\ pp$ and 3 are $v = v\ np$.  This means that
+$$vp = v\ np\ pp \rightarrow 0.4$$
+\begin{center}
+and
+\end{center}
+$$vp = v\ np \rightarrow 0.6$$
+\\ \\
+
+Here are the probabilities of each of these 5 productions.
+
+\begin{itemize}
+\item[(a)]  (s (np (n Men) (pp (p of) (np (n distinction)))) (vp (v like) (np (n broccoli)))) 
+\\
+$$0.2 * 0.8 * 0.6 * 0.8 = 0.0768$$
+\item[(b)]  (s (np (n Men)) (vp (v like)  (np (n ham)   (pp (p with) (np (n eggs))))))  
+\\
+$$0.8 * 0.6 * 0.2 * 0.8 = 0.0768$$
+\item[(c)]  (s (np (n Men)) (vp (v serve) (np (n ham)   (pp (p with) (np (n eggs))))))  
+\\
+$$0.8 * 0.6 * 0.2 * 0.8 = 0.0768$$
+\item[(d)]  (s (np (n Men)) (vp (v serve) (np (n eggs)) (pp (p with) (np (n gusto)))))  
+\\
+$$0.8 * 0.4 * 0.8 * 0.8 = 0.2048$$
+\item[(e)]  (s (np (n Men)) (vp (v serve) (np (n eggs)) (pp (p to)   (np (n customers)))))  
+\\
+$$0.8 * 0.4 * 0.8 * 0.8 = 0.2048$$
+\end{itemize}
+\noindent\rule{15cm}{0.8pt}
+\begin{center}
+{\Large \textbf{Part 2}}
+\end{center}
+Now we must analyze: 
+\\
+\begin{center}
+\textbf{“Delis serve pizza with relish.”}
+\end{center}
+
+Here are the two different parses for this sentence
+\begin{verbatim}
+
+1. (s (np (n Delis)) (vp (v serve) (np (n pizza)) (pp (p with) (np (n relish)))))
+
+
+2. (s (np (n Delis)) (vp (v serve) (np (n pizza) (pp (p with) (np (n relish))))))
+
+\end{verbatim}
+Here are the different probabilities that would be assigned to the two different parses of \textbf{“Delis serve pizza with relish.”}\\  
+\textit{Same numbering as the numbering right above}\\
+\begin{itemize}
+\item[1. ] $0.8 * 0.4 * 0.8 * 0.8 = 0.2048$
+\item[2. ] $0.8 * 0.6 * 0.2 * 0.8 = 0.0768$
+\end{itemize}
+\begin{verbatim}
+
+
+\end{verbatim}
+\begin{center}
+\textit{Problem 2 on next page}
+\end{center}
+\newpage
+
+\textbf{Q2: } \\  \\
+Now we will be conditioning the $vp$ on the head.
+
+All the verb phrases have two possible heads, which are:
+\textit{like} or \textit{serve}.
+\\ \\ 
+$$vp = v\ np\ pp \rightarrow (1.0\ chance\ serve)\ and\ (0.0\ chance\ like) $$ 
+$$vp = v\ np \rightarrow (0.3333 \ chance\ serve)\ and\ (0.6666 \ chance\ like) $$ 
+\\ \\
+Now we must multiply the probability of each verb head to the $P(r(n))$ in each $vp$ calculation
+\begin{itemize}
+\item[(a)]  Delis serve pizza with relish
+\\ \\
+We know have to analyze each of the $vp$ possibilities with the head possibilities.
+
+\begin{verbatim}
+
+1. (s (np (n Delis)) (vp (v serve) (np (n pizza)) (pp (p with) (np (n relish)))))
+
+
+2. (s (np (n Delis)) (vp (v serve) (np (n pizza) (pp (p with) (np (n relish))))))
+
+\end{verbatim}
+Here are the different probabilities that would be assigned to the two different parses of \textbf{“Delis serve pizza with relish.”}\\  
+\textit{Same numbering as the numbering right above}\\
+\begin{itemize}
+\item[1. ] $0.8 * (0.4 * 1.0) * 0.8 * 0.8 = 0.2048$
+\item[2. ] $0.8 * (0.6 *0.3333) * 0.2 * 0.8 = 0.02559744$
+\end{itemize}
+
+\item[(b)]  Men like pizza with relish
+\begin{verbatim}
+
+1. (s (np (n Men)) (vp (v like) (np (n pizza)) (pp (p with) (np (n relish)))))
+
+
+2. (s (np (n Men)) (vp (v like) (np (n pizza) (pp (p with) (np (n relish))))))
+
+\end{verbatim}
+Here are the different probabilities that would be assigned to the two different parses of \textbf{“Men like	 pizza with relish.”}\\  
+\begin{center}
+
+
+\textit{Answer on next page}\\
+\end{center}
+\newpage
+\textit{Same numbering as the numbering right above}\\
+\begin{itemize}
+\item[1. ] $0.8 * (0.4 * 0.0) * 0.8 * 0.8 = 0.0$
+\item[2. ] $0.8 * (0.6 *0.6666) * 0.2 * 0.8 = 0.05119488$
+\end{itemize}
+\end{itemize}
+
+
+\end{document}
