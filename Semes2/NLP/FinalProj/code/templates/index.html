@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Correlation Station</title>
+        <script type="text/javascript" src="/static/d3/d3.min.js"></script>
+       <!--  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+       <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.8/jquery.validate.min.js"></script> -->
+       <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"> </script>
+       <link rel="stylesheet" type="text/css" href="/static/stylepage.css">
+       <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> 
+    </head>
+
+    <body>
+        <div id="wrap">
+            <div class="hit-the-floor">Correlation Station</div> 
+            <br>
+            <br>
+            </script>
+
+    
+	    
+            <!--<form action="" method="POST"> 
+                Interesting Word:
+                <input type="text" name="interestingtextfield">
+                <input type="submit" name="my-form" value="Higher Variance">
+		<input type="submit" name="my-form" value="Lower Variance"> 
+    </form> --> 
+    <!-- <p><a href="#" onClick="high_var();">Top Text</a></p> -->
+    <input type="text" name="interestingtextfield" id="interestingtextfield" class="svgCenter">
+    <br>
+    <p class="sideBside">
+        <button type="button" class="sideBside btn btn-success" onclick="high_var()">High Var</button>
+        <button type="button" class="sideBside btn btn-danger" onclick="low_var()">Low Var</button>
+    </p>
+    <p id="ClickLabel"> (Click graph for new display) </p>
+
+    <!-- <form id="register" name="register" onsubmit="high_var()">
+                Interesting Word:
+                <input type="text" name="interestingtextfield" id="interestingtextfield">
+                <input type="submit">
+		        <input type="submit" name="my-form" value="Lower Variance"> 
+            </form> -->
+
+            <!-- <svg class="svgCenter" width="60" height="60">
+                <g transform="translate(0,5)">
+                    <circle cx="25" cy="25" r="20" class="pumpkin"/>
+                </g>
+                </svg>-->
+            <script type="text/javascript" src="/static/d3/exampled3.js"></script>
+            <div class="circ"></div>
+        </div>
+    </body>
+</html>     

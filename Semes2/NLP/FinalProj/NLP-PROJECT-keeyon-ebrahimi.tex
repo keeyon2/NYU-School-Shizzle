@@ -1,0 +1,120 @@
+\documentclass[ruled]{article}
+\usepackage{relsize}
+
+\begin{document}
+\textbf{Keeyon Ebrahimi}\\
+\textbf{NLP}\\
+\textbf{Final Project}\\ \\ \\
+
+\begin{center}
+{\Large \textbf{Correlation Station} }
+\begin{verbatim}
+
+\end{verbatim}
+\textbf{Demo: Go to correlationstation.me on your web browser}
+\begin{verbatim}
+
+\end{verbatim}
+\textbf{Type 1 word in the search bar and click High or Low Variance }
+\\
+\textbf{This Project explanation will make more sense after playing with the demo}
+\end{center}
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\begin{center}
+{\Large \textbf{Summary} }
+\end{center}
+\begin{verbatim}
+
+\end{verbatim}
+Wanted to study the correlation between words in News Articles.  Wanted to be able to search any word and find the most interesting related news topics.  Studied the long term and short term changes in the co-occurrence of different words.
+\\ \\
+Technique being used here is word embedding.  On a high level, if we have these two sentences \\
+\begin{itemize}
+\item[•] Angry dogs bite
+\item[•] Angry cats bite
+\end{itemize}
+
+We see that we have a structure of \textbf {Angry \textit{blank} bite }.  Cat and dog have both filled this structure and are made to be similar.
+\\
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\begin{verbatim}
+
+\end{verbatim}
+\begin{center}
+{\Large \textbf{Data} }
+\end{center}
+\begin{verbatim}
+
+\end{verbatim}
+Scraped \textbf{reuters.com} from 2008 - 2014.  Total of 370k articles that span global, economic, and market news mostly.
+\\
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\begin{verbatim}
+
+\end{verbatim}
+\begin{center}
+{\Large \textbf{Word Embedding} }
+\end{center}
+\begin{verbatim}
+
+\end{verbatim}
+Used word embedding to map words to a 300 dimension space. Maps similar words close together while semantically different words are far apart.  This is a very simple model, but it needs a large amount of data to train on.  Word embedding can also be used for POS tagging, semantic analysis, NERs.
+\\\\ 
+Trained on news articles that span from 2008 - 2014, so now we can study trends over seven years
+\\
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\begin{verbatim}
+
+\end{verbatim}
+\begin{center}
+{\Large \textbf{Visualizing Data} }
+\end{center}
+\begin{verbatim}
+
+\end{verbatim}
+Steps: \\
+\begin{itemize}
+\item[1.  ]Built 7 different word2vec models for each of the 7 years.
+\item[2.  ]Grabbed the top 10 similar words for a given word from each of the 7 models.
+\item[3.  ]Calculated similarity with Cosine Similarity.
+\item[4.  ]For each unique word in the grabbed 10 most similar words for each year, found the similarity of the original searched word with unique word in each year.
+\item[5.  ]Found the 4 words that had the most amount of variance with similarity of each year and also the least amount of variance with the 7 years of similarity data.
+\item[6.  ]Visualized data with some very serious D3 visualization, which again, can be seen at \textbf{correlationstation.me}
+
+\end{itemize}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\begin{verbatim}
+
+\end{verbatim}
+\begin{center}
+{\Large \textbf{ Technologies Used } }
+\end{center}
+\begin{verbatim}
+
+\end{verbatim}
+\begin{itemize}
+\item[•] Beautiful Soup (Web Scraping)
+\item[•] Gensim/NumPy/SciPy (Word Embedding)
+\item[•] Flask (Webpage backend)
+\item[•] D3 (Webpage frontend)
+\item[•] JQuery/Ajax (Webage communication between backend and frontend)
+
+\end{itemize}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\begin{verbatim}
+
+\end{verbatim}
+\begin{center}
+{\Large \textbf{ References} }
+\end{center}
+\begin{verbatim}
+
+\end{verbatim}
+\begin{itemize}
+\item[•] Tomas Mikolov, Kai Chen, Greg Corrado, and Jeffrey Dean. Efficient Estimation of Word Representations in Vector Space. In Proceedings of Workshop at ICLR, 2013.
+\item[•] Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, and Jeffrey Dean. Distributed Representations of Words and Phrases and their Compositionality. In Proceedings of NIPS, 2013.
+\item[•] Tomas Mikolov, Wen-tau Yih, and Geoffrey Zweig. Linguistic Regularities in Continuous Space Word Representations. In Proceedings of NAACL HLT, 2013.
+\end{itemize}
+
+\end{document}
