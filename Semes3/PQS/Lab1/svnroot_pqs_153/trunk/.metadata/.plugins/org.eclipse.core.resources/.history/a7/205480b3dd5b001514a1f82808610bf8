@@ -1,0 +1,159 @@
+package edu.nyu.cs;
+
+import org.json.simple.JSONObject;
+
+public class Contact {
+	private final String firstName;
+	private final String lastName;
+	private final String postalAddress;
+	private final int phoneNumber;
+	private final String emailAddress;
+	private final String note;
+	
+	public static class Builder {
+	  // Required parameters
+	  private final String firstName;
+	  
+	  // Optional parameters - initialized to default values
+	  private String lastName = "";
+	  private String postalAddress = "";
+	  private int phoneNumber = 0;
+	  private String emailAddress = "";
+	  private String note = "";
+	  
+	  public Builder(String firstName) {
+	    this.firstName = firstName;
+	  }
+	  
+	  public Builder lastName(String val) {
+	    lastName = val;
+	    return this;
+	  }
+	  
+	  public Builder postalAddress(String val) {
+      postalAddress = val;
+      return this;
+	  }
+	  
+	  public Builder phoneNumber(int val) {
+      phoneNumber = val;
+      return this;
+	  }
+	  
+	  public Builder emailAddress(String val) {
+      emailAddress = val;
+      return this;
+	  }
+	  
+	  public Builder note(String val) {
+      note = val;
+      return this;
+	  }
+	  
+	  public Contact build() {
+	    return new Contact(this);
+	  }
+	  
+	}
+	
+	private Contact(Builder builder)  {
+	  firstName = builder.firstName;
+	  lastName = builder.lastName;
+	  postalAddress = builder.postalAddress;
+	  phoneNumber = builder.phoneNumber;
+	  emailAddress = builder.emailAddress;
+	  note = builder.note;
+	}
+	
+	private Contact(String firstName, String lastName,
+	    String postalAddress, int phoneNumber, 
+	    String emailAddress, String note) {
+	    
+	    this.firstName = firstName;
+	    this.lastName = lastName;
+	    this.postalAddress = postalAddress;
+	    this.phoneNumber = phoneNumber;
+	    this.emailAddress = emailAddress;
+	    this.note = note;
+	}
+
+  public String getFirstName() {
+	  return this.firstName;
+	}
+	
+	public String getLastName() {
+	  return this.lastName;
+	}
+	 
+	public String getPostalAddress() {
+	  return this.postalAddress;
+	}
+	 
+	public int getPhoneNumber() {
+	  return this.phoneNumber;
+	} 
+	  
+	public String getEmailAddress() {
+	  return this.emailAddress;
+  }
+  
+  public String getNote() {
+    return this.note;
+  }  
+  
+	@Override
+	public boolean equals(Object o) {
+	  if (o == this) {
+	    return true;
+	  }
+	  
+	  if (!(o instanceof Contact)) {
+	    return false;
+	  }
+	  
+	  Contact contact = (Contact)o;
+	  
+	  boolean ComparingObjAndThisObjVarsConsitant   = 
+	      contact.firstName.equals(this.firstName)
+	      && contact.lastName.equals(this.lastName)
+	      && contact.postalAddress.equals(this.postalAddress)
+	      && contact.phoneNumber == this.phoneNumber
+	      && contact.emailAddress.equals(this.emailAddress)
+	      && contact.note.equals(this.note);
+	  
+	  return ComparingObjAndThisObjVarsConsitant;
+	}
+	
+	@Override 
+	public int hashCode() {
+	  int result = 17;
+	  result = 31 * result + (this.firstName != null ? this.firstName.hashCode() : 0);
+	  result = 31 * result + (this.lastName != null ? this.lastName.hashCode() : 0);
+	  result = 31 * result + (this.postalAddress != null ? this.postalAddress.hashCode() : 0);
+	  result = 31 * result + this.phoneNumber;
+	  result = 31 * result + (this.emailAddress != null ? this.emailAddress.hashCode() : 0);
+	  result = 31 * result + (this.note != null ? this.note.hashCode() : 0);
+	  return result;
+	}
+	
+	protected JSONObject GetJSONObject() {
+	    JSONObject obj = new JSONObject();
+	    obj.put("FirstName", this.firstName);
+	    obj.put("LastName", this.lastName);
+	    obj.put("PostalAddress", this.postalAddress);
+	    obj.put("PhoneNumber", this.phoneNumber);
+	    obj.put("EmailAddress", this.emailAddress);
+	    obj.put("Note", this.note);
+	    return obj;
+	 }
+	 
+	@Override
+	public String toString() {
+	  return this.toJSONString();
+	  //
+	}
+	
+	public String toJSONString() {
+	  return GetJSONObject().toJSONString();
+	}
+}

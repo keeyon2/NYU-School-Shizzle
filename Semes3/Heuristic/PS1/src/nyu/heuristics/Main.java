@@ -6,11 +6,15 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-	  System.out.println("Exact Change: ");
-	  ExactChange(7, 240, 13.0);
-	  System.out.println("");
-	  CoinsExchanged(3, 11, 1.0);
 	  
+	  if (args.length > 0) {
+	    double N = Double.parseDouble(args[0]);
+	    //ExactChange(7, 240, N);
+	    CoinsExchanged(7, 240, N);
+	  }
+	  else {
+	    System.out.println("Need atleast 1 input");
+	  }
 	}
 	
 	public static void ExactChange(int DenominationNumber, int TotalPoundValue, double N) {

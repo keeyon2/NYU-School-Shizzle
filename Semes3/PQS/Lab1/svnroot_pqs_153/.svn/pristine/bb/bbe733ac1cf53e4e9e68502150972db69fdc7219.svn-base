@@ -1,0 +1,103 @@
+package edu.nyu.cs;
+
+import java.util.*;
+
+public class AddressBook {
+  private ArrayList<Contact> contactList;
+  
+  private AddressBook () {
+    contactList = new ArrayList<Contact>();
+  }
+  
+  public static AddressBook newInstance() {
+    return new AddressBook();
+  }
+  
+  public static AddressBook newInstance (ArrayList<Contact> contacts) {
+    AddressBook addressBook = new AddressBook();
+    addressBook.contactList = contacts;
+    return addressBook;
+  }
+  
+  public static AddressBook newInstance (AddressBook inputAddressBook) {
+    AddressBook addressBook = new AddressBook();
+    addressBook.contactList = inputAddressBook.contactList;
+    return addressBook;
+  }
+  
+  public void AddContact (Contact contact) {
+    this.contactList.add(contact);
+  }
+  
+  public ArrayList<Contact> SearchContact (String searchQuery) {
+    ArrayList<Contact> foundContacts = new ArrayList<Contact>();
+    
+    Iterator<Contact> iter = this.contactList.iterator();
+    while(iter.hasNext()) {
+      Contact currentCheckingContact = iter.next();
+      
+      boolean ContactWithQueryExists = 
+          ContactHasSearchQuery(currentCheckingContact, searchQuery);
+      
+      if (ContactWithQueryExists) {
+        foundContacts.add(currentCheckingContact);
+      }
+    }
+    
+    if (foundContacts.isEmpty()) {
+      throw new IllegalArgumentException( 
+          "No contact with information containing: " + searchQuery);
+    }
+    
+    return foundContacts;
+  }
+  
+  private boolean ContactHasSearchQuery(Contact contact, String query) {
+    // Lowercase to ensure String.contains returns hits 
+    // irregardless of case
+    query = query.toLowerCase();
+    
+    String firstName = contact.getFirstName().toLowerCase();
+    String lastName = contact.getLastName().toLowerCase();
+    String postalAddress = contact.getPostalAddress().toLowerCase();
+    int intPhoneNumber = contact.getPhoneNumber();
+    String stringPhoneNumber = Integer.toString(intPhoneNumber).toLowerCase();
+    String emailAddress = contact.getEmailAddress().toLowerCase();
+    String note = contact.getNote().toLowerCase();
+    
+    if (firstName.contains(query)) {
+      return true;
+    }
+    
+    else if (lastName.contains(query)) {
+      return true;
+    }
+    
+    else if (postalAddress.contains(query)) {
+      return true;
+    }
+    
+    else if (stringPhoneNumber.contains(query)) {
+      return true;
+    }
+    
+    else if (emailAddress.contains(query)) {
+      return true;
+    }
+    
+    else if (note.contains(query)) {
+      return true;
+    }
+    
+    else {
+      return false;
+    }
+  }
+  
+  
+  public static void main(String[] args) {
+    // TODO Auto-generated method stub
+
+  }
+
+}

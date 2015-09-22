@@ -1,0 +1,202 @@
+package edu.nyu.cs;
+
+import java.util.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public class AddressBook {
+  private ArrayList<Contact> contactList;
+  private JSONParser jsonParser = new JSONParser();
+  
+  private AddressBook () {
+    contactList = new ArrayList<Contact>();
+  }
+  
+  public static AddressBook newInstance() {
+    return new AddressBook();
+  }
+  
+  public static AddressBook newInstance (ArrayList<Contact> contacts) {
+    AddressBook addressBook = new AddressBook();
+    addressBook.contactList = contacts;
+    return addressBook;
+  }
+  
+  public static AddressBook newInstance (AddressBook inputAddressBook) {
+    AddressBook addressBook = new AddressBook();
+    addressBook.contactList = inputAddressBook.contactList;
+    return addressBook;
+  }
+  
+  public static AddressBook newInstance (String AddressBookFile) {
+    AddressBook addressBook = new AddressBook();
+    addressBook.ReadFromFile(AddressBookFile);
+    return addressBook;
+  }
+  
+  public void AddContact (Contact contact) {
+    this.contactList.add(contact);
+  }
+  
+  public ArrayList<Contact> SearchForContacts (String searchQuery) {
+    ArrayList<Contact> foundContacts = new ArrayList<Contact>();
+    
+    Iterator<Contact> iter = this.contactList.iterator();
+    while(iter.hasNext()) {
+      Contact currentCheckingContact = iter.next();
+      
+      boolean ContactWithQueryExists = 
+          ContactHasSearchQuery(currentCheckingContact, searchQuery);
+      
+      if (ContactWithQueryExists) {
+        foundContacts.add(currentCheckingContact);
+      }
+    }
+    
+    if (foundContacts.isEmpty()) {
+      throw new IllegalArgumentException( 
+          "No contact with information containing: " + searchQuery);
+    }
+    
+    return foundContacts;
+  }
+  
+  private boolean ContactHasSearchQuery(Contact contact, String query) {
+    // Lowercase to ensure String.contains returns hits 
+    // irregardless of case
+    query = query.toLowerCase();
+    
+    ArrayList <String> ContactFields = new ArrayList<String>();
+    
+    ContactFields.add(contact.getFirstName().toLowerCase());
+    ContactFields.add(contact.getLastName().toLowerCase());
+    ContactFields.add(contact.getPostalAddress().toLowerCase());
+    ContactFields.add(contact.getEmailAddress().toLowerCase());
+    ContactFields.add(contact.getNote().toLowerCase());
+    
+    int intPhoneNumber = contact.getPhoneNumber();
+    ContactFields.add(Integer.toString(intPhoneNumber).toLowerCase());
+    
+    Iterator<String> iter = ContactFields.iterator();
+    String currentCheckingField;
+    while(iter.hasNext()) {
+      currentCheckingField = iter.next();
+      
+      if (currentCheckingField.contains(query)) {
+        return true;
+      }
+    }    
+    
+    // If all fields itterated through but no matches, we 
+    // reach here and need to return false 
+    return false;
+  }
+  
+  public void RemoveContact(Contact contact) {
+    Iterator<Contact> iter = this.contactList.iterator();
+    int index = 0;
+    while(iter.hasNext()) {
+      Contact currentCheckingContact = iter.next();
+      
+      if (currentCheckingContact.equals(contact)) {
+        this.contactList.remove(index);
+        return;
+      }
+      index += 1;
+    }
+    
+    throw new IllegalArgumentException(
+        "Contact not in Address Book: " + contact.toString());   
+  }
+  
+  protected JSONObject GetJSONObject() {
+    JSONObject JSONobj = new JSONObject();
+    JSONArray contactListJson = new JSONArray();
+    
+    Iterator<Contact> iter = this.contactList.iterator();
+    while(iter.hasNext()) {
+      Contact currentCheckingContact = iter.next();
+      contactListJson.add(currentCheckingContact.GetJSONObject());
+    }
+    
+    obj.put("Contacts", contactListJson);
+    return obj;
+  }
+  
+  @Override
+  public String toString() {
+    return this.toJSONString();
+    //
+  }
+  
+  public String toJSONString() {
+    return GetJSONObject().toJSONString();
+  }
+  
+  public void SaveToFile (String writeFilePath) {
+    try {
+      FileWriter file = new FileWriter(writeFilePath);
+      file.write(this.toJSONString());
+      file.flush();
+      file.close();
+    }
+    
+    catch (IOException FileAlreadyDirectoryOrIOInterruptedException) {      
+      FileAlreadyDirectoryOrIOInterruptedException.printStackTrace();
+    }
+  }
+  
+  private Contact ExtractContact (JSONObject jsonObj) {
+      String firstName = (String) jsonObj.get("FirstName");
+      String lastName = (String) jsonObj.get("LastName");
+      String postalAddress = (String) jsonObj.get("PostalAddress");
+      
+      Long longPhoneNumber = (Long) jsonObj.get("PhoneNumber");
+      int intPhoneNumber = longPhoneNumber.intValue();
+      
+      String emailAddress = (String) jsonObj.get("EmailAddress");
+      String note = (String) jsonObj.get("Note");
+      
+      return new Contact(firstName, lastName, postalAddress,
+          intPhoneNumber, emailAddress, note);
+  }
+  
+
+  public void ReadFromFile (String readFilePath) {
+    try {
+      Object obj = jsonParser.parse(new FileReader(readFilePath));
+      JSONObject jsonObject = (JSONObject) obj;
+      
+      JSONArray contactsJSON = (JSONArray) jsonObject.get("Contacts");
+      
+      // Clear before we add new Elements
+      this.contactList.clear();
+      
+      Iterator<JSONObject> iterator = contactsJSON.iterator();
+      while (iterator.hasNext()) {
+        Contact CurrentContact = ExtractContact(iterator.next());
+        AddContact(CurrentContact);
+      }
+    }
+    
+    catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    
+    // I/O inturrupted or File Linked is already a directory
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+    
+    catch (ParseException e) {
+      e.printStackTrace();
+    }
+  }
+}

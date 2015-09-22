@@ -1,0 +1,287 @@
+package edu.nyu.cs;
+
+import java.util.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+/**  AddressBook that stores Contacts
+ * @author Keeyon
+ * 
+ */
+public class AddressBook {
+  
+  /** Arraylist that Stores all contacts
+   * 
+   */
+  private ArrayList<Contact> contactList;
+  
+  private JSONParser jsonParser = new JSONParser();
+  
+  /** Private Constructor 
+   *  Using Java Static Factory so Constructor can be 
+   *  changed with later versions
+   * 
+   */
+  private AddressBook () {
+    contactList = new ArrayList<Contact>();
+  }
+  
+  /**  Creates empty Address Book
+   * @return  Empty Adress Book Object
+   */
+
+  public static AddressBook newInstance() {
+    return new AddressBook();
+  }
+  
+  /**  Creation of an Address Book from Array List
+   * @param contacts Array List
+   * @return Address Book Object
+   */
+  public static AddressBook newInstance (ArrayList<Contact> contacts) {
+    AddressBook addressBook = new AddressBook();
+    addressBook.contactList = contacts;
+    return addressBook;
+  }
+  
+  /**  Creation of an Address Book from previous existing Address Book
+   * @param inputAddressBook
+   * @return Address Book Object
+   */
+  public static AddressBook newInstance (AddressBook inputAddressBook) {
+    AddressBook addressBook = new AddressBook();
+    addressBook.contactList = inputAddressBook.contactList;
+    return addressBook;
+  }
+  
+  /**  Creation of an Address Book from an Address Book that was saved
+   *   to a file with the SaveToFile(String) Method
+   * @param AddressBookFile
+   * @return  New Address Book Object
+   */
+  public static AddressBook newInstance (String AddressBookFile) {
+    AddressBook addressBook = new AddressBook();
+    addressBook.ReadFromFile(AddressBookFile);
+    return addressBook;
+  }
+  
+  /**  Adds a new Contact to the AddressBook
+   * @param contact
+   */
+  public void AddContact (Contact contact) {
+    this.contactList.add(contact);
+  }
+  
+  /**  Returns the Contact List as an ArrayList
+   * @return ContactList as ArrayList
+   */
+  public ArrayList<Contact> getContactList() {
+    return this.contactList;
+  }
+  
+  /**  We are given a Search Query.  Return a list of Contacts
+   *   That have the Query in any part of any of their fields
+   *   
+   *   If none exists, we will throw an IllegalArgumentException
+   * @param searchQuery
+   * @return  ArrayList of Matching Contacts
+   */
+  public ArrayList<Contact> SearchForContacts (String searchQuery) {
+    ArrayList<Contact> foundContacts = new ArrayList<Contact>();
+    
+    Iterator<Contact> iter = this.contactList.iterator();
+    while(iter.hasNext()) {
+      Contact currentCheckingContact = iter.next();
+      
+      boolean ContactWithQueryExists = 
+          ContactHasSearchQuery(currentCheckingContact, searchQuery);
+      
+      if (ContactWithQueryExists) {
+        foundContacts.add(currentCheckingContact);
+      }
+    }
+    
+    if (foundContacts.isEmpty()) {
+      throw new IllegalArgumentException( 
+          "No contact with information containing: " + searchQuery);
+    }
+    
+    return foundContacts;
+  }
+  
+  /**  Determines if A contact has the query in any part of its fields
+   * @param contact
+   * @param query
+   * @return boolean of whether it contains the query anywhere
+   */
+  private boolean ContactHasSearchQuery(Contact contact, String query) {
+    // Lowercase to ensure String.contains returns hits 
+    // irregardless of case
+    query = query.toLowerCase();
+    
+    ArrayList <String> ContactFields = new ArrayList<String>();
+    
+    ContactFields.add(contact.getFirstName().toLowerCase());
+    ContactFields.add(contact.getLastName().toLowerCase());
+    ContactFields.add(contact.getPostalAddress().toLowerCase());
+    ContactFields.add(contact.getEmailAddress().toLowerCase());
+    ContactFields.add(contact.getNote().toLowerCase());
+    
+    int intPhoneNumber = contact.getPhoneNumber();
+    ContactFields.add(Integer.toString(intPhoneNumber).toLowerCase());
+    
+    Iterator<String> iter = ContactFields.iterator();
+    String currentCheckingField;
+    while(iter.hasNext()) {
+      currentCheckingField = iter.next();
+      
+      if (currentCheckingField.contains(query)) {
+        return true;
+      }
+    }    
+    
+    // If all fields itterated through but no matches, we 
+    // reach here and need to return false 
+    return false;
+  }
+  
+  /**  Removes a Contact from the Address Book
+   *   If the contact does not exist, we throw an
+   *   Illegal Argument Exception
+   * @param contact
+   */
+  public void RemoveContact(Contact contact) {
+    Iterator<Contact> iter = this.contactList.iterator();
+    int index = 0;
+    while(iter.hasNext()) {
+      Contact currentCheckingContact = iter.next();
+      
+      if (currentCheckingContact.equals(contact)) {
+        this.contactList.remove(index);
+        return;
+      }
+      index += 1;
+    }
+    
+    throw new IllegalArgumentException(
+        "Contact not in Address Book: " + contact.toString());   
+  }
+  
+  /** Empties the Contact List
+   * 
+   */
+  public void ClearAddressBook() {
+    this.contactList.clear();
+  }
+  
+  /**  This returns the Address book as a JSON object
+   * @return
+   */
+  protected JSONObject GetJSONAddressBook() {
+    JSONObject JSONobj = new JSONObject();
+    JSONArray contactListJson = new JSONArray();
+    
+    Iterator<Contact> iter = this.contactList.iterator();
+    while(iter.hasNext()) {
+      Contact currentCheckingContact = iter.next();
+      contactListJson.add(currentCheckingContact.GetJSONObject());
+    }
+    
+    JSONobj.put("Contacts", contactListJson);
+    return JSONobj;
+  }
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return this.toJSONString();
+  }
+  
+  /**  Returns the AddressBook as a JSON String
+   * @return
+   */
+  public String toJSONString() {
+    return this.GetJSONAddressBook().toJSONString();
+  }
+  
+  /**  Saves the Address Book into a file specified by
+   *   the writeFilePath parameter
+   *   The format we are using here is JSON
+   * @param writeFilePath
+   */
+  public void SaveToFile (String writeFilePath) {
+    try {
+      FileWriter file = new FileWriter(writeFilePath);
+      file.write(this.toJSONString());
+      file.flush();
+      file.close();
+    }
+    
+    catch (IOException FileAlreadyDirectoryOrIOInterruptedException) {      
+      FileAlreadyDirectoryOrIOInterruptedException.printStackTrace();
+    }
+  }
+  
+  /**
+   * @param jsonObj
+   * @return
+   */
+  private Contact ExtractContact (JSONObject jsonObj) {
+      String firstName = (String) jsonObj.get("FirstName");
+      String lastName = (String) jsonObj.get("LastName");
+      String postalAddress = (String) jsonObj.get("PostalAddress");
+      
+      Long longPhoneNumber = (Long) jsonObj.get("PhoneNumber");
+      int intPhoneNumber = longPhoneNumber.intValue();
+      
+      String emailAddress = (String) jsonObj.get("EmailAddress");
+      String note = (String) jsonObj.get("Note");
+      
+      return new Contact(firstName, lastName, postalAddress,
+          intPhoneNumber, emailAddress, note);
+  }
+  
+
+  /**
+   * @param readFilePath
+   */
+  public void ReadFromFile (String readFilePath) {
+    try {
+      Object obj = jsonParser.parse(new FileReader(readFilePath));
+      JSONObject jsonObject = (JSONObject) obj;
+      
+      JSONArray contactsJSON = (JSONArray) jsonObject.get("Contacts");
+      
+      // Clear before we add new Elements
+      this.contactList.clear();
+      
+      Iterator<JSONObject> iterator = contactsJSON.iterator();
+      while (iterator.hasNext()) {
+        Contact CurrentContact = ExtractContact(iterator.next());
+        AddContact(CurrentContact);
+      }
+    }
+    
+    catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    
+    // I/O inturrupted or File Linked is already a directory
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+    
+    catch (ParseException e) {
+      e.printStackTrace();
+    }
+  }
+}

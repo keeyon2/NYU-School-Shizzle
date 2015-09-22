@@ -118,11 +118,14 @@ public class CoinsExchanged {
     }
     
     this.FinalDenominations = Denominations;
-    for (int denom : this.FinalDenominations) {
-      System.out.println("Denominations value: " + denom);
+    for (int i = 0; i < this.FinalDenominations.length; i++) {
+      if (i != this.FinalDenominations.length - 1) {
+        System.out.print(this.FinalDenominations[i] + " ");
+      }
+      else {
+        System.out.print(this.FinalDenominations[i]);
+      }
     }
-    
-    System.out.println("The final score was: " + finalScore);
   }
 } 
 

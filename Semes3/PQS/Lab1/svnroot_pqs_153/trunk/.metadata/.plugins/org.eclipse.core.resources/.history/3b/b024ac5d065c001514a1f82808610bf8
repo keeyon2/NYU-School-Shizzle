@@ -1,0 +1,240 @@
+package edu.nyu.cs;
+
+import org.json.simple.JSONObject;
+
+/**
+ * @author Keeyon
+ *
+ */
+public class Contact {
+	private final String firstName;
+	private final String lastName;
+	private final String postalAddress;
+	private final int phoneNumber;
+	private final String emailAddress;
+	private final String note;
+	
+	public static class Builder {
+	  // Required parameters
+	  private final String firstName;
+	  
+	  // Optional parameters - initialized to default values
+	  private String lastName = "";
+	  private String postalAddress = "";
+	  private int phoneNumber = 0;
+	  private String emailAddress = "";
+	  private String note = "";
+	  
+	  /**  Builder Constructor
+	   *   This is how we make the first name manditory
+	   *   
+	   *   This is the way we make multiple arguments optionary without
+	   *   creating a massive amount of constructors
+	   * @param firstName
+	   */
+	  public Builder(String firstName) {
+	    this.firstName = firstName;
+	  }
+	  
+	  /** Builder method to include the optional last name
+	   * @param val    To be used for last name
+	   * @return
+	   */
+	  public Builder lastName(String val) {
+	    lastName = val;
+	    return this;
+	  }
+	  
+	  /**  Builder method to include the optional postal address
+	   * @param val       The Postal Address
+	   * @return
+	   */
+	  public Builder postalAddress(String val) {
+      postalAddress = val;
+      return this;
+	  }
+	  
+	  /**  Builder method to include the optional phone number
+	   * @param val        The Phone Number
+	   * @return
+	   */
+	  public Builder phoneNumber(int val) {
+      phoneNumber = val;
+      return this;
+	  }
+	  
+	  /**  Builder method to include the optional email address
+	   * @param val
+	   * @return
+	   */
+	  public Builder emailAddress(String val) {
+      emailAddress = val;
+      return this;
+	  }
+	  
+	  /**  Builder method to include the optional note
+	   * @param val     Note value
+	   * @return
+	   */
+	  public Builder note(String val) {
+      note = val;
+      return this;
+	  }
+	  
+	  /**  Builder method to be called after all optional parameters
+	   *   This creates and returns the Contact Object 
+	   * @return
+	   */
+	  public Contact build() {
+	    return new Contact(this);
+	  }
+	  
+	}
+	
+	/**  Private constructor to Contact
+	 *   The build function will call this
+	 *   and set appropriate variables
+	 * @param builder
+	 */
+	private Contact(Builder builder)  {
+	  firstName = builder.firstName;
+	  lastName = builder.lastName;
+	  postalAddress = builder.postalAddress;
+	  phoneNumber = builder.phoneNumber;
+	  emailAddress = builder.emailAddress;
+	  note = builder.note;
+	}
+	
+	/**
+	 * @param firstName
+	 * @param lastName
+	 * @param postalAddress
+	 * @param phoneNumber
+	 * @param emailAddress
+	 * @param note
+	 */
+	protected Contact(String firstName, String lastName,
+	    String postalAddress, int phoneNumber, 
+	    String emailAddress, String note) {
+	    
+	    this.firstName = firstName;
+	    this.lastName = lastName;
+	    this.postalAddress = postalAddress;
+	    this.phoneNumber = phoneNumber;
+	    this.emailAddress = emailAddress;
+	    this.note = note;
+	}
+
+  /**
+   * @return
+   */
+  public String getFirstName() {
+	  return this.firstName;
+	}
+	
+	/**
+	 * @return
+	 */
+	public String getLastName() {
+	  return this.lastName;
+	}
+	 
+	/**
+	 * @return
+	 */
+	public String getPostalAddress() {
+	  return this.postalAddress;
+	}
+	 
+	/**
+	 * @return
+	 */
+	public int getPhoneNumber() {
+	  return this.phoneNumber;
+	} 
+	  
+	/**
+	 * @return
+	 */
+	public String getEmailAddress() {
+	  return this.emailAddress;
+  }
+  
+  /**
+   * @return
+   */
+  public String getNote() {
+    return this.note;
+  }  
+  
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+	  if (o == this) {
+	    return true;
+	  }
+	  
+	  if (!(o instanceof Contact)) {
+	    return false;
+	  }
+	  
+	  Contact contact = (Contact)o;
+	  
+	  boolean ComparingObjAndThisObjVarsConsitant   = 
+	      contact.firstName.equals(this.firstName)
+	      && contact.lastName.equals(this.lastName)
+	      && contact.postalAddress.equals(this.postalAddress)
+	      && contact.phoneNumber == this.phoneNumber
+	      && contact.emailAddress.equals(this.emailAddress)
+	      && contact.note.equals(this.note);
+	  
+	  return ComparingObjAndThisObjVarsConsitant;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override 
+	public int hashCode() {
+	  int result = 17;
+	  result = 31 * result + (this.firstName != null ? this.firstName.hashCode() : 0);
+	  result = 31 * result + (this.lastName != null ? this.lastName.hashCode() : 0);
+	  result = 31 * result + (this.postalAddress != null ? this.postalAddress.hashCode() : 0);
+	  result = 31 * result + this.phoneNumber;
+	  result = 31 * result + (this.emailAddress != null ? this.emailAddress.hashCode() : 0);
+	  result = 31 * result + (this.note != null ? this.note.hashCode() : 0);
+	  return result;
+	}
+	
+	/**
+	 * @return
+	 */
+	protected JSONObject GetJSONObject() {
+	    JSONObject obj = new JSONObject();
+	    obj.put("FirstName", this.firstName);
+	    obj.put("LastName", this.lastName);
+	    obj.put("PostalAddress", this.postalAddress);
+	    obj.put("PhoneNumber", this.phoneNumber);
+	    obj.put("EmailAddress", this.emailAddress);
+	    obj.put("Note", this.note);
+	    return obj;
+	 }
+	 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+	  return this.toJSONString();
+	  //
+	}
+	
+	/**
+	 * @return
+	 */
+	public String toJSONString() {
+	  return GetJSONObject().toJSONString();
+	}
+}
