@@ -9,8 +9,8 @@ public class Main {
 	  
 	  if (args.length > 0) {
 	    double N = Double.parseDouble(args[0]);
-	    //ExactChange(7, 240, N);
-	    CoinsExchanged(7, 240, N);
+	    ExactChange(7, 240, N);
+	    //CoinsExchanged(7, 240, N);
 	  }
 	  else {
 	    System.out.println("Need atleast 1 input");
