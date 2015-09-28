@@ -26,5 +26,9 @@ public class City {
 		double valuesAdded = xValue + yValue + zValue;		
 		return Math.pow(valuesAdded, 0.5);
 	}
+	
+	@Override public String toString() {
+		return Integer.toString(this.id);
+	}
 
 }
