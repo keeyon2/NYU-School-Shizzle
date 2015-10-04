@@ -5,14 +5,15 @@
 
 #define THREADSPBLK 1024
 #define THREADSPSM 2048
-#define TILE_WIDTH 16
+#define TILE_WIDTH 32
 #define TOTAL_ITERATIONS 50
 
 int main_n;
 
 __global__ void iterate(float* originalMatrixD, float* solutionD, int originalMatrixWidth, 
         int startingIndex) {
-    __shared__ float originalMatrixDS [TILE_WIDTH][TILE_WIDTH];
+    // __shared__ float originalMatrixDS [TILE_WIDTH][TILE_WIDTH];
+    __shared__ float originalMatrixDS [TILE_WIDTH * TILE_WIDTH];
 
     int tx = threadIdx.x;
     int ty = threadIdx.y;
@@ -24,7 +25,7 @@ __global__ void iterate(float* originalMatrixD, float* solutionD, int originalMa
 
     currentMatrixIndex += startingIndex;
 
-    originalMatrixDS[ty][tx] = originalMatrixD[currentMatrixIndex];
+    originalMatrixDS[ty * TILE_WIDTH + tx] = originalMatrixD[currentMatrixIndex];
 
     // Sync up w/ shared data set up
     __syncthreads();
@@ -35,50 +36,57 @@ __global__ void iterate(float* originalMatrixD, float* solutionD, int originalMa
 
     // X = 0 edge
     if ( XEdgeCheckMod == 0) {
-        //onEdge = true;
-        replaceAmount = 11.0;
-
+        onEdge = true;
     }
 
     // X = N - 1
     else if ( XEdgeCheckMod == (originalMatrixWidth - 1)) {
-        //onEdge = true;
-        replaceAmount = 22.0;
+        onEdge = true;
     }
 
     // Y = 0
     else if (currentMatrixIndex < originalMatrixWidth) {
-        //onEdge = true;
-        replaceAmount = 33.0;
+        onEdge = true;
     }
 
     // Y = N - 1
     else if (currentMatrixIndex >= (originalMatrixWidth * originalMatrixWidth 
                 - originalMatrixWidth)) {
-        //onEdge = true;
-        replaceAmount = 44.0;
+        onEdge = true;
     }
 
-    else {
-        replaceAmount = 55.0;
-    }
-
-    /*
     if (onEdge) {
-        //replaceAmount = originalMatrixDS[ty][tx];
-        //replaceAmount = originalMatrixD[currentMatrixIndex];
-        replaceAmount = 55.05;
+        replaceAmount = originalMatrixDS[ty * TILE_WIDTH + tx];
     }
 
     else {
-        //replaceAmount = (originalMatrixDS[ty+1][tx] + originalMatrixDS[ty-1][tx] +
-            // originalMatrixDS[ty][tx+1] + originalMatrixDS[ty][tx-1])/4.0;
-        replaceAmount = 88.0;
+        // Top and Bottom come from Global memory
+        float top = originalMatrixD[currentMatrixIndex - originalMatrixWidth];
+        float bottom = originalMatrixD[currentMatrixIndex + originalMatrixWidth];
+        float left;
+        float right;
+
+        // Left and right edge come from Global memory
+        if (tx == 0 && ty == 0) {
+            left = originalMatrixD[currentMatrixIndex - 1];
+        }
+
+        else {
+            left = originalMatrixDS[ty * TILE_WIDTH + tx - 1];
+        }
+
+        if ((ty == TILE_WIDTH - 1) && (tx == TILE_WIDTH - 1)) {
+            right = originalMatrixD[currentMatrixIndex + 1];
+        }
+
+        else {
+            right = originalMatrixDS[ty * TILE_WIDTH + tx + 1];
+        }
+
+        replaceAmount = (left + right + top + bottom) / 4;
     }
-    */
 
     solutionD[currentMatrixIndex] = replaceAmount;
-    //solutionD[currentMatrixIndex] = originalMatrixD[currentMatrixIndex];
 }
 
 void setUp(float *a, int size) {
@@ -111,6 +119,7 @@ void setUp(float *a, int size) {
     }
 }
 
+
 int main ( int argc, char *argv[] )
 {
     if (argc == 2) {
@@ -122,13 +131,15 @@ int main ( int argc, char *argv[] )
     }
     
     int elements = main_n * main_n;
-    float originalMatrix[elements];
-    float solution[elements];
+    float *originalMatrix = (float *)malloc(elements * sizeof(float));
+    float *solution = (float *)malloc(elements * sizeof(float));
+    //float originalMatrix[elements];
+    //float solution[elements];
 
     setUp(originalMatrix, main_n);
    
     // GPU TIME BABY!
-    dim3 dimGrid(4, 2);
+    dim3 dimGrid(2, 1);
     dim3 dimBlock(TILE_WIDTH, TILE_WIDTH);
     
     float* solutionD;
@@ -139,34 +150,24 @@ int main ( int argc, char *argv[] )
     cudaMalloc((void**) &originalMatrixD, memorySize);
     cudaMalloc((void**) &solutionD, memorySize);
 
-    /*
-    for (int i = 0; i < TOTAL_ITERATIONS; i++) {
-        cudaMemcpy(originalMatrixD, originalMatrix, memorySize, cudaMemcpyHostToDevice);
-     
-        // INVOKE
-        iterate<<<dimGrid, dimBlock>>>(originalMatrixD, solutionD, main_n);
-
-        // Finish
-        cudaMemcpy(solution, solutionD, memorySize, cudaMemcpyDeviceToHost);
-
-        printf("After iteration solution value @ 0 20: %f\n", solution[20 * main_n + 0]);
-        printf("After iteration solution value @ 30 30: %f\n", solution[30 * main_n + 30]);
-        // copy to solution to OriginalMatrixD for iteration
-        memcpy(originalMatrix, solution, memorySize);
-    }
-    */
-
-    cudaMemcpy(originalMatrixD, originalMatrix, memorySize, cudaMemcpyHostToDevice);
+    //cudaMemcpy(originalMatrixD, originalMatrix, memorySize, cudaMemcpyHostToDevice);
      
     // INVOKE
-    for (int i = 0; i < elements/THREADSPSM + 1; i++) {
-        int startingIndex = i * THREADSPSM;
-        iterate<<<dimGrid, dimBlock>>>(originalMatrixD, solutionD, main_n, startingIndex);
+    // for (int iter = 0; iter < TOTAL_ITERATIONS; iter++) {
+    for (int iter = 0; iter < 50; iter++) {
+        for (int i = 0; i < elements/THREADSPSM + 1; i++) {
+            int startingIndex = i * THREADSPSM;
+            cudaMemcpy(originalMatrixD, originalMatrix, memorySize, cudaMemcpyHostToDevice);
+            iterate<<<dimGrid, dimBlock>>>(originalMatrixD, solutionD, main_n, startingIndex);
+            cudaMemcpy(originalMatrix, solutionD, memorySize, cudaMemcpyDeviceToHost);
+        }
     }
 
     // Finish
     cudaMemcpy(solution, solutionD, memorySize, cudaMemcpyDeviceToHost);
 
+    // PRINTS
+    /*
     int counter = 0;
     for (int i = 0; i < main_n * main_n; i++) {
         if (i % main_n == 0) {
@@ -176,20 +177,10 @@ int main ( int argc, char *argv[] )
             printf(" %f", solution[i]);
         }
     }
-
-    // copy to solution to OriginalMatrixD for iteration
-    //memcpy(originalMatrix, solution, memorySize);
+    */
 
     cudaFree(originalMatrixD);
     cudaFree(solutionD);
-
-    int Y = 10;
-    int X = 10;
-
-    float printSolutionAtIndex = solution[Y * main_n + X];
-    printf("After iterations, at [10][10] we have: %f\n", printSolutionAtIndex);
-    //free(solution);
+    free(originalMatrix);
+    free(solution);
 }
-
-
-
