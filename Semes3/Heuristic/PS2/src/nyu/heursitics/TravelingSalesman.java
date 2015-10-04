@@ -1,6 +1,7 @@
 package nyu.heursitics;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.jgrapht.UndirectedGraph;
@@ -26,6 +27,8 @@ public class TravelingSalesman {
 	
 	Multigraph<City, DefaultWeightedEdge> MatchingSpanningTreeUnion =
 			new Multigraph<City, DefaultWeightedEdge>(DefaultWeightedEdge.class);
+	
+	ArrayList<Integer> finalPath = new ArrayList<Integer>();
 
 
 	City[] allCities;
@@ -35,7 +38,8 @@ public class TravelingSalesman {
 		
 		this.allCities = allCities;
 		
-		int[] VertexCount = new int[1001];
+		//int[] VertexCount = new int[1001];
+		int[] VertexCount = new int[this.allCities.length + 1];
 
 		this.OrigTree = OriginalGraph;
 
@@ -81,9 +85,51 @@ public class TravelingSalesman {
 	    UniteMinimumSpanningAndPerfectMatchingTree(minimumSpanningTree);
 	    
 	    // Working until here
-	    
+	    CalculateFinalPath();
 
+	}
+	
+	public void CalculateFinalPath() {
+		List<City> totalPath = EulerianCircuit.getEulerianCircuitVertices(this.MatchingSpanningTreeUnion);
+		ArrayList<Integer> initialShortenedPath = new ArrayList<Integer>(); 
+		ArrayList<Integer> currentLowestPath = new ArrayList<Integer>();
+		double currentLowestScore = Double.MAX_VALUE;
+		//this.finalPath
 		
+		for (City currentCity : totalPath) {
+			if (!initialShortenedPath.contains(currentCity.id)) {
+				initialShortenedPath.add(currentCity.id);
+			}
+		}
+		
+		currentLowestPath = (ArrayList<Integer>) initialShortenedPath.clone();
+		currentLowestScore = CostWithPath(initialShortenedPath);
+		
+		double testScore = Double.MAX_VALUE;
+		for (int i = 0; i < initialShortenedPath.size() - 1; i++) {
+			int lastSpot = initialShortenedPath.get(initialShortenedPath.size() - 1);
+			initialShortenedPath.add(0, lastSpot);
+			initialShortenedPath.remove(initialShortenedPath.size() - 1);
+			testScore = CostWithPath(initialShortenedPath);
+			
+			if (testScore < currentLowestScore) {
+				currentLowestScore = testScore;
+				currentLowestPath = (ArrayList<Integer>) initialShortenedPath.clone();
+			}
+		}
+		
+		this.finalPath = (ArrayList<Integer>) currentLowestPath.clone();
+	}
+	
+	public double CostWithPath(ArrayList<Integer> path) {
+		double cost = 0.0;
+		for (int i = 1; i < path.size(); i++) {
+			City SourceCity = allCities[path.get(i) - 1];
+			City TargetCity = allCities[path.get(i-1) - 1];
+			cost += SourceCity.DistanceToCity(TargetCity);
+			
+		}
+		return cost;
 	}
 	
 	public void UniteMinimumSpanningAndPerfectMatchingTree(
@@ -123,26 +169,7 @@ public class TravelingSalesman {
 			this.MatchingSpanningTreeUnion.addEdge(SourceCity, TargetCity);
 	    	DefaultWeightedEdge e = this.MatchingSpanningTreeUnion.getEdge(SourceCity, TargetCity);
 	    	this.MatchingSpanningTreeUnion.setEdgeWeight(e,SourceCity.DistanceToCity(TargetCity));
-			
-			/*
-			if (nullTest == null) {
-				this.MatchingSpanningTreeUnion.addEdge(SourceCity, TargetCity);
-	    		DefaultWeightedEdge e = this.MatchingSpanningTreeUnion.getEdge(SourceCity, TargetCity);
-	    		this.MatchingSpanningTreeUnion.setEdgeWeight(e,SourceCity.DistanceToCity(TargetCity));
-			}
-			else {
-				System.out.println("Houston we have a problem with: " + SourceCity.id  + " " +
-						TargetCity.id);
-			}
-			*/
 		}
-		
-		// Test if Eulerian Circ
-		System.out.println("Is Eucl?: ");
-		boolean Euc = EulerianCircuit.isEulerian((UndirectedGraph<City, DefaultWeightedEdge>)
-				this.MatchingSpanningTreeUnion);
-		
-		System.out.println(Euc);
 	}
 	
 	public void CreatePerfectMatchingTree() {

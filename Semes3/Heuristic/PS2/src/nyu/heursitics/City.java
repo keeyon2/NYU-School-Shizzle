@@ -6,11 +6,11 @@ public class City {
 	public int z;
 	public int id;
 	
-	City (int x, int y, int z, int id) {
+	City (int id, int x, int y, int z) {
+		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.id = id;
 	}
 	
 	public double DistanceToCity(City c) {

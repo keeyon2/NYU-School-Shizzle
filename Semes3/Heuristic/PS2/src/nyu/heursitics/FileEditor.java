@@ -6,7 +6,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 import org.jgrapht.*;
 import org.jgrapht.graph.ClassBasedEdgeFactory;
@@ -14,28 +20,14 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
-/*
-import org.jgrapht.EdgeFactory;
-import org.jgrapht.WeightedGraph;
-import org.jgrapht.graph.UndirectedWeightedSubgraph;
-import org.jgrapht.UndirectedGraph;
-import org.jgrapht.graph.ClassBasedEdgeFactory;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.SimpleGraph;
-import org.jgrapht.graph.SimpleWeightedGraph;
-import org.jgrapht.graph.UndirectedWeightedSubgraph;
-*/
-
-
 public class FileEditor {
 	
-	City[] cities = new City[1000];
+	
+	ArrayList<City> citiesArrayList = new ArrayList<City>();
 	Scanner scanner = null;
 	
-	FileEditor(String outputFile, String inputFile) throws FileNotFoundException {
+	FileEditor(String outputFile, String inputFile) throws NumberFormatException, IOException {
 		String line = null;
-		System.out.println("Working Directory = " +
-	              System.getProperty("user.dir"));
 		
 		WeightedGraph<City, DefaultWeightedEdge> OriginalGraph = 
 				new SimpleWeightedGraph<City, DefaultWeightedEdge>(DefaultWeightedEdge.class);
@@ -48,42 +40,36 @@ public class FileEditor {
 		int cityY = 0;
 		int cityZ = 0;
 		
+		String strLine;
+		
 		try {
-			// Jar Working
-			// InputStream inStream = new FileInputStream("./" + inputFile);
-			// scanner = new Scanner(inStream);
+			FileReader file = new FileReader(inputFile);
+			BufferedReader reader = new BufferedReader(file);
 			
-			// Debug
-			File file = new File(inputFile);
-			System.out.println(file.exists());
-			System.out.println(file.canRead());
-			InputStream inStream = new FileInputStream(inputFile);
-			scanner = new Scanner(inStream);
-		} 
+			while((strLine = reader.readLine())!= null) {
+				String[] words = strLine.split("\\s+");
+				
+	        	cityId = Integer.parseInt(words[0]);
+	        	cityX = Integer.parseInt(words[1]);
+	        	cityY = Integer.parseInt(words[2]);
+	        	cityZ = Integer.parseInt(words[3]);
+	        	
+	        	City tmpCity = new City(cityId, cityX, cityY, cityZ);
+	            OriginalGraph.addVertex(tmpCity);
+	            citiesArrayList.add(tmpCity);
+	            //cities[cityId - 1] = tmpCity;
+			}
+		}
 		
 		catch (FileNotFoundException e) {
 		    e.printStackTrace();  
 		}
 		
-		int index = 0;
-	    while (scanner.hasNextLine()) {
-            Scanner wordScanner = new Scanner(scanner.nextLine());
-	        while (wordScanner.hasNext()) {
-	        	cityZ = Integer.parseInt(wordScanner.next());
-	        	cityId = Integer.parseInt(wordScanner.next());
-	        	cityX = Integer.parseInt(wordScanner.next());
-	        	cityY = Integer.parseInt(wordScanner.next());
-	        	
-	        	
-	        	City tmpCity = new City(cityId, cityX, cityY, cityZ);
-	        	OriginalGraph.addVertex(tmpCity);
-	        	cities[index] = tmpCity;
-	        	index += 1;
-	        }
-	        wordScanner.close();
-	    }
-	    scanner.close();
-	    
+		City[] cities = new City[citiesArrayList.size()];
+		for (City c : citiesArrayList) {
+			cities[c.id - 1] = c;
+		}
+		 		    
 	    // Create Edges in OriginalGraph
 	    for (int i = 0; i < cities.length; i++) {
 	    	for (int j = i + 1; j < cities.length; j++) {
@@ -95,18 +81,17 @@ public class FileEditor {
 	    
 	    TravelingSalesman tsp = new TravelingSalesman(OriginalGraph, cities);
 	    
+	    try {
+			PrintWriter writer = new PrintWriter(outputFile, "UTF-8");
+			
+			for (Integer city : tsp.finalPath) {
+		    	writer.println(city);
+		    }
+			writer.close();
+			
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
-	public void TestCitiesWithPrint() {
-	    for (int i = 0; i < 5; i ++) {
-		    System.out.println("CityID: " + cities[i].id);
-		    System.out.println("CityX: " + cities[i].x);
-		    System.out.println("CityY: " + cities[i].y);
-		    System.out.println("CityZ: " + cities[i].z);
-		    
-		    System.out.println();
-	    }
-	}
-	
-
 }
