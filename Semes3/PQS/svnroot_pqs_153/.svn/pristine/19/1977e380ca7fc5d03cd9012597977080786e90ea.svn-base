@@ -1,0 +1,14 @@
+package edu.nyu.cs.pqs.ps4;
+
+public class Main {
+
+  public static void main(String[] args) {
+    Server gameServer = Server.getInstance();
+
+    ComputerPlayer comp1 = ComputerPlayer.newInstance("ComputerPlayer1");
+    comp1.connectToServer();
+
+    ComputerPlayer comp2 = ComputerPlayer.newInstance("ComputerPlayer2");
+    comp2.connectToServer();
+  }
+}

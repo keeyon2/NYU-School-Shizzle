@@ -1,0 +1,297 @@
+package edu.nyu.cs.pqs.ps1;
+
+import static org.junit.Assert.*;
+
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import edu.nyu.cs.pqs.utils.AddressBookUtils.SearchBy;
+
+/** 
+ * This class is used to test the Address Book Class
+ * @author 
+ *
+ */
+public class AddressBookUnitTests {
+  AddressBook testBook;
+  AddressEntry testEntry;
+  AddressEntry testEntryComplete;
+  List<AddressEntry> testEntryListWithComplete;
+  List<AddressEntry> emptyAddressEntryList;
+  
+  /**
+   * SetUp all Tests
+   */
+  @Before
+  public void setUp() {
+    testBook = new AddressBook();
+    testEntry = new AddressEntry.Builder("John")
+        .build();
+    
+    testEntryComplete = new AddressEntry.Builder("name")
+        .postalAddress("postalAddress").phoneNumber("0123456789")
+        .emailAddress("test@testing.com").note("note").build();
+    
+    testEntryListWithComplete = new ArrayList<AddressEntry>();
+    testEntryListWithComplete.add(testEntryComplete);
+    
+    emptyAddressEntryList = new ArrayList<AddressEntry>();
+  }
+  
+  /**
+   * Ensures the constructor correctly sets AddressBookName
+   */
+  @Test
+  public void constructorBookName() {
+    AddressBook book = new AddressBook("TestName");
+    assertEquals("TestName", book.getAddressBookName());
+  }
+  
+  
+  /**
+   * Test to make sure we can pass an empty string to constructor.
+   * 
+   */
+  @Test 
+  public void constructorBookNameNull() {
+    AddressBook book = new AddressBook("");
+    assertEquals("", book.getAddressBookName());
+  }
+  
+  /**
+   * Ensure we can create use Create to create AddressBook
+   */
+  @Test
+  public void createBookTest() {
+    AddressBook book = AddressBook.create("TestName");
+    assertEquals("TestName", book.getAddressBookName());
+  }
+ 
+  /**
+   * Test added Entry gets placed into Address
+   * Test getEntry returns correct EntrySet
+   */
+  @Test
+  public void addEntryTest() {
+    testBook.addEntry(testEntry);
+    Set<AddressEntry> testEntrySet = new HashSet<AddressEntry>();
+    testEntrySet.add(testEntry);
+    assertEquals(testEntrySet, testBook.getEntry());
+  }
+  
+  /**
+   * Test AddressBookName getter and setter
+   */
+  @Test
+  public void addressNameAccessorTest() {
+    testBook.setAddressBookName("AddressBook2");
+    assertEquals(testBook.getAddressBookName(), "AddressBook2");
+  }
+  
+  /**
+   * Test EntrySet Setter and getter
+   */
+  @Test
+  public void entrySetAccessorTest() {
+    Set<AddressEntry> testEntrySet = new HashSet<AddressEntry>();
+    testEntrySet.add(testEntry);
+    testBook.setEntry(testEntrySet);
+    assertEquals(testEntrySet, testBook.getEntry());
+  }
+  
+  /**
+   * Test Removing Entry
+   */
+  @Test
+  public void removeEntryTest() {
+    testBook.addEntry(testEntry);
+    testBook.remove(testEntry);
+    Set<AddressEntry> testEntrySet = new HashSet<AddressEntry>();
+    assertEquals(testBook.getEntry(), testEntrySet);
+  }
+ 
+  /**
+   * Test Search By Name when entry exists
+   */
+  @Test
+  public void searchByName() {
+    testBook.addEntry(testEntryComplete);
+    assertEquals(testBook.searchByName("name"), testEntryListWithComplete);
+  }
+  
+  /**
+   * Test Search by name when entry doesn't exist
+   */
+  @Test
+  public void searchByNameNonExistant() {
+    testBook.addEntry(testEntryComplete);
+    assertEquals(testBook.searchByName("nameNonExists"), emptyAddressEntryList);
+  }
+  
+  /**
+   * Test Search By Address when entry exists
+   */
+  @Test
+  public void searchByAddress() {
+    testBook.addEntry(testEntryComplete);
+    assertEquals(testBook.searchByPostalAddress("postalAddress"), testEntryListWithComplete);
+  }
+  
+  /**
+   * Test search by Address when entry doesn't exist
+   */
+  @Test
+  public void searchByAddressNonExistant() {
+    testBook.addEntry(testEntryComplete);
+    assertEquals(testBook.searchByPostalAddress("postalAddressNonExists"), emptyAddressEntryList);
+  }
+  
+  /**
+   * Test search by phone number when entry exists
+   */
+  @Test
+  public void searchByPhoneNumber() {
+    testBook.addEntry(testEntryComplete);
+    assertEquals(testBook.searchByPhoneNumber("0123456789"), testEntryListWithComplete);
+  }
+  
+  /**
+   * Test search by phone number when entry doesn't exist
+   */
+  @Test
+  public void searchByPhoneNumberNonExistant() {
+    testBook.addEntry(testEntryComplete);
+    assertEquals(testBook.searchByPhoneNumber("0123456789NonExists"), emptyAddressEntryList);
+  }
+  
+  /**
+   * Test search by email when entry exists
+   */
+  @Test
+  public void searchByEmailAddress() {
+    testBook.addEntry(testEntryComplete);
+    assertEquals(testBook.searchByEmail("test@testing.com"), testEntryListWithComplete);
+  }
+  
+  /**
+   * Test search by email when entry doesn't exist
+   */
+  @Test
+  public void searchByEmailAddressNonExistant() {
+    testBook.addEntry(testEntryComplete);
+    assertEquals(testBook.searchByEmail("test@testing.comNonExists"), emptyAddressEntryList);
+  }
+  
+  /**
+   * Test search by note when entry exists
+   */
+  @Test
+  public void searchByNote() {
+    testBook.addEntry(testEntryComplete);
+    assertEquals(testBook.searchByNote("note"), testEntryListWithComplete);
+  }
+  
+  /**
+   * Test search by note when entry doesn't exist
+   */
+  @Test
+  public void searchByNoteNonExists() {
+    testBook.addEntry(testEntryComplete);
+    assertEquals(testBook.searchByNote("noteNonExists"), emptyAddressEntryList);
+  }
+  
+  
+  /**
+   * Test if saving and loading creates the same object
+   * This does not return true even though all of the elements within
+   * the AddressBook is the same.
+   * This bug exist because the AddressBook does not have a Equals Function   * 
+   * 
+   * We also do not get coverage on the entire catch.  Code review comment
+   * would be to make the try block smaller so the atcual catch could be simulated
+   * accurately.
+   */
+  @Test
+  public void saveAndLoadTest() {
+    testBook.addEntry(testEntryComplete);
+    testBook.saveToFile("output.xml", testBook);
+    AddressBook newTestBook = new AddressBook();
+    newTestBook = newTestBook.loadFromFile("output.xml");
+    assertEquals(newTestBook, testBook);
+  }
+  
+  /**
+   * Test if exception thrown if we save to an inappropriate location
+   */
+  @Test(expected = FileNotFoundException.class) 
+  public void saveToNonexistFile() {
+    testBook.saveToFile("~/doesnoteexist", testBook);
+  }
+  
+  /**
+   * Test if we load from an innapropriate location
+   */
+  @Test(expected = FileNotFoundException.class) 
+  public void loadFromNonexistFile() {
+    testBook.saveToFile("~/doesnoteexistatall", testBook);
+  }
+  
+  
+  
+  /**
+   * General Search by Name Test
+   * For all General, we do not cover the default switch because 
+   * there is not possible SearchBy enum option that will hit the default
+   * case
+   */
+  @Test
+  public void generalSearchByName() {
+    testBook.addEntry(testEntryComplete);
+    assertEquals(testBook.searchBy(SearchBy.NAME, "name"), testEntryListWithComplete);
+  }
+  
+  /**
+   * General search by Postal Address Test
+   */
+  @Test
+  public void generalSearchByPostalAddress() {
+    testBook.addEntry(testEntryComplete);
+    assertEquals(testBook.searchBy(SearchBy.POSTAL_ADDRESS, "postalAddress"), 
+        testEntryListWithComplete);
+  }
+  
+  /**
+   * General Search by Phone Number Test
+   */
+  @Test
+  public void generalSearchByPhoneNumber() {
+    testBook.addEntry(testEntryComplete);
+    assertEquals(testBook.searchBy(SearchBy.PHONE_NUMBER, "0123456789"), 
+        testEntryListWithComplete);
+  }
+  
+  /**
+   * General Search by Email Address Test
+   */
+  @Test
+  public void generalSearchByEmailAddress() {
+    testBook.addEntry(testEntryComplete);
+    assertEquals(testBook.searchBy(SearchBy.EMAIL, "test@testing.com"), 
+        testEntryListWithComplete);
+  }
+  
+  /** 
+   * General Search by Note test
+   */
+  @Test
+  public void generalSearchByNote() {
+    testBook.addEntry(testEntryComplete);
+    assertEquals(testBook.searchBy(SearchBy.NOTE, "note"), testEntryListWithComplete);
+  }
+}

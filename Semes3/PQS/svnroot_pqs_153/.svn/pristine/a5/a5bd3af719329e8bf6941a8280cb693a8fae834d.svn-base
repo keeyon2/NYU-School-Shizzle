@@ -1,0 +1,221 @@
+package edu.nyu.cs.pqs.ps1;
+
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+
+public class AddressEntryUnitTests {
+  
+  AddressEntry testEntry;
+  
+  /**
+   * Set up all Address Entry Tests
+   */
+  @Before
+  public void setUp() {
+    testEntry = new AddressEntry.Builder("John")
+        .build();
+  }
+  
+  /**
+   * Create Test
+   */
+  @Test
+  public void createAddressEntry() {
+    AddressEntry testEntryComplete = new AddressEntry.Builder("name")
+        .postalAddress("postalAddress").phoneNumber("0123456789")
+        .emailAddress("test@testing.com").note("note").build();
+  }
+  
+  /**
+   * Equality Test
+   */
+  @Test
+  public void entryEquality() {
+    AddressEntry testEntryOne = new AddressEntry.Builder("name")
+        .postalAddress("postalAddress").phoneNumber("0123456789")
+        .emailAddress("test@testing.com").note("note").build();
+    
+    AddressEntry testEntryTwo = new AddressEntry.Builder("name")
+        .postalAddress("postalAddress").phoneNumber("0123456789")
+        .emailAddress("test@testing.com").note("note").build();
+
+    assertTrue(testEntryOne.equals(testEntryTwo));
+  }
+  
+  /**
+   * All values Different test
+   */
+  @Test
+  public void entryNotEqual() {
+    AddressEntry testEntryOne = new AddressEntry.Builder("name")
+        .postalAddress("postalAddress").phoneNumber("0123456789")
+        .emailAddress("test@testing.com").note("note").build();
+    
+    AddressEntry testEntryTwo = new AddressEntry.Builder("name2")
+        .postalAddress("postalAddress2").phoneNumber("01234567892")
+        .emailAddress("test@testing2.com").note("note2").build();
+    
+    assertFalse(testEntryOne.equals(testEntryTwo));
+  }
+  
+  /**
+   * Test not equals on different class type 
+   */
+  @Test
+  public void entryNotEqualsIncorrectType() {
+    AddressEntry testEntryOne = new AddressEntry.Builder("name")
+        .postalAddress("postalAddress").phoneNumber("0123456789")
+        .emailAddress("test@testing.com").note("note").build();
+    
+    assertFalse(testEntryOne.equals(10));
+  }
+
+  /**
+   * Test not equals on null
+   */
+  @Test
+  public void entryNotEqualsNull() {
+    AddressEntry testEntryOne = new AddressEntry.Builder("name")
+        .postalAddress("postalAddress").phoneNumber("0123456789")
+        .emailAddress("test@testing.com").note("note").build();
+    
+    assertFalse(testEntryOne.equals(null));
+  }
+  
+  /**
+   * Test if different emails will make equals return false
+   */
+  @Test
+  public void entryNotEqualsOnEmail() {
+    AddressEntry testEntryOne = new AddressEntry.Builder("name")
+        .emailAddress("email1").build();
+    
+    AddressEntry testEntryTwo = new AddressEntry.Builder("name")
+        .emailAddress("email2").build();
+    
+    assertFalse(testEntryOne.equals(testEntryTwo));
+  }
+  
+  /**
+   * Test if different names makes equals return false 
+   */
+  @Test
+  public void entryNotEqualsOnName() {
+    AddressEntry testEntryOne = new AddressEntry.Builder("name").build();
+    
+    AddressEntry testEntryTwo = new AddressEntry.Builder("name2").build();
+    assertFalse(testEntryOne.equals(testEntryTwo));
+  }
+  
+  /**
+   * Test if different notes makes equals return false
+   */
+  @Test
+  public void entryNotEqualsOnNote() {
+    AddressEntry testEntryOne = new AddressEntry.Builder("name")
+        .note("note1").build();
+    
+    AddressEntry testEntryTwo = new AddressEntry.Builder("name")
+        .note("note2").build();
+    
+    assertFalse(testEntryOne.equals(testEntryTwo));
+  }
+  
+  /**
+   * Test if different phone numbers makes equals return false
+   */
+  @Test
+  public void entryNotEqualsOnPhoneNumber() {
+    AddressEntry testEntryOne = new AddressEntry.Builder("name")
+        .phoneNumber("phoneNumber1").build();
+    
+    AddressEntry testEntryTwo = new AddressEntry.Builder("name")
+        .phoneNumber("phoneNumber2").build();
+    
+    assertFalse(testEntryOne.equals(testEntryTwo));
+  }
+  
+  /**
+   * Test if different postal address makes equals return false
+   */
+  @Test
+  public void entryNotEqualsOnPostalAddress() {
+    AddressEntry testEntryOne = new AddressEntry.Builder("name")
+        .postalAddress("postalAddress1").build();
+    
+    AddressEntry testEntryTwo = new AddressEntry.Builder("name")
+        .postalAddress("postalAddress2").build();
+    
+    assertFalse(testEntryOne.equals(testEntryTwo));
+  }
+  
+  /**
+   * Tests if set name modifies name correctly
+   */
+  @Test
+  public void setNameTest() {
+    testEntry.setName("Name");
+    assertEquals(testEntry.getName(), "Name");
+  }
+
+  /**
+   * Tests if set email modifies email correctly
+   */
+  @Test
+  public void setEmailTest() {
+    testEntry.setEmailAddress("email1");
+    assertEquals(testEntry.getEmailAddress(), "email1");
+  }
+  
+  /**
+   * Tests if set note modifies note correctly
+   */
+  @Test
+  public void setNoteTest() {
+    testEntry.setNote("note1");
+    assertEquals(testEntry.getNote(), "note1");
+  }
+  
+  /**
+   * Tests if set phone number modifies phone number correctly
+   */
+  @Test
+  public void setPhoneNumber() {
+    testEntry.setPhoneNumber("phonenumber123");
+    assertEquals(testEntry.getPhoneNumber(), "phonenumber123");
+  }
+  
+  /**
+   * Tests if set postal address modifies postal address correctly
+   */
+  @Test
+  public void setPostalAddress() {
+    testEntry.setPostalAddress("postalAd1");
+    assertEquals(testEntry.getPostalAddress(), "postalAd1");
+  }
+  
+  /**
+   * Tests if Entry tostring prints Entry correctly
+   */
+  @Test
+  public void testToString() {
+    assertNotNull(testEntry.toString());
+  }
+  
+  /**
+   * Test hashcode correctness
+   */
+  @Test
+  public void testHashCode() {
+    AddressEntry testEntryOne = new AddressEntry.Builder("name")
+        .postalAddress("postalAddress").phoneNumber("0123456789")
+        .emailAddress("test@testing.com").note("note").build();
+
+    AddressEntry testEntryTwo = new AddressEntry.Builder("name")
+        .postalAddress("postalAddress").phoneNumber("0123456789")
+        .emailAddress("test@testing.com").note("note").build();
+
+    assertEquals(testEntryOne.hashCode(),testEntryTwo.hashCode());
+  }
+}

@@ -1,0 +1,423 @@
+package edu.nyu.cs.pqs.ps4;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.UUID;
+
+/**
+ * @author Keeyon
+ * Singleton server that communicates the flow of the game with players
+ */
+public class Server {
+  
+  private static Server instance = new Server();
+  private ArrayList<ConnectFourPlayer> AllConnectFourPlayers;
+  private ArrayList<Player> AllPlayers;
+  private final int MAXPLAYERS = 2;
+  private final int MAXROWS = 6;
+  private final int MAXCOLUMNS = 7;
+  private boolean gameRunning;
+  private UUID currentPlayerUUID;
+  private Board gameBoard;
+  private Object oneMoveAtATimeLock = new Object();
+  
+  /** Private constructor. Do this to ensure the server
+   * is a singleton
+   * 
+   */
+  private Server() {
+    AllConnectFourPlayers = new ArrayList<ConnectFourPlayer>();
+    AllPlayers = new ArrayList<Player>();
+    gameRunning = false;
+  }
+
+  /** Get if the game is still running
+   * @return
+   */
+  public boolean getGameRunning() {
+    return gameRunning;
+  }
+
+  /** Game is over when the game isn't running
+   * @return
+   */
+  public boolean gameIsOver() {
+    return !getGameRunning();
+  }
+  
+  /** Get total game Columns
+   * @return
+   */
+  public int getTotalColumns() {
+    return MAXCOLUMNS;
+  }
+  
+  /** Get total game rows
+   * @return
+   */
+  public int getTotalRows() {
+    return MAXROWS;
+  }
+  
+  /** Used by server to see who's turn it is
+   * @return
+   */
+  private UUID getCurrentPlayerUUID() {
+    return currentPlayerUUID;
+  }
+  
+  /** How we change who's turn it is
+   * @param currentUUID
+   */
+  private void setCurrentPlayerUUID(UUID currentUUID) {
+    currentPlayerUUID = currentUUID;
+  }
+  
+  /** Package private so it can be called by unit tests
+   * set Game Running
+   * @param isRunning
+   */
+  void setGameRunning(boolean isRunning) {
+    gameRunning = isRunning;
+  }
+  
+  /** Returns the gameBoard
+   * @return
+   */
+  private Board getGameBoard() {
+    return gameBoard;
+  }
+  
+  /** Singleton.  This static method
+   * is how we ensure we return the same
+   * Server object
+   * @return
+   */
+  public static Server getInstance() {
+    return instance;
+  }
+  
+  /** Changes who the next player is.
+   * We throw an exception is we ever call this
+   * when the game is not running
+   * @return
+   */
+  private UUID getNextPlayer() {
+    if (gameIsOver()) {
+      throw new IllegalStateException();
+    }
+    
+    if (this.currentPlayerUUID == AllPlayers.get(0).getUserUUID()) {
+      return AllPlayers.get(1).getUserUUID();
+    }
+    
+    else {
+      return AllPlayers.get(0).getUserUUID();
+    }
+  }
+  
+  /** Registering player.  Throws Exception if we register too many players 
+   * or if we register someone while the game is still running. We return a 
+   * unique UUID for the user to use as a private key
+   * @param registeringPlayer
+   * @param userName
+   * @return UUID 
+   */
+  public UUID registerPlayer(ConnectFourPlayer registeringPlayer, String userName) {
+    if (getGameRunning()) {
+      throw new IllegalStateException("Cannot Register Player While Game is Running");
+    }
+    
+    if (AllConnectFourPlayers.size() >= MAXPLAYERS) {
+      throw new IllegalStateException("Cannot Register more than " + MAXPLAYERS + " players");
+    }
+
+    AllConnectFourPlayers.add(registeringPlayer);
+    Player currentPlayer = new Player(userName);
+    AllPlayers.add(currentPlayer);
+    return currentPlayer.getUserUUID();
+  }
+  
+  /** Starts game
+   * This is called once we have enough players connected and ready to play
+   * 
+   */
+  private void startGame() {
+    gameBoard = new Board(AllPlayers.get(0), AllPlayers.get(1), MAXROWS, MAXCOLUMNS);
+    setCurrentPlayerUUID(AllPlayers.get(0).getUserUUID());
+    setGameRunning(true);
+    sendPlayersTurnToMakeMove(getCurrentPlayerUUID());
+  }
+  
+  
+  /** Check if the move is valid.  This is public so players can check if their move is
+   * valid before they make a move.
+   * @param column
+   * @return
+   */
+  public boolean moveIsValid(int column) {
+    if (!getGameRunning()) {
+      return false;
+    }
+    return getGameBoard().moveIsLegal(column);
+  }
+  
+  /** Creates a hard copy of the game so we never can have our 
+   * board manipulated by whomever gets the Board from us 
+   * @param input
+   * @return
+   */
+  private BoardSpace[][] copy(BoardSpace[][] input) {
+    BoardSpace[][] target = new BoardSpace[input.length][];
+    for (int i= 0; i < input.length; i++) {
+      target[i] = Arrays.copyOf(input[i], input[i].length);
+    }
+    return target;
+  }
+  
+  /** Returns copy of the gameBoard.
+   * @return
+   */
+  public BoardSpace[][] getBoardLayout() {
+    BoardSpace[][] newBoardSpace = copy(getGameBoard().getBoardLayout()); 
+    return newBoardSpace;
+  }
+  
+  /** This is the function players will call to make a move at a column.
+   * Added the zeroIndexedColumn so players know we zero index our 
+   * columns
+   * @param currentPlayerUUID
+   * @param column
+   */
+  public void makeMoveAtZeroIndexedColumn(UUID currentPlayerUUID, int column) {
+    if (currentPlayerUUID == getCurrentPlayerUUID()) {
+      if (!moveIsValid(column) && getGameRunning()) {
+        sendPlayersTurnToMakeMove(currentPlayerUUID);
+      }
+      else if (getGameRunning()){
+        synchronized (oneMoveAtATimeLock) {
+          Board myBoard = getGameBoard();
+          myBoard.makeMove(column, currentPlayerUUID);
+          reportMoveHasBeenMade(currentPlayerUUID, column);
+          analyzeGameAfterMove(currentPlayerUUID, column);
+        }
+      }
+    }
+  }
+  
+  /** Used to check if a UUID is currently present
+   * @param checkingUUID
+   * @return
+   */
+  private boolean UUIDisPresent(UUID checkingUUID) {
+    for (int playerIndex = 0; playerIndex < AllPlayers.size(); playerIndex++) {
+      if (AllPlayers.get(playerIndex).getUserUUID() == checkingUUID) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  /**  Message that players will send to indicate that they are ready
+   * @param currentReadyPlayerUUID
+   * @param isReady
+   */
+  public void playerIsReady(UUID currentReadyPlayerUUID, boolean isReady) {
+    if (getGameRunning() && isReady == false) {
+      if(UUIDisPresent(currentReadyPlayerUUID)) {
+        throw new IllegalStateException("Cannot change ready State to false while "
+            + "game is Running");
+      }
+    }
+    
+    for (int playerIndex = 0; playerIndex < AllPlayers.size(); playerIndex++) {
+      if (AllPlayers.get(playerIndex).getUserUUID() == currentReadyPlayerUUID) {
+        AllPlayers.get(playerIndex).setReady(isReady);
+      }
+    }
+    
+    checkIfStartGame();
+  }
+  
+  /** This is how we check if we have enought players 
+   * ready to start the game
+   */
+  private void checkIfStartGame() {
+    if (AllPlayers.size() == MAXPLAYERS) {
+      boolean allPlayersReady = true;
+      for (int playerIndex = 0; playerIndex < AllPlayers.size(); playerIndex++) {
+        if (!AllPlayers.get(playerIndex).isReady()) {
+          allPlayersReady = false;
+        }
+      }
+      
+      if (allPlayersReady) {
+        startGame();
+      }
+    }
+  }
+  
+  /** Convert UUID to a board Space for the board.
+   * Package private so we can also call in the unit tests
+   * @param currentPlayerUUID
+   * @return
+   */
+  BoardSpace UUIDtoBoardSpace(UUID currentPlayerUUID) {
+    if (AllPlayers.size() > 0 && AllPlayers.get(0).getUserUUID() == currentPlayerUUID) {
+      return BoardSpace.PLAYER1; 
+    }
+    
+    else if (AllPlayers.size() > 1 && AllPlayers.get(1).getUserUUID() == currentPlayerUUID) {
+      return BoardSpace.PLAYER2; 
+    }
+
+    else {
+      return BoardSpace.EMPTY;
+    }
+  }
+  
+  /** Converts a Board Space to a players UUID
+   * @param checkingBoardSpace
+   * @return
+   */
+  private UUID boardSpaceToUUID (BoardSpace checkingBoardSpace) {
+    if (checkingBoardSpace == BoardSpace.PLAYER1) {
+      return AllPlayers.get(0).getUserUUID();
+    }
+    
+    else if (checkingBoardSpace == BoardSpace.PLAYER2) {
+      return AllPlayers.get(1).getUserUUID();
+    }
+    
+    throw new IllegalArgumentException();
+  }
+  
+  /** We call this after a valid move is made
+   * We check if the game is over and make appropriate 
+   * calls to the players
+   * @param currentPlayerUUID
+   * @param column
+   */
+  private void analyzeGameAfterMove(UUID currentPlayerUUID, int column) {
+    Board currentBoard = getGameBoard();
+    BoardSpace currentWinner = currentBoard.checkForWinner();
+    if (currentWinner == BoardSpace.EMPTY && !boardIsFull()) {
+      startNextTurn();
+    }
+    
+    else if(boardIsFull()) {
+      setGameRunning(false);
+      reportTieGame();
+    }
+    
+    else {
+      UUID winningPlayerUUID = boardSpaceToUUID(currentWinner);
+      setGameRunning(false);
+      reportPlayerHasWon(winningPlayerUUID);
+    }
+  }
+  
+  /** Checks if the board is full
+   * @return is board is full
+   */
+  private boolean boardIsFull() {
+    return gameBoard.boardIsFull();
+  }
+  
+  /** This is how players can check what 
+   * Board space they are.  Check if they are 
+   * Player1 or Player2 or if empty, they know 
+   * their UUID is invalid
+   * @param currentPlayerUUID
+   * @return
+   */
+  public BoardSpace getMyBoardSpace(UUID currentPlayerUUID) {
+    return UUIDtoBoardSpace(currentPlayerUUID);
+  }
+  
+  /** This is how we start each new turn after the first
+   * 
+   */
+  private void startNextTurn() {
+    UUID nextPlayerUUID = getNextPlayer();
+    setCurrentPlayerUUID(nextPlayerUUID);
+    sendPlayersTurnToMakeMove(nextPlayerUUID);
+  }
+  
+  /** This is how we tell everyone whos turn it is
+   * @param currentUUID
+   */
+  private void sendPlayersTurnToMakeMove(UUID currentUUID) {
+    String playerName = UUIDtoPlayerName(currentUUID);
+    BoardSpace playerBoardSpace = UUIDtoBoardSpace(currentUUID);
+    for (ConnectFourPlayer cfp : AllConnectFourPlayers) {
+      cfp.PlayerTurnToMakeMove(playerName, playerBoardSpace);
+    } 
+  }
+  
+  /** This method tells all the players that a move has been made 
+   * and by who it was.
+   * @param moveMadeByUUID
+   * @param column
+   */
+  private void reportMoveHasBeenMade(UUID moveMadeByUUID, int column) {
+    String playerName = UUIDtoPlayerName(moveMadeByUUID);
+    BoardSpace playerBoardSpace = UUIDtoBoardSpace(moveMadeByUUID);
+    for (ConnectFourPlayer cfp : AllConnectFourPlayers) {
+      cfp.PlayerHasMadeMove(playerName, playerBoardSpace, column);
+    }
+  }
+
+  /** Tells players that the game was won and by whom
+   * @param winningPlayerUUID
+   */
+  private void reportPlayerHasWon(UUID winningPlayerUUID) {
+    String playerName = UUIDtoPlayerName(winningPlayerUUID);
+    BoardSpace playerBoardSpace = UUIDtoBoardSpace(winningPlayerUUID);
+    for (ConnectFourPlayer cfp : AllConnectFourPlayers) {
+      cfp.PlayerHasWon(playerName, playerBoardSpace);
+    }
+  }
+  
+  /** If the board is full with no winners we report 
+   *  A tie game
+   */
+  private void reportTieGame() {
+    String playerName = "TieGame";
+    BoardSpace playerBoardSpace = BoardSpace.EMPTY;
+    for (ConnectFourPlayer cfp : AllConnectFourPlayers) {
+      cfp.PlayerHasWon(playerName, playerBoardSpace);
+    }
+  }
+  
+  /** This is how players remove themselves from being a player in the game.
+   * @param uuid
+   * @return
+   */
+  public boolean removeRegisteredPlayer(UUID uuid) {
+    for (int playerIndex = 0; playerIndex < AllPlayers.size(); playerIndex++) {
+      if (AllPlayers.get(playerIndex).getUserUUID() == uuid) {
+        AllPlayers.remove(playerIndex);
+        AllConnectFourPlayers.remove(playerIndex);
+        return true;
+      }        
+    }
+    
+    return true;
+  }
+  
+  /** This is how we get the name of the player associated with the UUID
+   * @param currentUUID
+   * @return
+   */
+  private String UUIDtoPlayerName(UUID currentUUID) {
+    for (int playerIndex = 0; playerIndex < AllPlayers.size(); playerIndex++) {
+      if (AllPlayers.get(playerIndex).getUserUUID() == currentUUID) {
+        return AllPlayers.get(playerIndex).getUserName();
+      }
+    }
+    
+    throw new IllegalArgumentException();
+  }
+}

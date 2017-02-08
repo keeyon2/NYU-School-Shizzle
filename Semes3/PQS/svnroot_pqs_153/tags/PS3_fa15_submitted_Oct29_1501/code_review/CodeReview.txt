@@ -1,0 +1,14 @@
+Please enter your code review in this file as plain text
+and make sure to include it when you commit your project.
+
+Only a couple improvements I see
+1.  Hash code for StopWatchImplementation should also check on other elements of the 
+	stopwatch to determine that they are different.  If how ID is created is changed, 
+	then this would break.  I would love it see the LapTime and Status to also be 
+	checked
+	
+2. 	Equals is also done incorrectly.  There is no check for null. Also instead of 
+	checking if object == this, instead they must access the different elements of the 
+	watch and check if they are all matching.
+	
+	

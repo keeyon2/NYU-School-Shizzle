@@ -1,0 +1,38 @@
+
+
+My friend's dad is in prison. These are ideas that have spawned from that.
+
+1.  Phone calls.  My friend can't call his dad, he must get called.  The father in prison will randomly have a chance to make a phone call, but if my friend isn't available at that very moment or doesn't have his phone right next to him, they can't talk.  Tough for friend because he never knows when his dad is going to call, and if he misses it, he really doesn't know when they will be able to talk again because he can't call his dad.
+
+Solution:  Build a simple web app for inmates to use in the morning they want to call people.  They type their name, the number they want to call later, and a time.  When they submit this, the recipient will get a text with a standard message. Example Text:  Jake Jefferson is going to attempt to call you today around 2:00 - 2:30. Thanks.
+
+That way family and friends of the inmate can plan to be available at that time, and not be surprised by the call or miss it.
+
+
+2. I saw an ad where they were looking for people to receive and edit papers/letters of inmates.  Basically be a spell and grammar check for them.  This could be automated.
+
+Solution:  App where you take a photo of the writing, extract the text, perform spell and grammar checks, and then return them to them the results.  Maybe would have to create a work station for them to use that includes an iPad or something.  Would have to find API for photo to text, we can figure that out.  
+
+Important because there are many benefits to writing. Writing keeps you sharp with age.  Increases Gratitude.  Gets rid of distractions. Leads to better learning.
+
+
+3.  Similar to your idea of connecting children with elderly people on Skype to talk, but instead, how about connecting two random inmates from different prisons to each other to have unmonitored conversation where they just open up and talk about whatever is on their mind.  Seems like it would be extremely therapeutic and nice to just speak freely with someone that can relate about same problems.
+
+
+4. Problems with jails, Here is a quora question with a very good response from someone that had a prison in jail. https://www.quora.com/Is-life-in-prison-really-the-way-its-depicted-on-American-television
+
+Basically, main issue was that prison doesn't have incentives. So why not create incentives.  Both group and individual.  Group would be like, if there is no violence in the next whatever time span, we will have big movie night, longer outdoor time, some new comfort amenity, more books, etc.  Individual: Be able to Skype a loved one that lives far away for a certain amount of time.
+
+Non Prison Ideas:
+
+5. There is a diet called the flash diet, where people just take a photo of their food before they eat it. No need to publish the photo anywhere, they just take a photo of the food before they eat it.  Just the act of documenting what they eat made people more conscience of what they were eating, which resulted into weight loss.
+
+  What we do:  We have an app that does image recognition.  Promoted as the flash diet, but we do a little extra, we can take the photo, analyze it, tell them what is in the food and tell them what might not be healthy about it, or what a healthy alternative to that food item or whatever.
+
+  Note:  The image recognition may seem hard but it won't be.  I work at Clarifai and we are a leader in image recognition. We can do this.
+
+  6.  This pertains to food stamps and is with New York, so I think this would be a good project and feasible too.  Similar to the idea above, but this pertains to a new bill in New York.  Check out the article from 5 days ago http://www.wkyc.com/news/nation-now/no-food-stamps-for-steak-or-lobster-ny-bill-says/47304158
+  
+  Basically No food stamps for steak or lobster, NY bill says: New York state lawmaker wants to block the use of food stamps for "luxury" items like high-end steaks, lobster and junk food. 
+
+  So we could create an app to help facilitate this.  Take photo of the foods you are buying with food stamps or use a bar code scanner, and we tell you if it is ok for you to buy on food stamps.

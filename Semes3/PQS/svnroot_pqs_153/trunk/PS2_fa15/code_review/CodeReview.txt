@@ -1,0 +1,14 @@
+This code is very clean and nice.  Functional and organized.  I enjoyed going through this.
+Not many issues with your code. You have done basically everything extremely well. 
+Couple of small improvements that could help a little.
+
+1. Address.java, Contact.java, Label.java, Name.java, Phone.java 
+should have @returns for getters javadocs
+
+2. AdressBookModule: The public Delete function we call == to compare objects. 
+This just compares if we are referencing the same object in memory. 
+If someone creates a new contact with the exact same data as a previous contact, 
+this will not delete the contact and will say it is not found
+
+Instead, have contact implement an equals() and hashCode() function.
+Then use contact.equals() instead of ==.

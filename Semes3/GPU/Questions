@@ -1,0 +1,19 @@
+PERSONAL NOTES:
+
+Question about branch divergence:
+When threads in a warp branch to different execution paths
+50% loss
+So to avoid, do we make sure our data input has the first (warp size threads) execute the same. So if we have a branch on ThreadID even or odd, should we make the data change so all first elements in the data are the odd and second all even?
+
+Branch Divergence:
+go from:
+if (threadIdx.x > 2) to if (treadIdx.x/ WARP_SIZE > 2)
+
+Constant memory works fast:
+
+SIMT - Single instruction multiple threads.  The idea that the hardware executes the same instruction for all the threads in a warp at once
+
+Page 100 - Partial Sums (Useful for final Project)
+Page 103 - Done with reguards to warps and branch diverge 
+
+

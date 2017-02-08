@@ -1,0 +1,190 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  25 MAR 2015 15:05
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**HW5.tex
+(./HW5.tex
+LaTeX2e <2014/05/01>
+Babel <3.9k> and hyphenation patterns for 78 languages loaded.
+(/usr/local/texlive/2014/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2014/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/local/texlive/2014/texmf-dist/tex/latex/relsize/relsize.sty
+Package: relsize 2013/03/29 ver 4.1
+)
+
+LaTeX Warning: Unused global option(s):
+    [ruled].
+
+(./HW5.aux)
+\openout1 = `HW5.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--9
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--9
+
+ []
+
+
+Overfull \hbox (94.74641pt too wide) in paragraph at lines 18--18
+ []\OT1/cmtt/m/n/10 # of matching tags = 90;  # of tags in key = 114;  # of tag
+s in response = 140;[] 
+ []
+
+
+Overfull \hbox (0.24724pt too wide) in paragraph at lines 18--18
+ []\OT1/cmtt/m/n/10 precision = 64.28%;  recall = 78.94%;  type accuracy = 100.
+0%[] 
+ []
+
+
+Overfull \hbox (94.74641pt too wide) in paragraph at lines 26--26
+ []\OT1/cmtt/m/n/10 # of matching tags = 98;  # of tags in key = 114;  # of tag
+s in response = 128;[] 
+ []
+
+
+Overfull \hbox (0.24724pt too wide) in paragraph at lines 26--26
+ []\OT1/cmtt/m/n/10 precision = 76.56%;  recall = 85.96%;  type accuracy = 100.
+0%[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--30
+
+ []
+
+
+Overfull \hbox (94.74641pt too wide) in paragraph at lines 35--35
+ []\OT1/cmtt/m/n/10 # of matching tags = 93;  # of tags in key = 130;  # of tag
+s in response = 153;[] 
+ []
+
+
+Overfull \hbox (0.24724pt too wide) in paragraph at lines 35--35
+ []\OT1/cmtt/m/n/10 precision = 60.78%;  recall = 71.53%;  type accuracy = 100.
+0%[] 
+ []
+
+
+Overfull \hbox (99.99637pt too wide) in paragraph at lines 43--43
+ []\OT1/cmtt/m/n/10 # of matching tags = 100;  # of tags in key = 130;  # of ta
+gs in response = 144;[] 
+ []
+
+
+Overfull \hbox (0.24724pt too wide) in paragraph at lines 43--43
+ []\OT1/cmtt/m/n/10 precision = 69.44%;  recall = 76.92%;  type accuracy = 100.
+0%[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--51
+
+ []
+
+
+Overfull \hbox (94.74641pt too wide) in paragraph at lines 56--56
+ []\OT1/cmtt/m/n/10 # of matching tags = 90;  # of tags in key = 114;  # of tag
+s in response = 140;[] 
+ []
+
+
+Overfull \hbox (0.24724pt too wide) in paragraph at lines 56--56
+ []\OT1/cmtt/m/n/10 precision = 64.28%;  recall = 78.94%;  type accuracy = 100.
+0%[] 
+ []
+
+
+Overfull \hbox (94.74641pt too wide) in paragraph at lines 64--64
+ []\OT1/cmtt/m/n/10 # of matching tags = 98;  # of tags in key = 114;  # of tag
+s in response = 126;[] 
+ []
+
+[1
+
+{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (0.24724pt too wide) in paragraph at lines 64--64
+ []\OT1/cmtt/m/n/10 precision = 77.77%;  recall = 85.96%;  type accuracy = 100.
+0%[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--68
+
+ []
+
+
+Overfull \hbox (94.74641pt too wide) in paragraph at lines 73--73
+ []\OT1/cmtt/m/n/10 # of matching tags = 93;  # of tags in key = 130;  # of tag
+s in response = 153;[] 
+ []
+
+
+Overfull \hbox (0.24724pt too wide) in paragraph at lines 73--73
+ []\OT1/cmtt/m/n/10 precision = 60.78%;  recall = 71.53%;  type accuracy = 100.
+0%[] 
+ []
+
+
+Overfull \hbox (99.99637pt too wide) in paragraph at lines 81--81
+ []\OT1/cmtt/m/n/10 # of matching tags = 103;  # of tags in key = 130;  # of ta
+gs in response = 141;[] 
+ []
+
+
+Overfull \hbox (0.24724pt too wide) in paragraph at lines 81--81
+ []\OT1/cmtt/m/n/10 precision = 73.04%;  recall = 79.23%;  type accuracy = 100.
+0%[] 
+ []
+
+[2] (./HW5.aux) ) 
+Here is how much of TeX's memory you used:
+ 270 strings out of 493117
+ 2980 string characters out of 6135433
+ 57909 words of memory out of 5000000
+ 3812 multiletter control sequences out of 15000+600000
+ 4116 words of font info for 16 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 23i,4n,17p,131b,302s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmbx10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmtt10.pfb>
+Output written on HW5.pdf (2 pages, 42968 bytes).
+PDF statistics:
+ 23 PDF objects out of 1000 (max. 8388607)
+ 15 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

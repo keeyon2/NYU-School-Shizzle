@@ -1,0 +1,261 @@
+package edu.nyu.cs.pqs.ps4;
+
+import java.util.Arrays;
+import java.util.UUID;
+
+/**
+ * @author Keeyon
+ * Package Protected Board Class 
+ */
+class Board {
+
+  private Player Player1;
+  private Player Player2;
+  private BoardSpace[][] board;
+  private int totalRows;
+  private int totalColumns;
+  
+  /** package protected constructor to create board.  Package protected so 
+   * server can call and create
+   * @param p1 Player1
+   * @param p2 Player2
+   * @param rows totalRows
+   * @param columns totalColumns
+   */
+  Board(Player p1, Player p2, int rows, int columns ) {
+    this.Player1 = p1;
+    this.Player2 = p2;
+    this.totalRows = rows;
+    this.totalColumns = columns;
+    
+    board = new BoardSpace[totalRows][totalColumns];
+    initializeBoard();
+  }
+  
+  /** Package private so server can call
+   * This makes all board locations empty.
+   * Can happen at the start of game, or if the board game gets reset
+   */
+  void initializeBoard() {
+    for (int row = 0; row < totalRows; row++) {
+      for (int column = 0; column < totalColumns; column++) {
+        board[row][column] = BoardSpace.EMPTY;
+      }
+    }
+  }
+  
+  /** Hard copy so when we return object it does not edit our board
+   * @param input Board to copy
+   * @return The boards locations
+   */
+  private BoardSpace[][] copy(BoardSpace[][] input) {
+    BoardSpace[][] target = new BoardSpace[input.length][];
+    for (int i= 0; i < input.length; i++) {
+      target[i] = Arrays.copyOf(input[i], input[i].length);
+    }
+    return target;
+  }
+  
+  /** Board Getter.  This is package protected so the server can call
+   * We call copy so the caller cannot edit our data
+   * @return the current board
+   */
+  BoardSpace[][] getBoardLayout() {
+    return copy(this.board);
+  }
+  
+  /** Determines if a move in a column is legal
+   * Package private so server can call
+   * @param column to Check if valid
+   * @return boolean determining if the move is legal
+   */
+  boolean moveIsLegal(int column) {
+    if (column > this.totalColumns - 1 || column < 0) {
+      return false;
+    }
+    return board[0][column] == BoardSpace.EMPTY;
+  }
+  
+  /**  This makes the move.  Also package protected so the server can call this. 
+   * We return a boolean to determine if the move successfully occurred
+   * @param column
+   * @param movingPlayerUUID
+   * @return boolean determining if the move was Made
+   */
+  boolean makeMove(int column, UUID movingPlayerUUID) {
+    BoardSpace currentBoardSpace = playerUUIDtoBoardSpace(movingPlayerUUID);
+    
+    if (currentBoardSpace == BoardSpace.EMPTY) {
+      return false;
+    }
+    
+    if (!moveIsLegal(column)) {
+      return false;
+    }
+    
+    placePiece(column, currentBoardSpace);
+    return true;
+  }
+  
+  /** Helper method that places a piece from the passed in PlayerSpace at the column
+   * This should never be called without checking if spot is legal first.  Check makeMove
+   * for an example
+   * @param column
+   * @param currentBoardSpace
+   */
+  private void placePiece(int column, BoardSpace currentBoardSpace) {
+    for (int row = totalRows - 1; row >= 0; row--) {
+      if (board[row][column] == BoardSpace.EMPTY) {
+        board[row][column] = currentBoardSpace;
+        return;
+      }
+    }
+  }
+  
+  /** Allows us to convert UUID to form that we accept, BoardSpace
+   * This is package private on purpose so the server can call as well
+   * @param checkingUUID
+   * @return The BoardSpace for the UUID
+   */
+  BoardSpace playerUUIDtoBoardSpace(UUID checkingUUID ) {
+    if (this.Player1.getUserUUID() == checkingUUID) {
+      return BoardSpace.PLAYER1;
+    }
+    
+    else if(this.Player2.getUserUUID() == checkingUUID) {
+      return BoardSpace.PLAYER2;
+    }
+        
+    return BoardSpace.EMPTY;
+  }
+  
+  /** Pass in a player.  This returns if the passed in player has won
+   * with a verticle winning position 
+   * @param checkingPlayer
+   * @return if the passed in player has won
+   */
+  private boolean verticleWinnerCheck(BoardSpace checkingPlayer) {
+    int maxRowToCheck = this.totalRows - 4;
+    for (int column = 0; column < this.totalColumns; column++) {
+      for (int row = 0; row < maxRowToCheck + 1; row++) {
+        if (board[row][column] == checkingPlayer &&
+            board[row + 1][column] == checkingPlayer &&
+            board[row + 2][column] == checkingPlayer &&
+            board[row + 3][column] == checkingPlayer) {
+          return true;
+        }
+      }
+    }
+    
+    return false;
+  }
+  
+  /** Helper method to check if passed in player has won with a 
+   * horizontal winning position
+   * @param checkingPlayer
+   * @return if the passed in player has won
+   */
+  private boolean horizontalWinnerCheck(BoardSpace checkingPlayer) {
+    int maxColumnToCheck = this.totalColumns - 4;
+    
+    for (int row = 0; row < this.totalRows; row++) {
+      for (int column = 0; column < maxColumnToCheck + 1; column++) {
+        if (board[row][column] == checkingPlayer &&
+            board[row][column + 1] == checkingPlayer &&
+            board[row][column + 2] == checkingPlayer &&
+            board[row][column + 3] == checkingPlayer) {
+          return true;
+        }
+      }
+    }
+    
+    return false;
+  }
+  
+  /** Helper method to determine if a certain player has won.  This checks
+   * left to right diagonal going down
+   * @param checkingPlayer
+   * @return If the passed in player has won
+   */
+  private boolean topLeftBottomRightDiagonalWinnerCheck(BoardSpace checkingPlayer) {
+    int maxColumnToCheck = this.totalColumns - 4;
+    int maxRowToCheck = this.totalRows - 4;
+    for (int row = 0; row < maxRowToCheck + 1; row++) {
+      for (int column = 0; column < maxColumnToCheck + 1; column++) {
+        if (board[row][column] == checkingPlayer &&
+            board[row + 1][column + 1] == checkingPlayer &&
+            board[row + 2][column + 2] == checkingPlayer &&
+            board[row + 3][column + 3] == checkingPlayer) {
+          return true;
+        }
+      }
+    }
+    
+    return false;
+  }
+  
+  /** This will check if we have a winner
+   * @return winner of game.  If there is no winner, we return 
+   * BoardSpace.EMPTY.  If there is a winner, we will pass that player Board Space.
+   */
+  BoardSpace checkForWinner() {
+    if (playerHasWon(BoardSpace.PLAYER1)) {
+      return BoardSpace.PLAYER1;
+    }
+    
+    else if(playerHasWon(BoardSpace.PLAYER2)) {
+      return BoardSpace.PLAYER2;
+    }
+    
+    else {
+      return BoardSpace.EMPTY;
+    }
+  }
+  
+  /** Check if certain player has won 
+   * @param checkingPlayer
+   * @return whether or not checkingPlayer has won
+   */
+  private boolean playerHasWon(BoardSpace checkingPlayer) {
+    return (verticleWinnerCheck(checkingPlayer) || 
+        horizontalWinnerCheck(checkingPlayer) ||
+        topRightBottomLeftDiagonalWinnerCheck(checkingPlayer) ||
+        topLeftBottomRightDiagonalWinnerCheck(checkingPlayer));
+  }
+  
+  /** Helper method to determine if a certain player has won.  This checks
+   * left to right diagonal going up
+   * @param checkingPlayer
+   * @return boolean determining if the passed in player has won.
+   */
+  private boolean topRightBottomLeftDiagonalWinnerCheck(BoardSpace checkingPlayer) {
+    int maxRowToCheck = this.totalRows - 4;
+    int startColumn = 3;
+    
+    for (int column = startColumn; column < this.totalColumns; column++) {
+      for (int row = 0; row < maxRowToCheck + 1; row++) {
+        if (board[row][column] == checkingPlayer &&
+            board[row + 1][column - 1] == checkingPlayer &&
+            board[row + 2][column - 2] == checkingPlayer &&
+            board[row + 3][column - 3] == checkingPlayer) {
+          return true;
+        }
+      }
+    }
+    
+    return false;
+  }
+  
+  /** Determines whether the board is full
+   * @return boolean representing if the board is full
+   */
+  boolean boardIsFull() {
+    boolean boardFull = true;
+    for (int currentCheckingColumn = 0; currentCheckingColumn < totalColumns; currentCheckingColumn++) {
+      if (board[0][currentCheckingColumn] == BoardSpace.EMPTY) {
+        boardFull = false;
+      }
+    }
+    return boardFull;
+  }
+}

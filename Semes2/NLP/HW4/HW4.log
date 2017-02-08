@@ -1,0 +1,185 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  9 MAR 2015 23:08
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**HW4.tex
+(./HW4.tex
+LaTeX2e <2014/05/01>
+Babel <3.9k> and hyphenation patterns for 78 languages loaded.
+(/usr/local/texlive/2014/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2014/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/local/texlive/2014/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2014/03/24 3.9k The Babel package
+
+(/usr/local/texlive/2014/texmf-dist/tex/generic/babel-english/english.ldf
+Language: english 2012/08/20 v3.3p English support from the babel system
+
+(/usr/local/texlive/2014/texmf-dist/tex/generic/babel/babel.def
+File: babel.def 2014/03/24 3.9k Babel common definitions
+\babel@savecnt=\count87
+\U@D=\dimen103
+)
+\l@canadian = a dialect from \language\l@american 
+\l@australian = a dialect from \language\l@british 
+\l@newzealand = a dialect from \language\l@british 
+)) (./HW4.aux)
+\openout1 = `HW4.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--10
+
+ []
+
+
+Overfull \hbox (662.99121pt too wide) in paragraph at lines 25--25
+[]\OT1/cmtt/m/n/10 Sentence:                               Mr. Cotton said the 
+terms of the emerging deal made it too risky and noted that a Republican presid
+ent succeeding Mr. Obama could decide not to honor it[] 
+ []
+
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--33
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--33
+
+ []
+
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+
+Overfull \hbox (762.74034pt too wide) in paragraph at lines 48--48
+[]\OT1/cmtt/m/n/10 Sentence:                                The basics of the A
+pple Watch have been known since September, but now, a few weeks before the wat
+chs arrival in stores, Apple has finally revealed how much it will cost.[] 
+ []
+
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--55
+
+ []
+
+[1
+
+{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (363.74382pt too wide) in paragraph at lines 64--64
+[]\OT1/cmtt/m/n/10 Sentence:                               The cheapest model i
+s the Apple Watch Sport, the one tailored to athletes, which starts at $349[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--71
+
+ []
+
+
+Overfull \hbox (358.49387pt too wide) in paragraph at lines 80--80
+[]\OT1/cmtt/m/n/10 Sentence:                               The MacBook also inc
+ludes a trackpad with sensors that can detect how hard a user is clicking.[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 82--84
+
+ []
+
+[2]
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 138--138
+[]\OT1/cmtt/m/n/10 ng :=  det-pos? [constit cat=q]? [constit cat=adj]* [constit
+ cat=n]+ |[] 
+ []
+
+[3] [4]
+Underfull \hbox (badness 10000) in paragraph at lines 140--146
+
+ []
+
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+
+Overfull \hbox (757.49039pt too wide) in paragraph at lines 162--162
+[]\OT1/cmtt/m/n/10 Sentence:                               The basics of the Ap
+ple Watch have been known since September, but now, a few weeks before the watc
+hs arrival in stores, Apple has finally revealed how much it will cost.[] 
+ []
+
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 163--167
+
+ []
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 168--179
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 168--179
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 168--179
+
+ []
+
+[6] (./HW4.aux) ) 
+Here is how much of TeX's memory you used:
+ 610 strings out of 493117
+ 7323 string characters out of 6135433
+ 69683 words of memory out of 5000000
+ 4145 multiletter control sequences out of 15000+600000
+ 4116 words of font info for 16 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 23i,4n,23p,224b,239s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmbx10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmtt10.pfb>
+Output written on HW4.pdf (6 pages, 57993 bytes).
+PDF statistics:
+ 35 PDF objects out of 1000 (max. 8388607)
+ 23 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

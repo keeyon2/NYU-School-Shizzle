@@ -1,0 +1,36 @@
+package edu.nyu.cs.pqs.ps4;
+
+import java.awt.Color;
+
+public class Main {
+
+  public static void main(String[] args) {
+  }
+  
+  /** Example of how to get the singleton Server
+   * @return
+   */
+  public Server getServer() {
+    Server gameServer = Server.getInstance();
+    return gameServer;
+  }
+  
+  /** Example of how to create computer that connects to the Server 
+   * @param name
+   * @return
+   */
+  public ComputerPlayer ConnectComputer(String name){
+    ComputerPlayer comp = ComputerPlayer.newInstance(name);
+    comp.connectToServer();
+    return comp;
+  }
+  
+  /** Example of how to Create GUI
+   * @return
+   */
+  public Connect4Gui ConnectGui() {
+    Connect4Gui gui = new Connect4Gui.GuiBuilder("Player1").playerOneColor(Color.red)
+        .playerTwoColor(Color.blue).gameName("GameTime").build();
+    return gui;
+  }
+}
